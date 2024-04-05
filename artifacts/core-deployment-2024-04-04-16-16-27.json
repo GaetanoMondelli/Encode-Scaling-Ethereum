@@ -1,0 +1,33 @@
+{
+  "sepolia": {
+    "staticMerkleRootMultisigIsmFactory": "0x0a71AcC99967829eE305a285750017C4916Ca269",
+    "staticMessageIdMultisigIsmFactory": "0xFEb9585b2f948c1eD74034205a7439261a9d27DD",
+    "staticAggregationIsmFactory": "0xC83e12EF2627ACE445C298e6eC418684918a6002",
+    "staticAggregationHookFactory": "0x160C28C92cA453570aD7C031972b58d5Dd128F72",
+    "domainRoutingIsmFactory": "0x3F100cBBE5FD5466BdB4B3a15Ac226957e7965Ad",
+    "interchainSecurityModule": "0xa717195377ad63B5EF830548492878ED9A1528D0",
+    "messageIdMultisigIsm": "0xa717195377ad63B5EF830548492878ED9A1528D0",
+    "merkleTreeHook": "0x4917a9746A7B6E0A57159cCb7F5a6744247f2d0d",
+    "protocolFee": "0x13AC3349Cb159fE86A22cf42DdA803D9f7309DB5",
+    "customHook": "0x4917a9746A7B6E0A57159cCb7F5a6744247f2d0d",
+    "testRecipient": "0x572e999a6Db0C2Ec0CB16da76C0036A67dc130BB",
+    "mailbox": "0xfFAEF09B3cd11D9b20d1a19bECca54EEC2884766",
+    "proxyAdmin": "0x97Bbc6bBaFa5Ce3b2FA966c121Af63bD09e940f8",
+    "validatorAnnounce": "0xE6105C59480a1B7DD3E4f28153aFdbE12F4CfCD9"
+  },
+  "etherlink": {
+    "staticMerkleRootMultisigIsmFactory": "0x0195247B6B2b78219A78865F85350543562eadbc",
+    "staticMessageIdMultisigIsmFactory": "0xfAD3E45dfE1f6e73Fdd5E9426Cc69752698337af",
+    "staticAggregationIsmFactory": "0xE4F8D0de10deE47C15e76F6B6760B689595a3cF0",
+    "staticAggregationHookFactory": "0xC946BF8e51E6861BEf8831a458cF174771a777F7",
+    "domainRoutingIsmFactory": "0xf33EDdcc0F79232DE20fbE59F1D814678161D79c",
+    "interchainSecurityModule": "0x7445D104fEfE40AA3a8B988792A8F0926624247d",
+    "messageIdMultisigIsm": "0x7445D104fEfE40AA3a8B988792A8F0926624247d",
+    "merkleTreeHook": "0x79A975746ED76D152524e07ed030EF84e298b438",
+    "protocolFee": "0x395Ff00c41BAAB0DaB9eFD3ac5145E39f1198965",
+    "testRecipient": "0x324568eB61369C037B67c0d994cdb2D1ebBabea2",
+    "mailbox": "0x773630dbFEdC07b05558Ac7f901613A63166fc19",
+    "proxyAdmin": "0xe63D576Dbff811650F9823a63Ed05DEfE5f43533",
+    "validatorAnnounce": "0xDCB5008c6074bEB53317027534431b2c75B77eD4"
+  }
+}
