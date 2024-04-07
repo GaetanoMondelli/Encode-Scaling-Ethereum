@@ -1,6 +1,7 @@
 import { HardhatRuntimeEnvironment } from "hardhat/types";
 import { DeployFunction } from "hardhat-deploy/types";
-import { Contract } from "ethers";
+import { HyperlaneMessageSender, HyperlaneMessageReceiver } from "../typechain-types";
+// import { BigNumber } from "@ethersproject/bignumber";
 
 /**
  * Deploys a contract named "YourContract" using the deployer account and
@@ -9,32 +10,47 @@ import { Contract } from "ethers";
  * @param hre HardhatRuntimeEnvironment object.
  */
 const deployYourContract: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
-  /*
-    On localhost, the deployer account is the one that comes with Hardhat, which is already funded.
-
-    When deploying to live networks (e.g `yarn deploy --network goerli`), the deployer account
-    should have sufficient balance to pay for the gas fees for contract creation.
-
-    You can generate a random account with `yarn generate` which will fill DEPLOYER_PRIVATE_KEY
-    with a random private key in the .env file (then used on hardhat.config.ts)
-    You can run the `yarn account` command to check your balance in every network.
-  */
   const { deployer } = await hre.getNamedAccounts();
   const { deploy } = hre.deployments;
+  const sepoliaChainId = 11155111;
+  // const etherlinkChainId = 128123;
 
-  await deploy("YourContract", {
-    from: deployer,
-    // Contract constructor arguments
-    args: [deployer],
-    log: true,
-    // autoMine: can be passed to the deploy function to make the deployment process faster on local networks by
-    // automatically mining the contract deployment transaction. There is no effect on live networks.
-    autoMine: true,
-  });
+  if (hre.network.name === "sepolia") {
+    console.log("Deploying the Receiver and receive a message from the Sender");
+    const sepoliaMailBoxAddress = "0xfFAEF09B3cd11D9b20d1a19bECca54EEC2884766";
+    const sepoliaISMAddress = "0xa717195377ad63B5EF830548492878ED9A1528D0";
 
-  // Get the deployed contract to interact with it after deploying.
-  const yourContract = await hre.ethers.getContract<Contract>("YourContract", deployer);
-  console.log("👋 Initial greeting:", await yourContract.greeting());
+    const receiverName = "HyperlaneMessageReceiver";
+    await deploy(receiverName, {
+      from: deployer,
+      args: [sepoliaMailBoxAddress, sepoliaISMAddress],
+      log: true,
+    });
+    const receiverContract = await hre.ethers.getContract<HyperlaneMessageReceiver>(receiverName, deployer);
+    // console log the address of the deployed contract
+    console.log("Receiver contract address: ", await receiverContract.getAddress());
+
+    const lastMessage = await receiverContract.lastMessage();
+    console.log("Last message: ", lastMessage);
+  }
+
+  if (hre.network.name === "etherlink") {
+    const receiverAddress = "0x872D8748F58656AAF9812D10545056dDCB0E3b36";
+    console.log("Deploying the Sender and send a message to the Receiver");
+    const etherlinkMailBoxAddress = "0xe052fEBE52ACE3d4F80Eb3d8685Bac93a9504361";
+    const etherlinkISMAddress = "0x14BD801cF0FA5d78C9C8579FBeaB1Cc420fA788C";
+    const senderName = "HyperlaneMessageSender";
+    await deploy(senderName, {
+      from: deployer,
+      args: [etherlinkMailBoxAddress, etherlinkISMAddress],
+      log: true,
+    });
+
+    const senderContract = await hre.ethers.getContract<HyperlaneMessageSender>(senderName, deployer);
+    const tx = await senderContract.sendStringToAddress(sepoliaChainId, receiverAddress, "Hello GMZ");
+    const receipt = await tx.wait();
+    console.log("Transaction receipt: ", receipt);
+  }
 };
 
 export default deployYourContract;

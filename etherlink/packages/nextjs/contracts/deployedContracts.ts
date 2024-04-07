@@ -4,6 +4,226 @@
  */
 import { GenericContractsDeclaration } from "~~/utils/scaffold-eth/contract";
 
-const deployedContracts = {} as const;
+const deployedContracts = {
+  128123: {
+    HyperlaneMessageSender: {
+      address: "0xd53FC00EEE95Ad127E7cfD49b17B927314f9FC01",
+      abi: [
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "_outbox",
+              type: "address",
+            },
+            {
+              internalType: "address",
+              name: "_securityModule",
+              type: "address",
+            },
+          ],
+          stateMutability: "nonpayable",
+          type: "constructor",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: false,
+              internalType: "uint32",
+              name: "destinationDomain",
+              type: "uint32",
+            },
+            {
+              indexed: false,
+              internalType: "bytes32",
+              name: "recipient",
+              type: "bytes32",
+            },
+            {
+              indexed: false,
+              internalType: "string",
+              name: "message",
+              type: "string",
+            },
+          ],
+          name: "SentMessage",
+          type: "event",
+        },
+        {
+          inputs: [],
+          name: "interchainSecurityModule",
+          outputs: [
+            {
+              internalType: "contract IInterchainSecurityModule",
+              name: "",
+              type: "address",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint32",
+              name: "_destinationDomain",
+              type: "uint32",
+            },
+            {
+              internalType: "bytes32",
+              name: "_recipient",
+              type: "bytes32",
+            },
+            {
+              internalType: "string",
+              name: "_message",
+              type: "string",
+            },
+          ],
+          name: "sendString",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint32",
+              name: "_destinationDomain",
+              type: "uint32",
+            },
+            {
+              internalType: "address",
+              name: "_recipientAddress",
+              type: "address",
+            },
+            {
+              internalType: "string",
+              name: "_message",
+              type: "string",
+            },
+          ],
+          name: "sendStringToAddress",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+      ],
+      inheritedFunctions: {},
+    },
+  },
+  11155111: {
+    HyperlaneMessageReceiver: {
+      address: "0x872D8748F58656AAF9812D10545056dDCB0E3b36",
+      abi: [
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "_inbox",
+              type: "address",
+            },
+            {
+              internalType: "address",
+              name: "_securityModule",
+              type: "address",
+            },
+          ],
+          stateMutability: "nonpayable",
+          type: "constructor",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: false,
+              internalType: "uint32",
+              name: "origin",
+              type: "uint32",
+            },
+            {
+              indexed: false,
+              internalType: "bytes32",
+              name: "sender",
+              type: "bytes32",
+            },
+            {
+              indexed: false,
+              internalType: "bytes",
+              name: "message",
+              type: "bytes",
+            },
+          ],
+          name: "ReceivedMessage",
+          type: "event",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint32",
+              name: "_origin",
+              type: "uint32",
+            },
+            {
+              internalType: "bytes32",
+              name: "_sender",
+              type: "bytes32",
+            },
+            {
+              internalType: "bytes",
+              name: "_message",
+              type: "bytes",
+            },
+          ],
+          name: "handle",
+          outputs: [],
+          stateMutability: "payable",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "interchainSecurityModule",
+          outputs: [
+            {
+              internalType: "contract IInterchainSecurityModule",
+              name: "",
+              type: "address",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "lastMessage",
+          outputs: [
+            {
+              internalType: "string",
+              name: "",
+              type: "string",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "lastSender",
+          outputs: [
+            {
+              internalType: "bytes32",
+              name: "",
+              type: "bytes32",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+      ],
+      inheritedFunctions: {},
+    },
+  },
+} as const;
 
 export default deployedContracts satisfies GenericContractsDeclaration;

@@ -1,0 +1,201 @@
+{
+  "address": "0x872D8748F58656AAF9812D10545056dDCB0E3b36",
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_inbox",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "_securityModule",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "uint32",
+          "name": "origin",
+          "type": "uint32"
+        },
+        {
+          "indexed": false,
+          "internalType": "bytes32",
+          "name": "sender",
+          "type": "bytes32"
+        },
+        {
+          "indexed": false,
+          "internalType": "bytes",
+          "name": "message",
+          "type": "bytes"
+        }
+      ],
+      "name": "ReceivedMessage",
+      "type": "event"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint32",
+          "name": "_origin",
+          "type": "uint32"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "_sender",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes",
+          "name": "_message",
+          "type": "bytes"
+        }
+      ],
+      "name": "handle",
+      "outputs": [],
+      "stateMutability": "payable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "interchainSecurityModule",
+      "outputs": [
+        {
+          "internalType": "contract IInterchainSecurityModule",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "lastMessage",
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "lastSender",
+      "outputs": [
+        {
+          "internalType": "bytes32",
+          "name": "",
+          "type": "bytes32"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "transactionHash": "0x5c65bdcf15bf7834b2a545233e1d5d14b8d381d9ea8bab07b3ae96439a332cd1",
+  "receipt": {
+    "to": null,
+    "from": "0x2a1F5eB3e84e58e6F1e565306298B9dE1273f203",
+    "contractAddress": "0x872D8748F58656AAF9812D10545056dDCB0E3b36",
+    "transactionIndex": 54,
+    "gasUsed": "344809",
+    "logsBloom": "0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+    "blockHash": "0x5d4d04afdde7fe573f0ba08d573cac293ef3e205098894a1066029c465239d47",
+    "transactionHash": "0x5c65bdcf15bf7834b2a545233e1d5d14b8d381d9ea8bab07b3ae96439a332cd1",
+    "logs": [],
+    "blockNumber": 5643158,
+    "cumulativeGasUsed": "14836442",
+    "status": 1,
+    "byzantium": true
+  },
+  "args": [
+    "0xfFAEF09B3cd11D9b20d1a19bECca54EEC2884766",
+    "0xa717195377ad63B5EF830548492878ED9A1528D0"
+  ],
+  "numDeployments": 2,
+  "solcInputHash": "12e8983ebcd4345aeeb2ef3b573d658a",
+  "metadata": "{\"compiler\":{\"version\":\"0.8.17+commit.8df45f5f\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_inbox\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"_securityModule\",\"type\":\"address\"}],\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint32\",\"name\":\"origin\",\"type\":\"uint32\"},{\"indexed\":false,\"internalType\":\"bytes32\",\"name\":\"sender\",\"type\":\"bytes32\"},{\"indexed\":false,\"internalType\":\"bytes\",\"name\":\"message\",\"type\":\"bytes\"}],\"name\":\"ReceivedMessage\",\"type\":\"event\"},{\"inputs\":[{\"internalType\":\"uint32\",\"name\":\"_origin\",\"type\":\"uint32\"},{\"internalType\":\"bytes32\",\"name\":\"_sender\",\"type\":\"bytes32\"},{\"internalType\":\"bytes\",\"name\":\"_message\",\"type\":\"bytes\"}],\"name\":\"handle\",\"outputs\":[],\"stateMutability\":\"payable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"interchainSecurityModule\",\"outputs\":[{\"internalType\":\"contract IInterchainSecurityModule\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"lastMessage\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"lastSender\",\"outputs\":[{\"internalType\":\"bytes32\",\"name\":\"\",\"type\":\"bytes32\"}],\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"contracts/HyperlaneMessageReceiver.sol\":\"HyperlaneMessageReceiver\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\",\"useLiteralContent\":true},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"@hyperlane-xyz/core/contracts/interfaces/IInterchainSecurityModule.sol\":{\"content\":\"// SPDX-License-Identifier: MIT OR Apache-2.0\\npragma solidity >=0.6.11;\\n\\ninterface IInterchainSecurityModule {\\n    enum Types {\\n        UNUSED,\\n        ROUTING,\\n        AGGREGATION,\\n        LEGACY_MULTISIG,\\n        MERKLE_ROOT_MULTISIG,\\n        MESSAGE_ID_MULTISIG,\\n        NULL, // used with relayer carrying no metadata\\n        CCIP_READ\\n    }\\n\\n    /**\\n     * @notice Returns an enum that represents the type of security model\\n     * encoded by this ISM.\\n     * @dev Relayers infer how to fetch and format metadata.\\n     */\\n    function moduleType() external view returns (uint8);\\n\\n    /**\\n     * @notice Defines a security model responsible for verifying interchain\\n     * messages based on the provided metadata.\\n     * @param _metadata Off-chain metadata provided by a relayer, specific to\\n     * the security model encoded by the module (e.g. validator signatures)\\n     * @param _message Hyperlane encoded interchain message\\n     * @return True if the message was verified\\n     */\\n    function verify(\\n        bytes calldata _metadata,\\n        bytes calldata _message\\n    ) external returns (bool);\\n}\\n\\ninterface ISpecifiesInterchainSecurityModule {\\n    function interchainSecurityModule()\\n        external\\n        view\\n        returns (IInterchainSecurityModule);\\n}\\n\",\"keccak256\":\"0xd144a00a15eef18012f8dae28ca1a7d965012f88ff4a07382a172ae6e02811ce\",\"license\":\"MIT OR Apache-2.0\"},\"@hyperlane-xyz/core/contracts/interfaces/IMailbox.sol\":{\"content\":\"// SPDX-License-Identifier: MIT OR Apache-2.0\\npragma solidity >=0.8.0;\\n\\nimport {IInterchainSecurityModule} from \\\"./IInterchainSecurityModule.sol\\\";\\nimport {IPostDispatchHook} from \\\"./hooks/IPostDispatchHook.sol\\\";\\n\\ninterface IMailbox {\\n    // ============ Events ============\\n    /**\\n     * @notice Emitted when a new message is dispatched via Hyperlane\\n     * @param sender The address that dispatched the message\\n     * @param destination The destination domain of the message\\n     * @param recipient The message recipient address on `destination`\\n     * @param message Raw bytes of message\\n     */\\n    event Dispatch(\\n        address indexed sender,\\n        uint32 indexed destination,\\n        bytes32 indexed recipient,\\n        bytes message\\n    );\\n\\n    /**\\n     * @notice Emitted when a new message is dispatched via Hyperlane\\n     * @param messageId The unique message identifier\\n     */\\n    event DispatchId(bytes32 indexed messageId);\\n\\n    /**\\n     * @notice Emitted when a Hyperlane message is processed\\n     * @param messageId The unique message identifier\\n     */\\n    event ProcessId(bytes32 indexed messageId);\\n\\n    /**\\n     * @notice Emitted when a Hyperlane message is delivered\\n     * @param origin The origin domain of the message\\n     * @param sender The message sender address on `origin`\\n     * @param recipient The address that handled the message\\n     */\\n    event Process(\\n        uint32 indexed origin,\\n        bytes32 indexed sender,\\n        address indexed recipient\\n    );\\n\\n    function localDomain() external view returns (uint32);\\n\\n    function delivered(bytes32 messageId) external view returns (bool);\\n\\n    function defaultIsm() external view returns (IInterchainSecurityModule);\\n\\n    function defaultHook() external view returns (IPostDispatchHook);\\n\\n    function requiredHook() external view returns (IPostDispatchHook);\\n\\n    function latestDispatchedId() external view returns (bytes32);\\n\\n    function dispatch(\\n        uint32 destinationDomain,\\n        bytes32 recipientAddress,\\n        bytes calldata messageBody\\n    ) external payable returns (bytes32 messageId);\\n\\n    function quoteDispatch(\\n        uint32 destinationDomain,\\n        bytes32 recipientAddress,\\n        bytes calldata messageBody\\n    ) external view returns (uint256 fee);\\n\\n    function dispatch(\\n        uint32 destinationDomain,\\n        bytes32 recipientAddress,\\n        bytes calldata body,\\n        bytes calldata defaultHookMetadata\\n    ) external payable returns (bytes32 messageId);\\n\\n    function quoteDispatch(\\n        uint32 destinationDomain,\\n        bytes32 recipientAddress,\\n        bytes calldata messageBody,\\n        bytes calldata defaultHookMetadata\\n    ) external view returns (uint256 fee);\\n\\n    function dispatch(\\n        uint32 destinationDomain,\\n        bytes32 recipientAddress,\\n        bytes calldata body,\\n        bytes calldata customHookMetadata,\\n        IPostDispatchHook customHook\\n    ) external payable returns (bytes32 messageId);\\n\\n    function quoteDispatch(\\n        uint32 destinationDomain,\\n        bytes32 recipientAddress,\\n        bytes calldata messageBody,\\n        bytes calldata customHookMetadata,\\n        IPostDispatchHook customHook\\n    ) external view returns (uint256 fee);\\n\\n    function process(\\n        bytes calldata metadata,\\n        bytes calldata message\\n    ) external payable;\\n\\n    function recipientIsm(\\n        address recipient\\n    ) external view returns (IInterchainSecurityModule module);\\n}\\n\",\"keccak256\":\"0x9cd728ba304279775818f8c7b4c02f8c5dd2b28e051ec466dbe36129be01a6ee\",\"license\":\"MIT OR Apache-2.0\"},\"@hyperlane-xyz/core/contracts/interfaces/hooks/IPostDispatchHook.sol\":{\"content\":\"// SPDX-License-Identifier: MIT OR Apache-2.0\\npragma solidity >=0.8.0;\\n\\n/*@@@@@@@       @@@@@@@@@\\n @@@@@@@@@       @@@@@@@@@\\n  @@@@@@@@@       @@@@@@@@@\\n   @@@@@@@@@       @@@@@@@@@\\n    @@@@@@@@@@@@@@@@@@@@@@@@@\\n     @@@@@  HYPERLANE  @@@@@@@\\n    @@@@@@@@@@@@@@@@@@@@@@@@@\\n   @@@@@@@@@       @@@@@@@@@\\n  @@@@@@@@@       @@@@@@@@@\\n @@@@@@@@@       @@@@@@@@@\\n@@@@@@@@@       @@@@@@@@*/\\n\\ninterface IPostDispatchHook {\\n    enum Types {\\n        UNUSED,\\n        ROUTING,\\n        AGGREGATION,\\n        MERKLE_TREE,\\n        INTERCHAIN_GAS_PAYMASTER,\\n        FALLBACK_ROUTING,\\n        ID_AUTH_ISM,\\n        PAUSABLE,\\n        PROTOCOL_FEE,\\n        LAYER_ZERO_V1\\n    }\\n\\n    /**\\n     * @notice Returns an enum that represents the type of hook\\n     */\\n    function hookType() external view returns (uint8);\\n\\n    /**\\n     * @notice Returns whether the hook supports metadata\\n     * @param metadata metadata\\n     * @return Whether the hook supports metadata\\n     */\\n    function supportsMetadata(\\n        bytes calldata metadata\\n    ) external view returns (bool);\\n\\n    /**\\n     * @notice Post action after a message is dispatched via the Mailbox\\n     * @param metadata The metadata required for the hook\\n     * @param message The message passed from the Mailbox.dispatch() call\\n     */\\n    function postDispatch(\\n        bytes calldata metadata,\\n        bytes calldata message\\n    ) external payable;\\n\\n    /**\\n     * @notice Compute the payment required by the postDispatch call\\n     * @param metadata The metadata required for the hook\\n     * @param message The message passed from the Mailbox.dispatch() call\\n     * @return Quoted payment for the postDispatch call\\n     */\\n    function quoteDispatch(\\n        bytes calldata metadata,\\n        bytes calldata message\\n    ) external view returns (uint256);\\n}\\n\",\"keccak256\":\"0x29201c5597a02b691be7815554a9a2815198bb8b76b061c1f4f6daf77d5d1d75\",\"license\":\"MIT OR Apache-2.0\"},\"contracts/HyperlaneMessageReceiver.sol\":{\"content\":\"// SPDX-License-Identifier: UNLICENSED\\npragma solidity ^0.8.9;\\n\\n// Uncomment this line to use console.log\\n// import \\\"hardhat/console.sol\\\";\\n\\ninterface ISpecifiesInterchainSecurityModule {\\n    function interchainSecurityModule()\\n        external\\n        view\\n        returns (IInterchainSecurityModule);\\n}\\n\\nimport \\\"@hyperlane-xyz/core/contracts/interfaces/IMailbox.sol\\\";\\nimport {IInterchainSecurityModule} from \\\"@hyperlane-xyz/core/contracts/interfaces/IInterchainSecurityModule.sol\\\";\\n\\ncontract HyperlaneMessageReceiver is ISpecifiesInterchainSecurityModule {\\n\\tIMailbox inbox;\\n\\tIInterchainSecurityModule securityModule;\\n\\n\\tbytes32 public lastSender;\\n\\tstring public lastMessage;\\n\\n\\tevent ReceivedMessage(uint32 origin, bytes32 sender, bytes message);\\n\\n\\tconstructor(address _inbox, address _securityModule) {\\n\\t\\tinbox = IMailbox(_inbox);\\n\\t\\tsecurityModule = IInterchainSecurityModule(_securityModule);\\n\\t}\\n\\n\\tfunction handle(\\n\\t\\tuint32 _origin,\\n\\t\\tbytes32 _sender,\\n\\t\\tbytes calldata _message\\n\\t) external payable {\\n\\t\\tlastSender = _sender;\\n\\t\\tlastMessage = string(_message);\\n\\t\\temit ReceivedMessage(_origin, _sender, _message);\\n\\t}\\n\\n\\tfunction interchainSecurityModule()\\n\\t\\texternal\\n\\t\\tview\\n\\t\\toverride\\n\\t\\treturns (IInterchainSecurityModule)\\n\\t{\\n        return securityModule;\\n    }\\n}\",\"keccak256\":\"0xfa7ddba818470ed0c857f4876c59580cc5d71c7331e3919600bd228686195a25\",\"license\":\"UNLICENSED\"}},\"version\":1}",
+  "bytecode": "0x608060405234801561001057600080fd5b5060405161052738038061052783398101604081905261002f9161007c565b600080546001600160a01b039384166001600160a01b031991821617909155600180549290931691161790556100af565b80516001600160a01b038116811461007757600080fd5b919050565b6000806040838503121561008f57600080fd5b61009883610060565b91506100a660208401610060565b90509250929050565b610469806100be6000396000f3fe60806040526004361061003f5760003560e01c8063256fec8814610044578063329707101461006d57806356d5d4751461008f578063de523cf3146100a4575b600080fd5b34801561005057600080fd5b5061005a60025481565b6040519081526020015b60405180910390f35b34801561007957600080fd5b506100826100cc565b60405161006491906101b0565b6100a261009d3660046101fe565b61015a565b005b3480156100b057600080fd5b506001546040516001600160a01b039091168152602001610064565b600380546100d990610290565b80601f016020809104026020016040519081016040528092919081815260200182805461010590610290565b80156101525780601f1061012757610100808354040283529160200191610152565b820191906000526020600020905b81548152906001019060200180831161013557829003601f168201915b505050505081565b6002839055600361016c82848361032f565b507fc9f92737086b645b21611169d04fa8cc1b05a453ea6a9befbf3930d619e23bec848484846040516101a294939291906103f0565b60405180910390a150505050565b600060208083528351808285015260005b818110156101dd578581018301518582016040015282016101c1565b506000604082860101526040601f19601f8301168501019250505092915050565b6000806000806060858703121561021457600080fd5b843563ffffffff8116811461022857600080fd5b935060208501359250604085013567ffffffffffffffff8082111561024c57600080fd5b818701915087601f83011261026057600080fd5b81358181111561026f57600080fd5b88602082850101111561028157600080fd5b95989497505060200194505050565b600181811c908216806102a457607f821691505b6020821081036102c457634e487b7160e01b600052602260045260246000fd5b50919050565b634e487b7160e01b600052604160045260246000fd5b601f82111561032a57600081815260208120601f850160051c810160208610156103075750805b601f850160051c820191505b8181101561032657828155600101610313565b5050505b505050565b67ffffffffffffffff831115610347576103476102ca565b61035b836103558354610290565b836102e0565b6000601f84116001811461038f57600085156103775750838201355b600019600387901b1c1916600186901b1783556103e9565b600083815260209020601f19861690835b828110156103c057868501358255602094850194600190920191016103a0565b50868210156103dd5760001960f88860031b161c19848701351681555b505060018560011b0183555b5050505050565b63ffffffff8516815283602082015260606040820152816060820152818360808301376000818301608090810191909152601f909201601f19160101939250505056fea26469706673582212206163d6e94160d493937cb7efa02c214726f877404dc0b31df1042ad92035fc3d64736f6c63430008110033",
+  "deployedBytecode": "0x60806040526004361061003f5760003560e01c8063256fec8814610044578063329707101461006d57806356d5d4751461008f578063de523cf3146100a4575b600080fd5b34801561005057600080fd5b5061005a60025481565b6040519081526020015b60405180910390f35b34801561007957600080fd5b506100826100cc565b60405161006491906101b0565b6100a261009d3660046101fe565b61015a565b005b3480156100b057600080fd5b506001546040516001600160a01b039091168152602001610064565b600380546100d990610290565b80601f016020809104026020016040519081016040528092919081815260200182805461010590610290565b80156101525780601f1061012757610100808354040283529160200191610152565b820191906000526020600020905b81548152906001019060200180831161013557829003601f168201915b505050505081565b6002839055600361016c82848361032f565b507fc9f92737086b645b21611169d04fa8cc1b05a453ea6a9befbf3930d619e23bec848484846040516101a294939291906103f0565b60405180910390a150505050565b600060208083528351808285015260005b818110156101dd578581018301518582016040015282016101c1565b506000604082860101526040601f19601f8301168501019250505092915050565b6000806000806060858703121561021457600080fd5b843563ffffffff8116811461022857600080fd5b935060208501359250604085013567ffffffffffffffff8082111561024c57600080fd5b818701915087601f83011261026057600080fd5b81358181111561026f57600080fd5b88602082850101111561028157600080fd5b95989497505060200194505050565b600181811c908216806102a457607f821691505b6020821081036102c457634e487b7160e01b600052602260045260246000fd5b50919050565b634e487b7160e01b600052604160045260246000fd5b601f82111561032a57600081815260208120601f850160051c810160208610156103075750805b601f850160051c820191505b8181101561032657828155600101610313565b5050505b505050565b67ffffffffffffffff831115610347576103476102ca565b61035b836103558354610290565b836102e0565b6000601f84116001811461038f57600085156103775750838201355b600019600387901b1c1916600186901b1783556103e9565b600083815260209020601f19861690835b828110156103c057868501358255602094850194600190920191016103a0565b50868210156103dd5760001960f88860031b161c19848701351681555b505060018560011b0183555b5050505050565b63ffffffff8516815283602082015260606040820152816060820152818360808301376000818301608090810191909152601f909201601f19160101939250505056fea26469706673582212206163d6e94160d493937cb7efa02c214726f877404dc0b31df1042ad92035fc3d64736f6c63430008110033",
+  "devdoc": {
+    "kind": "dev",
+    "methods": {},
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {},
+    "version": 1
+  },
+  "storageLayout": {
+    "storage": [
+      {
+        "astId": 264,
+        "contract": "contracts/HyperlaneMessageReceiver.sol:HyperlaneMessageReceiver",
+        "label": "inbox",
+        "offset": 0,
+        "slot": "0",
+        "type": "t_contract(IMailbox)201"
+      },
+      {
+        "astId": 267,
+        "contract": "contracts/HyperlaneMessageReceiver.sol:HyperlaneMessageReceiver",
+        "label": "securityModule",
+        "offset": 0,
+        "slot": "1",
+        "type": "t_contract(IInterchainSecurityModule)27"
+      },
+      {
+        "astId": 269,
+        "contract": "contracts/HyperlaneMessageReceiver.sol:HyperlaneMessageReceiver",
+        "label": "lastSender",
+        "offset": 0,
+        "slot": "2",
+        "type": "t_bytes32"
+      },
+      {
+        "astId": 271,
+        "contract": "contracts/HyperlaneMessageReceiver.sol:HyperlaneMessageReceiver",
+        "label": "lastMessage",
+        "offset": 0,
+        "slot": "3",
+        "type": "t_string_storage"
+      }
+    ],
+    "types": {
+      "t_bytes32": {
+        "encoding": "inplace",
+        "label": "bytes32",
+        "numberOfBytes": "32"
+      },
+      "t_contract(IInterchainSecurityModule)27": {
+        "encoding": "inplace",
+        "label": "contract IInterchainSecurityModule",
+        "numberOfBytes": "20"
+      },
+      "t_contract(IMailbox)201": {
+        "encoding": "inplace",
+        "label": "contract IMailbox",
+        "numberOfBytes": "20"
+      },
+      "t_string_storage": {
+        "encoding": "bytes",
+        "label": "string",
+        "numberOfBytes": "32"
+      }
+    }
+  }
+}
