@@ -1,9 +1,6 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.9;
 
-// Uncomment this line to use console.log
-// import "hardhat/console.sol";
-
 import "@hyperlane-xyz/core/contracts/interfaces/IMailbox.sol";
 import { IInterchainSecurityModule } from "@hyperlane-xyz/core/contracts/interfaces/IInterchainSecurityModule.sol";
 
@@ -17,6 +14,8 @@ interface ISpecifiesInterchainSecurityModule {
 contract HyperlaneMessageSender is ISpecifiesInterchainSecurityModule {
 	IMailbox outbox;
 	IInterchainSecurityModule securityModule;
+	string public version = "1.0.0";
+
 
 	event SentMessage(
 		uint32 destinationDomain,

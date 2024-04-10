@@ -1,6 +1,8 @@
 import { HardhatRuntimeEnvironment } from "hardhat/types";
 import { DeployFunction } from "hardhat-deploy/types";
 import { HyperlaneMessageSender, HyperlaneMessageReceiver } from "../typechain-types";
+import * as CORE_DEPLOYMENT from "../../../../bridge/artifacts/core-deployment-2024-04-10-21-21-11.json";
+import * as RECEIVER_DEPLOYMENT from "../deployments/sepolia/HyperlaneMessageReceiver.json";
 // import { BigNumber } from "@ethersproject/bignumber";
 
 /**
@@ -17,8 +19,8 @@ const deployYourContract: DeployFunction = async function (hre: HardhatRuntimeEn
 
   if (hre.network.name === "sepolia") {
     console.log("Deploying the Receiver and receive a message from the Sender");
-    const sepoliaMailBoxAddress = "0xfFAEF09B3cd11D9b20d1a19bECca54EEC2884766";
-    const sepoliaISMAddress = "0xa717195377ad63B5EF830548492878ED9A1528D0";
+    const sepoliaMailBoxAddress = CORE_DEPLOYMENT["sepolia"]["mailbox"];
+    const sepoliaISMAddress = CORE_DEPLOYMENT["sepolia"]["messageIdMultisigIsm"];
 
     const receiverName = "HyperlaneMessageReceiver";
     await deploy(receiverName, {
@@ -35,10 +37,11 @@ const deployYourContract: DeployFunction = async function (hre: HardhatRuntimeEn
   }
 
   if (hre.network.name === "etherlink") {
-    const receiverAddress = "0x872D8748F58656AAF9812D10545056dDCB0E3b36";
+    const receiverAddress = RECEIVER_DEPLOYMENT["address"];
+
     console.log("Deploying the Sender and send a message to the Receiver");
-    const etherlinkMailBoxAddress = "0xe052fEBE52ACE3d4F80Eb3d8685Bac93a9504361";
-    const etherlinkISMAddress = "0x14BD801cF0FA5d78C9C8579FBeaB1Cc420fA788C";
+    const etherlinkMailBoxAddress = CORE_DEPLOYMENT["etherlink"]["mailbox"];
+    const etherlinkISMAddress = CORE_DEPLOYMENT["etherlink"]["messageIdMultisigIsm"];
     const senderName = "HyperlaneMessageSender";
     await deploy(senderName, {
       from: deployer,
@@ -47,7 +50,7 @@ const deployYourContract: DeployFunction = async function (hre: HardhatRuntimeEn
     });
 
     const senderContract = await hre.ethers.getContract<HyperlaneMessageSender>(senderName, deployer);
-    const tx = await senderContract.sendStringToAddress(sepoliaChainId, receiverAddress, "Ciao from London!");
+    const tx = await senderContract.sendStringToAddress(sepoliaChainId, receiverAddress, "Ciao from London Again!");
     const receipt = await tx.wait();
     console.log("Transaction receipt: ", receipt);
   }

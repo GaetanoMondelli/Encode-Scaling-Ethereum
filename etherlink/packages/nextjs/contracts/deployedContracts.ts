@@ -7,7 +7,7 @@ import { GenericContractsDeclaration } from "~~/utils/scaffold-eth/contract";
 const deployedContracts = {
   128123: {
     HyperlaneMessageSender: {
-      address: "0xd53FC00EEE95Ad127E7cfD49b17B927314f9FC01",
+      address: "0xa50aE32C1536FD79554d62a89165188F454Cc80e",
       abi: [
         {
           inputs: [
@@ -109,13 +109,26 @@ const deployedContracts = {
           stateMutability: "nonpayable",
           type: "function",
         },
+        {
+          inputs: [],
+          name: "version",
+          outputs: [
+            {
+              internalType: "string",
+              name: "",
+              type: "string",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
       ],
       inheritedFunctions: {},
     },
   },
   11155111: {
     HyperlaneMessageReceiver: {
-      address: "0x872D8748F58656AAF9812D10545056dDCB0E3b36",
+      address: "0x946d990cCCb7f6049DE3C4D4A547A3C3d979Da34",
       abi: [
         {
           inputs: [
@@ -215,6 +228,19 @@ const deployedContracts = {
               internalType: "bytes32",
               name: "",
               type: "bytes32",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "version",
+          outputs: [
+            {
+              internalType: "string",
+              name: "",
+              type: "string",
             },
           ],
           stateMutability: "view",
