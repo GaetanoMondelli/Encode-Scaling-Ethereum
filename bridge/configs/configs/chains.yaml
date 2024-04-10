@@ -1,0 +1,15 @@
+etherlink:
+  name: etherlink
+  chainId: 128123
+  domainId: 128123
+  protocol: ethereum
+  rpcUrls:
+    - http: https://node.ghostnet.etherlink.com
+sepolia:
+  name: sepolia
+  chainId: 11155111
+  domainId: 11155111
+  protocol: ethereum
+  rpcUrls:
+    - http: "https://sepolia.drpc.org"
+

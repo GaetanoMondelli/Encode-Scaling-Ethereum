@@ -47,7 +47,7 @@ const deployYourContract: DeployFunction = async function (hre: HardhatRuntimeEn
     });
 
     const senderContract = await hre.ethers.getContract<HyperlaneMessageSender>(senderName, deployer);
-    const tx = await senderContract.sendStringToAddress(sepoliaChainId, receiverAddress, "Hello GMZ");
+    const tx = await senderContract.sendStringToAddress(sepoliaChainId, receiverAddress, "Ciao from London!");
     const receipt = await tx.wait();
     console.log("Transaction receipt: ", receipt);
   }
