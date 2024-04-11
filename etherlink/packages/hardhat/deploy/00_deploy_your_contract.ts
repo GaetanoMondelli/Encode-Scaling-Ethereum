@@ -1,7 +1,7 @@
 import { HardhatRuntimeEnvironment } from "hardhat/types";
 import { DeployFunction } from "hardhat-deploy/types";
 import { HyperlaneMessageSender, HyperlaneMessageReceiver } from "../typechain-types";
-import * as CORE_DEPLOYMENT from "../../../../bridge/artifacts/core-deployment-2024-04-11-00-36-10.json";
+import * as CORE_DEPLOYMENT from "../../../../bridge/artifacts/core-deployment-2024-04-11-01-28-34.json";
 import * as RECEIVER_DEPLOYMENT from "../deployments/sepolia/HyperlaneMessageReceiver.json";
 // import { BigNumber } from "@ethersproject/bignumber";
 
@@ -60,4 +60,4 @@ export default deployYourContract;
 
 // Tags are useful if you have multiple deploy files and only want to run one of them.
 // e.g. yarn deploy --tags YourContract
-deployYourContract.tags = ["YourContract"];
+deployYourContract.tags = ["SenderReceiver"];

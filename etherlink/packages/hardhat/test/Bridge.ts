@@ -17,8 +17,9 @@ describe("Hyperlane Bridge", function () {
     const mailboxAddress = await mailbox.getAddress();
     const senderFactory = await ethers.getContractFactory("HyperlaneMessageSender");
     const receiverFactory = await ethers.getContractFactory("HyperlaneMessageReceiver");
-    sender = (await senderFactory.deploy(mailboxAddress)) as HyperlaneMessageSender;
-    receiver = (await receiverFactory.deploy(mailboxAddress)) as HyperlaneMessageReceiver;
+    const zeroAddress = "0x0000000000000000000000000000000000000000";
+    sender = (await senderFactory.deploy(mailboxAddress, zeroAddress)) as HyperlaneMessageSender;
+    receiver = (await receiverFactory.deploy(mailboxAddress, zeroAddress)) as HyperlaneMessageReceiver;
     expect(await sender.getAddress).to.be.not.null;
     expect(await receiver.getAddress).to.be.not.null;
   });
