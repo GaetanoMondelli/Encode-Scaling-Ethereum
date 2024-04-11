@@ -14,7 +14,7 @@ interface ISpecifiesInterchainSecurityModule {
 contract HyperlaneMessageSender is ISpecifiesInterchainSecurityModule {
 	IMailbox outbox;
 	IInterchainSecurityModule securityModule;
-	string public version = "1.0.1";
+	string public version = "1.0.2";
 
 
 	event SentMessage(

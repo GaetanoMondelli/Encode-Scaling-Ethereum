@@ -1,0 +1,33 @@
+{
+  "etherlink": {
+    "staticMerkleRootMultisigIsmFactory": "0x99a2CD86645d56d2D8CA90328D188f03bAB5d71D",
+    "staticMessageIdMultisigIsmFactory": "0xC3A87B58a07A48c6993d0D8e9c970740D54B3b0c",
+    "staticAggregationIsmFactory": "0x475e0627c850Ab17213410eB09AF6cBadf079de6",
+    "staticAggregationHookFactory": "0xc6cC7f82De5ec2a64A14e69c1e117E99D899811D",
+    "domainRoutingIsmFactory": "0x6D88daA308fE30774DB28c215240613c28308D24",
+    "interchainSecurityModule": "0xe101FAAfD84f42a86bfb8174120740d4714a7639",
+    "messageIdMultisigIsm": "0xe101FAAfD84f42a86bfb8174120740d4714a7639",
+    "merkleTreeHook": "0x86C69b27b2D6d789A6A78DEa343D715C08127828",
+    "protocolFee": "0x8ABf464e8C452Bb486F1832DA8024a28733F09b5",
+    "testRecipient": "0x2694eB851944BBE9F9786274C50203afF8e0e223",
+    "mailbox": "0x4Ad85d9ADf82F372270Ad2C9Db798e5A530b56e2",
+    "proxyAdmin": "0x291cE3d231a6c31ff29CBCb66199081Ba9e4a76b",
+    "validatorAnnounce": "0xDeb24f6BceAdc2E818155Cd827E02c6846d160BC"
+  },
+  "sepolia": {
+    "staticMerkleRootMultisigIsmFactory": "0x0a71AcC99967829eE305a285750017C4916Ca269",
+    "staticMessageIdMultisigIsmFactory": "0xFEb9585b2f948c1eD74034205a7439261a9d27DD",
+    "staticAggregationIsmFactory": "0xC83e12EF2627ACE445C298e6eC418684918a6002",
+    "staticAggregationHookFactory": "0x160C28C92cA453570aD7C031972b58d5Dd128F72",
+    "domainRoutingIsmFactory": "0x3F100cBBE5FD5466BdB4B3a15Ac226957e7965Ad",
+    "interchainSecurityModule": "0xa717195377ad63B5EF830548492878ED9A1528D0",
+    "messageIdMultisigIsm": "0xa717195377ad63B5EF830548492878ED9A1528D0",
+    "merkleTreeHook": "0x4917a9746A7B6E0A57159cCb7F5a6744247f2d0d",
+    "protocolFee": "0x13AC3349Cb159fE86A22cf42DdA803D9f7309DB5",
+    "customHook": "0x4917a9746A7B6E0A57159cCb7F5a6744247f2d0d",
+    "testRecipient": "0xb1f548AF37E3b1b4D6180b0a35B60E46024db06e",
+    "mailbox": "0xfFAEF09B3cd11D9b20d1a19bECca54EEC2884766",
+    "proxyAdmin": "0x97Bbc6bBaFa5Ce3b2FA966c121Af63bD09e940f8",
+    "validatorAnnounce": "0xE6105C59480a1B7DD3E4f28153aFdbE12F4CfCD9"
+  }
+}

@@ -10,22 +10,22 @@
           "http": "https://node.ghostnet.etherlink.com"
         }
       ],
-      "staticMerkleRootMultisigIsmFactory": "0x9E243F906084f20195742CFFA90E8b77e628C478",
-      "staticMessageIdMultisigIsmFactory": "0xA778BEAd040C3aE7e7084F1aD26F9095332FD7CD",
-      "staticAggregationIsmFactory": "0x28E88811b1b5b956A79de112C80086bD3c7aB307",
-      "staticAggregationHookFactory": "0xA1D68616A5486c747A141E174942b9d6f8DA2f63",
-      "domainRoutingIsmFactory": "0xc2bB7DD22218CeA86DeBDE80cc83Dd5868C64313",
-      "interchainSecurityModule": "0xa7cfD02CD6a269CceE2f78835DaFe431262A8e3d",
-      "messageIdMultisigIsm": "0xa7cfD02CD6a269CceE2f78835DaFe431262A8e3d",
-      "merkleTreeHook": "0x66e5f6E482d64208B584CA32802af368A5754C63",
-      "protocolFee": "0xE4F90E1c0F0A719F4A667B1973E5658dC77c4E70",
-      "testRecipient": "0x41c22CebCc5eBD5157a20865fd5c0E5AfA0be0B8",
-      "mailbox": "0xdaa45d8E8fE7be6d3a85054601D4F968Ed13cef1",
-      "proxyAdmin": "0xa7B787932dFA0d9E39A57E84Bb89b1118C98d1eD",
-      "validatorAnnounce": "0xe1983471c8b528a9c12034917828511170f86462",
+      "staticMerkleRootMultisigIsmFactory": "0x99a2CD86645d56d2D8CA90328D188f03bAB5d71D",
+      "staticMessageIdMultisigIsmFactory": "0xC3A87B58a07A48c6993d0D8e9c970740D54B3b0c",
+      "staticAggregationIsmFactory": "0x475e0627c850Ab17213410eB09AF6cBadf079de6",
+      "staticAggregationHookFactory": "0xc6cC7f82De5ec2a64A14e69c1e117E99D899811D",
+      "domainRoutingIsmFactory": "0x6D88daA308fE30774DB28c215240613c28308D24",
+      "interchainSecurityModule": "0xe101FAAfD84f42a86bfb8174120740d4714a7639",
+      "messageIdMultisigIsm": "0xe101FAAfD84f42a86bfb8174120740d4714a7639",
+      "merkleTreeHook": "0x86C69b27b2D6d789A6A78DEa343D715C08127828",
+      "protocolFee": "0x8ABf464e8C452Bb486F1832DA8024a28733F09b5",
+      "testRecipient": "0x2694eB851944BBE9F9786274C50203afF8e0e223",
+      "mailbox": "0x4Ad85d9ADf82F372270Ad2C9Db798e5A530b56e2",
+      "proxyAdmin": "0x291cE3d231a6c31ff29CBCb66199081Ba9e4a76b",
+      "validatorAnnounce": "0xDeb24f6BceAdc2E818155Cd827E02c6846d160BC",
       "interchainGasPaymaster": "0x0000000000000000000000000000000000000000",
       "index": {
-        "from": 1982927
+        "from": 1983643
       }
     },
     "sepolia": {
@@ -75,7 +75,7 @@
       "staticMerkleRootMultisigIsmFactory": "0x0a71AcC99967829eE305a285750017C4916Ca269",
       "staticMessageIdMultisigIsmFactory": "0xFEb9585b2f948c1eD74034205a7439261a9d27DD",
       "storageGasOracle": "0x71775B071F77F1ce52Ece810ce084451a3045FFe",
-      "testRecipient": "0x8F24B22fEC09bd35521E6488f709E92CcE8Aa148",
+      "testRecipient": "0xb1f548AF37E3b1b4D6180b0a35B60E46024db06e",
       "testTokenRecipient": "0x031AD9c560D37baC7d6Bd2d27A2443bAfd10101A",
       "timelockController": "0x0000000000000000000000000000000000000000",
       "validatorAnnounce": "0xE6105C59480a1B7DD3E4f28153aFdbE12F4CfCD9",
