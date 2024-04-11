@@ -4,6 +4,7 @@ pragma solidity ^0.8.0;
 
 import { IERC721 } from "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 import { IERC20 } from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import {ISimpleERC20} from "./SimpleERC20.sol";
 
 struct TokenQuantity {
 	address _address;
@@ -40,6 +41,12 @@ contract ETFLock {
 	address public sideChainLock;
 	TokenQuantity[] requiredTokens;
 	uint32 public chainId;
+	address public etfToken;
+	uint256 public etfTokenPerVault;
+	
+	mapping(uint256 => address[]) contributorsByVault;
+	mapping(uint256 => mapping(address => uint256))
+		public accountContributionsPerVault;
 
 	event Deposit(
 		uint256 _vaultId,
@@ -51,8 +58,15 @@ contract ETFLock {
 
 	mapping(uint256 => Vault) public vaults;
 
-	constructor(uint32 _chainId, TokenQuantity[] memory _requiredTokens) {
+	constructor(
+		uint32 _chainId,
+		TokenQuantity[] memory _requiredTokens,
+		address _etfToken,
+		uint256 _etfTokenPerVault
+	) {
 		chainId = _chainId;
+		etfToken = _etfToken;
+		etfTokenPerVault = _etfTokenPerVault;
 		for (uint256 i = 0; i < _requiredTokens.length; i++) {
 			requiredTokens.push(_requiredTokens[i]);
 		}
@@ -66,9 +80,9 @@ contract ETFLock {
 		return states;
 	}
 
-    function getVault(uint256 _vaultId) public view returns (Vault memory) {
-        return vaults[_vaultId];
-    }
+	function getVault(uint256 _vaultId) public view returns (Vault memory) {
+		return vaults[_vaultId];
+	}
 
 	function _deposit(
 		DepositInfo memory _depositInfo,
@@ -90,6 +104,7 @@ contract ETFLock {
 			}
 
 			if (
+				vaults[_vaultId]._tokens.length == requiredTokens.length &&
 				_tokens[i]._quantity + vaults[_vaultId]._tokens[i]._quantity >
 				requiredTokens[i]._quantity
 			) {
@@ -110,6 +125,12 @@ contract ETFLock {
 				_tokens[i]._chainId,
 				_tokens[i]._contributor
 			);
+
+			if (accountContributionsPerVault[_vaultId][msg.sender] == 0) {
+				contributorsByVault[_vaultId].push(msg.sender);
+			}
+			accountContributionsPerVault[_vaultId][msg.sender] += _tokens[i]
+				._quantity; // we should multiply by the price of the token
 		}
 
 		for (uint256 i = 0; i < requiredTokens.length; i++) {
@@ -121,6 +142,26 @@ contract ETFLock {
 			}
 		}
 		vaults[_vaultId].state = VaultState.MINTED;
+		distributeShares(_vaultId);
+	}
+
+	function distributeShares(uint256 _vaultId) internal {
+		uint256 totalContributions = 0;
+		for (uint256 i = 0; i < contributorsByVault[_vaultId].length; i++) {
+			totalContributions += accountContributionsPerVault[_vaultId][
+				contributorsByVault[_vaultId][i]
+			];
+		}
+
+		for (uint256 i = 0; i < contributorsByVault[_vaultId].length; i++) {
+			uint256 shares = (accountContributionsPerVault[_vaultId][
+				contributorsByVault[_vaultId][i]
+			] * etfTokenPerVault) / totalContributions;
+			ISimpleERC20(etfToken).mint(
+				contributorsByVault[_vaultId][i],
+				shares
+			);
+		}
 	}
 
 	function deposit(DepositInfo memory _depositInfo) public {
