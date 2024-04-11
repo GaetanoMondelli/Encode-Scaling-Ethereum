@@ -7,7 +7,7 @@ import { GenericContractsDeclaration } from "~~/utils/scaffold-eth/contract";
 const deployedContracts = {
   128123: {
     HyperlaneMessageSender: {
-      address: "0xa50aE32C1536FD79554d62a89165188F454Cc80e",
+      address: "0x624F38939E86F6c91c1C47f33c6c1a726b0783F2",
       abi: [
         {
           inputs: [
@@ -128,7 +128,7 @@ const deployedContracts = {
   },
   11155111: {
     HyperlaneMessageReceiver: {
-      address: "0x946d990cCCb7f6049DE3C4D4A547A3C3d979Da34",
+      address: "0xf13e391d98c9Ae4E6024F7C6BC0701134ff866f1",
       abi: [
         {
           inputs: [
