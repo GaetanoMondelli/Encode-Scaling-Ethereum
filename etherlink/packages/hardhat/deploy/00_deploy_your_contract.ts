@@ -1,7 +1,7 @@
 import { HardhatRuntimeEnvironment } from "hardhat/types";
 import { DeployFunction } from "hardhat-deploy/types";
 import { HyperlaneMessageSender, HyperlaneMessageReceiver } from "../typechain-types";
-import * as CORE_DEPLOYMENT from "../../../../bridge/artifacts/core-deployment-2024-04-10-21-21-11.json";
+import * as CORE_DEPLOYMENT from "../../../../bridge/artifacts/core-deployment-2024-04-11-00-36-10.json";
 import * as RECEIVER_DEPLOYMENT from "../deployments/sepolia/HyperlaneMessageReceiver.json";
 // import { BigNumber } from "@ethersproject/bignumber";
 
@@ -50,7 +50,7 @@ const deployYourContract: DeployFunction = async function (hre: HardhatRuntimeEn
     });
 
     const senderContract = await hre.ethers.getContract<HyperlaneMessageSender>(senderName, deployer);
-    const tx = await senderContract.sendStringToAddress(sepoliaChainId, receiverAddress, "Ciao from London Again!");
+    const tx = await senderContract.sendStringToAddress(sepoliaChainId, receiverAddress, "Ciao from London Again!0:10");
     const receipt = await tx.wait();
     console.log("Transaction receipt: ", receipt);
   }

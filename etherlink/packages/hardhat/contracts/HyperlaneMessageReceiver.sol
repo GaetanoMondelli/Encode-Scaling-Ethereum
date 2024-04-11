@@ -20,7 +20,7 @@ contract HyperlaneMessageReceiver is ISpecifiesInterchainSecurityModule {
 
 	bytes32 public lastSender;
 	string public lastMessage;
-	string public version = "1.0.0";
+	string public version = "1.0.1";
 
 	event ReceivedMessage(uint32 origin, bytes32 sender, bytes message);
 
