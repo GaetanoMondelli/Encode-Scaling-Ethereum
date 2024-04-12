@@ -1,6 +1,6 @@
 import { expect } from "chai";
 import { ethers } from "hardhat";
-import { ETFLock, SimpleERC20 } from "../typechain-types";
+import { ETFLock, SimpleERC20, MockAggregator } from "../typechain-types";
 import { BigNumber } from "@ethersproject/bignumber";
 
 describe("Hyperlane Bridge", function () {
@@ -19,12 +19,15 @@ describe("Hyperlane Bridge", function () {
     [owner] = await ethers.getSigners();
     const etfLockFactory = await ethers.getContractFactory("ETFLock");
     const simpleFactory = await ethers.getContractFactory("SimpleERC20");
+    const aggregatorFactory = await ethers.getContractFactory("MockAggregator");
 
     etfToken = (await simpleFactory.deploy("ETF Token", "ETF",0)) as SimpleERC20;
     tokenA = (await simpleFactory.deploy("TokenA", "TKA", 18)) as SimpleERC20;
     tokenB = (await simpleFactory.deploy("TokenB", "TKB", 18)) as SimpleERC20;
     await tokenA.mint(owner.address, BigNumber.from(1000).mul(decimalFactor).toString());
     await tokenB.mint(owner.address, BigNumber.from(1000).mul(decimalFactor).toString());
+    const aggrTokenA = (await aggregatorFactory.deploy(1, 18)) as MockAggregator;
+    const aggrTokenB = (await aggregatorFactory.deploy(2, 28)) as MockAggregator;
 
     requiredTokens = [
       {
@@ -32,12 +35,14 @@ describe("Hyperlane Bridge", function () {
         _quantity: BigNumber.from(10).mul(decimalFactor).toString(),
         _chainId: domain,
         _contributor: owner.address,
+        _aggregator: await aggrTokenA.getAddress(),
       },
       {
         _address: await tokenB.getAddress(),
         _quantity: BigNumber.from(20).mul(decimalFactor).toString(),
         _chainId: domain,
         _contributor: owner.address,
+        _aggregator: await aggrTokenB.getAddress(),
       },
     ];
 

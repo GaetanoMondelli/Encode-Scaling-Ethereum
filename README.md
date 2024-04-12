@@ -32,3 +32,12 @@ rust % CONFIG_FILES=./agent-config-2024-04-04-16-16-27.json cargo run --release 
     --allowLocalCheckpointSyncers true \
     --defaultSigner.key "0x1294695293f333466d699cca83fce35cf2c3dd960fd35a93d44ae548835c9b32" \
     --metrics-port 9091
+
+
+
+BTC	$69,336.48
+ETH	$3,441.11
+BNB	$612.04
+AR	$28.12
+AVAX	$44.20
+CELO	$0.98
