@@ -42,7 +42,7 @@ struct DepositInfo {
 
 contract ETFLock {
 	address public sideChainLock;
-	TokenQuantity[] requiredTokens;
+	TokenQuantity[] public requiredTokens;
 	mapping(address => TokenQuantity) public addressToToken;
 	uint32 public chainId;
 	address public etfToken;

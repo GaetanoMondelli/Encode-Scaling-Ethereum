@@ -14,17 +14,18 @@ export function Deposit({ bundleId }: { bundleId: string }) {
   const [tok1, setTok1] = useState<any>();
   const [tok2, setTok2] = useState<any>();
   const [tok3, setTok3] = useState<any>();
-  const pepeTokenAddress = "0x95F2C24d6b0d7D17fBF5dE14d4791504A240Ed6d";
+  const [selectedTok, setSelectedTok] = useState<any>();
   const writeTxn = useTransactor();
   // const { chain } = useNetwork();
   // const { targetNetwork } = useTargetNetwork();
   const { address: connectedAddress } = useAccount();
-
+  const contractName = "ETFLock";
+  const etherlinkChainId = 128123;
 
   const { isFetching: isFetReq0, refetch: refReq0 } = useContractRead({
-    address: contractsData["ETF"].address,
+    address: contractsData[contractName].address,
     functionName: "requiredTokens",
-    abi: contractsData["ETF"].abi,
+    abi: contractsData[contractName].abi,
     args: [0],
     enabled: false,
     onError: (error: any) => {
@@ -34,22 +35,10 @@ export function Deposit({ bundleId }: { bundleId: string }) {
   });
 
   const { isFetching: isFetReq1, refetch: refReq1 } = useContractRead({
-    address: contractsData["ETF"].address,
+    address: contractsData[contractName].address,
     functionName: "requiredTokens",
-    abi: contractsData["ETF"].abi,
+    abi: contractsData[contractName].abi,
     args: [1],
-    enabled: false,
-    onError: (error: any) => {
-      const parsedErrror = getParsedError(error);
-      console.log(parsedErrror);
-    },
-  });
-
-  const { isFetching: isFetReq2, refetch: refReq2 } = useContractRead({
-    address: contractsData["ETF"].address,
-    functionName: "requiredTokens",
-    abi: contractsData["ETF"].abi,
-    args: [2],
     enabled: false,
     onError: (error: any) => {
       const parsedErrror = getParsedError(error);
@@ -62,19 +51,29 @@ export function Deposit({ bundleId }: { bundleId: string }) {
     isLoading: isdepLoading,
     writeAsync: depositAsync,
   } = useContractWrite({
-    address: contractsData["ETF"].address,
+    address: contractsData[contractName].address,
     functionName: "deposit",
-    abi: contractsData["ETF"].abi,
+    abi: contractsData[contractName].abi,
     args: [
-      bundleId,
-      [
-        {
-          _address: pepeTokenAddress,
-          _quantity: BigNumber.from(100).mul(BigNumber.from(10).pow(18)).toString(),
-          _chainId: "16",
-          _contributor: connectedAddress,
-        },
-      ],
+      {
+        vaultId: bundleId,
+        tokens: [
+          {
+            _address: tok1 ? tok1[0] : "",
+            _quantity: BigNumber.from(90).mul(BigNumber.from(10).pow(18)).toString(),
+            _chainId: etherlinkChainId,
+            _contributor: connectedAddress,
+            _aggregator: contractsData["MockAggregator"].address,
+          },
+          {
+            _address: tok2 ? tok2[0] : "",
+            _quantity: BigNumber.from(180).mul(BigNumber.from(10).pow(18)).toString(),
+            _chainId: etherlinkChainId,
+            _contributor: connectedAddress,
+            _aggregator: contractsData["MockAggregator"].address,
+          },
+        ],
+      },
     ],
   });
 
@@ -82,12 +81,12 @@ export function Deposit({ bundleId }: { bundleId: string }) {
   const {
     data: approve,
     isLoading,
-    writeAsync,
+    writeAsync: approveAsync,
   } = useContractWrite({
-    address: pepeTokenAddress,
+    address: selectedTok ? selectedTok[0] : "",
     functionName: "approve",
     abi: contractsData[contractSimpleName].abi,
-    args: [contractsData["ETF"].address, BigNumber.from(100).mul(BigNumber.from(10).pow(18))],
+    args: [contractsData[contractName].address, BigNumber.from(100).mul(BigNumber.from(10).pow(18))],
   });
 
   useEffect(() => {
@@ -103,7 +102,7 @@ export function Deposit({ bundleId }: { bundleId: string }) {
     }
     fetchData(isFetReq0, refReq0, setTok1);
     fetchData(isFetReq1, refReq1, setTok2);
-    fetchData(isFetReq2, refReq2, setTok3);
+    // fetchData(isFetReq2, refReq2, setTok3);
   }, [bundleId]);
 
   return (
@@ -120,10 +119,10 @@ export function Deposit({ bundleId }: { bundleId: string }) {
       >
         getOwner
       </button> */}
-      {isFetReq0 || isFetReq1 || (isFetReq2 && <p>Loading...</p>)}
+      {(isFetReq0 || isFetReq1) && <p>Loading...</p>}
       <b>Required Tokens</b>
 
-      {[tok1, tok2, tok3].map((tok: any) => {
+      {[tok1, tok2].map((tok: any) => {
         if (!tok) {
           return <></>;
         }
@@ -153,14 +152,15 @@ export function Deposit({ bundleId }: { bundleId: string }) {
                 <p>Quantity:</p>
                 {displayTxResult(tok[1])}
               </div>
-              {Number(tok[2]) === 16 && (
+              {Number(tok[2]) === etherlinkChainId && (
                 <div>
                   <p>Approve 100 token</p>
                   <button
                     onClick={async () => {
-                      if (writeAsync) {
+                      setSelectedTok(tok);
+                      if (approveAsync) {
                         try {
-                          const makeWriteWithParams = () => writeAsync();
+                          const makeWriteWithParams = () => approveAsync();
                           await writeTxn(makeWriteWithParams);
                           // onChange();
                         } catch (e: any) {
@@ -174,7 +174,7 @@ export function Deposit({ bundleId }: { bundleId: string }) {
                   </button>
                 </div>
               )}
-              {Number(tok[2]) === 16 && (
+              {Number(tok[2]) === etherlinkChainId && (
                 <div>
                   <p>Deposit 100 token</p>
                   <button

@@ -41,43 +41,32 @@ const ETF: NextPage = () => {
   const writeDisabled = !chain || chain?.id !== targetNetwork.id;
   const { address: connectedAddress } = useAccount();
 
-  const contractName = "ETF";
+  const contractName = "ETFLock";
 
-  // const { isFetching, refetch } = useContractRead({
-  //   address: contractsData[contractName].address,
-  //   functionName: "getVaultStates",
-  //   abi: contractsData[contractName].abi,
-  //   args: [],
-  //   enabled: false,
-  //   onError: (error: any) => {
-  //     const parsedErrror = getParsedError(error);
-  //     notification.error(parsedErrror);
-  //   },
-  // });
-  const etfTokenAddress = "0x468B16cCaca97DE626Dd741BA14b3C458F0Cb46F";
+  const { isFetching, refetch } = useContractRead({
+    address: contractsData[contractName].address,
+    functionName: "getVaultStates",
+    abi: contractsData[contractName].abi,
+    args: [],
+    enabled: false,
+    onError: (error: any) => {
+      const parsedErrror = getParsedError(error);
+      notification.error(parsedErrror);
+    },
+  });
+  const etfTokenAddress = "0xEbC26af07cbbE8E87b8Fe3A1F5ac02950D3Fa2A8";
 
-  // const { isFetching: isFet, refetch: refet } = useContractRead({
-  //   address: etfTokenAddress,
-  //   functionName: "balanceOf",
-  //   abi: contractsData["SimpleERC20"].abi,
-  //   args: [connectedAddress],
-  //   enabled: false,
-  //   onError: (error: any) => {
-  //     const parsedErrror = getParsedError(error);
-  //     notification.error(parsedErrror);
-  //   },
-  // });
-
-  // const {
-  //   data: result,
-  //   isLoading,
-  //   writeAsync,
-  // } = useContractWrite({
-  //   address: contractsData[contractName].address,
-  //   functionName: "openVault",
-  //   abi: contractsData[contractName].abi,
-  //   args: ["testBTC", collateralAmount.toString(), 1],
-  // });
+  const { isFetching: isFet, refetch: refet } = useContractRead({
+    address: etfTokenAddress,
+    functionName: "balanceOf",
+    abi: contractsData["SimpleERC20"].abi,
+    args: [connectedAddress],
+    enabled: false,
+    onError: (error: any) => {
+      const parsedErrror = getParsedError(error);
+      notification.error(parsedErrror);
+    },
+  });
 
   const handleWrite = async () => {
     if (writeAsync) {
@@ -159,7 +148,7 @@ const ETF: NextPage = () => {
         ) : null} */}
         <br></br>
         <br></br>
-        {/* <Deposit bundleId={bundleId} /> */}
+        <Deposit bundleId={bundleId} />
         <br></br>
         {/* <CollateralVaultView bundleId={bundleId} /> */}
         <br></br>

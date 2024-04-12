@@ -7,7 +7,7 @@ import { GenericContractsDeclaration } from "~~/utils/scaffold-eth/contract";
 const deployedContracts = {
   128123: {
     ETFLock: {
-      address: "0x5159D995a8eD2B6b6938D999D27E9B70c8Ac6FC8",
+      address: "0x99C87134ac483f5647280CE96877CCaD3c577430",
       abi: [
         {
           inputs: [
@@ -358,6 +358,45 @@ const deployedContracts = {
           name: "handle",
           outputs: [],
           stateMutability: "payable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+          ],
+          name: "requiredTokens",
+          outputs: [
+            {
+              internalType: "address",
+              name: "_address",
+              type: "address",
+            },
+            {
+              internalType: "uint256",
+              name: "_quantity",
+              type: "uint256",
+            },
+            {
+              internalType: "uint32",
+              name: "_chainId",
+              type: "uint32",
+            },
+            {
+              internalType: "address",
+              name: "_contributor",
+              type: "address",
+            },
+            {
+              internalType: "address",
+              name: "_aggregator",
+              type: "address",
+            },
+          ],
+          stateMutability: "view",
           type: "function",
         },
         {
@@ -751,7 +790,7 @@ const deployedContracts = {
       inheritedFunctions: {},
     },
     MockAggregator: {
-      address: "0x60C7B3Ec1E04d84501911338b7611684022e1ac2",
+      address: "0x11FC4928bf7CA4C3f465c36c72364D3c35f7917c",
       abi: [
         {
           inputs: [
@@ -1131,7 +1170,7 @@ const deployedContracts = {
       inheritedFunctions: {},
     },
     SimpleERC20: {
-      address: "0xc46c82833EDfd1584DCeb169F7066759587E44FF",
+      address: "0xEbC26af07cbbE8E87b8Fe3A1F5ac02950D3Fa2A8",
       abi: [
         {
           inputs: [
