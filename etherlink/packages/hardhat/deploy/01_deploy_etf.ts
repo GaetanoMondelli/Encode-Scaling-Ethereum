@@ -25,9 +25,12 @@ const deployYourContract: DeployFunction = async function (hre: HardhatRuntimeEn
       log: true,
     });
 
+    const privateKey = "0x1294695293f333466d699cca83fce35cf2c3dd960fd35a93d44ae548835c9b32";
+
     const provider = new JsonRpcProvider("https://node.ghostnet.etherlink.com");
-    const wallet = new Wallet("0x1294695293f333466d699cca83fce35cf2c3dd960fd35a93d44ae548835c9b32").connect(provider);
+    const wallet = new Wallet(privateKey).connect(provider);
     const contract = new Contract(RAPID_ARTIFACTS.address, RAPID_ARTIFACTS.abi, wallet);
+
     const wrappedContract = await WrapperBuilder.wrap(contract).usingDataService({
       dataServiceId: "redstone-rapid-demo",
       uniqueSignersCount: 1,

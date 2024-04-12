@@ -4,13 +4,15 @@ pragma solidity ^0.8.0;
 
 import { IERC721 } from "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 import { IERC20 } from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import {ISimpleERC20} from "./SimpleERC20.sol";
+import { ISimpleERC20 } from "./SimpleERC20.sol";
+import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
 
 struct TokenQuantity {
 	address _address;
 	uint256 _quantity;
 	uint32 _chainId;
 	address _contributor;
+	address _aggretator;
 }
 
 struct Vault {
@@ -40,10 +42,11 @@ struct DepositInfo {
 contract ETFLock {
 	address public sideChainLock;
 	TokenQuantity[] requiredTokens;
+	mapping(address => TokenQuantity) public addressToToken;
 	uint32 public chainId;
 	address public etfToken;
 	uint256 public etfTokenPerVault;
-	
+
 	mapping(uint256 => address[]) contributorsByVault;
 	mapping(uint256 => mapping(address => uint256))
 		public accountContributionsPerVault;
@@ -69,6 +72,7 @@ contract ETFLock {
 		etfTokenPerVault = _etfTokenPerVault;
 		for (uint256 i = 0; i < _requiredTokens.length; i++) {
 			requiredTokens.push(_requiredTokens[i]);
+			addressToToken[_requiredTokens[i]._address] = _requiredTokens[i];
 		}
 	}
 
@@ -102,11 +106,9 @@ contract ETFLock {
 					"Token chainId does not match the chainId of the contract"
 				);
 			}
-
 			if (
-				vaults[_vaultId]._tokens.length == requiredTokens.length &&
 				_tokens[i]._quantity + vaults[_vaultId]._tokens[i]._quantity >
-				requiredTokens[i]._quantity
+				addressToToken[_tokens[i]._address]._quantity
 			) {
 				revert("Token quantity exceeds the required amount");
 			}
@@ -129,8 +131,15 @@ contract ETFLock {
 			if (accountContributionsPerVault[_vaultId][msg.sender] == 0) {
 				contributorsByVault[_vaultId].push(msg.sender);
 			}
+
+			// uint256 price = AggregatorV3Interface(_tokens[i]._aggretator).latestRoundData().answer;
+
+			(, /* uint80 roundID */ int answer, , , ) = AggregatorV3Interface(
+				_tokens[i]._aggretator
+			).latestRoundData();
+
 			accountContributionsPerVault[_vaultId][msg.sender] += _tokens[i]
-				._quantity; // we should multiply by the price of the token
+				._quantity * uint256(answer);
 		}
 
 		for (uint256 i = 0; i < requiredTokens.length; i++) {
