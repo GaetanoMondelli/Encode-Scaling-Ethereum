@@ -6,6 +6,7 @@ import { TxReceipt, displayTxResult } from "../debug/_components/contract";
 import { CollateralVaultView } from "./_components/CollateralVault";
 import { Deposit } from "./_components/Deposit";
 import { MatrixView } from "./_components/MatrixView";
+import PieToken from "./_components/PieToken";
 import "./index.css";
 import { BigNumber } from "@ethersproject/bignumber";
 import type { NextPage } from "next";
@@ -22,6 +23,12 @@ import { getAllContracts } from "~~/utils/scaffold-eth/contractsData";
 
 // import { DebugContracts } from "./_components/DebugContracts";
 
+// import { DebugContracts } from "./_components/DebugContracts";
+
+// import { DebugContracts } from "./_components/DebugContracts";
+
+// import { DebugContracts } from "./_components/DebugContracts";
+
 const ETF: NextPage = () => {
   const initialCollateralAmount = 1;
 
@@ -31,6 +38,7 @@ const ETF: NextPage = () => {
   const contractsData = getAllContracts();
   const [bundleId, setBundleId] = useState<string>("1");
   const [bundles, setBundles] = useState<any>();
+  const [vault, setVault] = useState<any>({});
   const [resultFee, setResultFee] = useState<any>();
   const [balance, setBalance] = useState<any>();
   const [txValue, setTxValue] = useState<string | bigint>("");
@@ -54,6 +62,19 @@ const ETF: NextPage = () => {
       notification.error(parsedErrror);
     },
   });
+
+  const { isFetching: isVaultFet, refetch: vaultSate } = useContractRead({
+    address: contractsData[contractName].address,
+    functionName: "getVault",
+    abi: contractsData[contractName].abi,
+    args: [bundleId],
+    enabled: false,
+    onError: (error: any) => {
+      const parsedErrror = getParsedError(error);
+      notification.error(parsedErrror);
+    },
+  });
+
   const etfTokenAddress = "0xEbC26af07cbbE8E87b8Fe3A1F5ac02950D3Fa2A8";
 
   const { isFetching: isFet, refetch: refet } = useContractRead({
@@ -116,6 +137,20 @@ const ETF: NextPage = () => {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    async function fetchData() {
+      if (isVaultFet) {
+        return;
+      }
+      if (vaultSate) {
+        const { data } = await vaultSate();
+        console.log('vault', data);
+        setVault(data);
+      }
+    }
+    fetchData();
+  }, [bundleId]);
+
   return (
     <>
       <div
@@ -132,7 +167,21 @@ const ETF: NextPage = () => {
       >
         <h1 className="text-4xl my-0">ETF {bundleId}</h1>
         {/* <p>{displayTxResult(contractsData[contractName].address)}</p> */}
+
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-between",
+            width: "100%",
+          }}
+        >
         {bundles && <MatrixView setBundleId={setBundleId} bundleId={bundleId} bundles={bundles} />}
+        {vault && vault._tokens && <PieToken input={vault}></PieToken>}
+
+        </div>
+        {/* {JSON.stringify(vault)} */}
+        <br></br>
 
         <b>ETF Token Balance</b>
         {displayTxResult(balance)}

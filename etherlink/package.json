@@ -43,5 +43,9 @@
     "next": "~14.0.4",
     "vercel": "~32.4.1"
   },
-  "packageManager": "yarn@3.2.3"
+  "packageManager": "yarn@3.2.3",
+  "dependencies": {
+    "chart.js": "^4.4.2",
+    "react-chartjs-2": "^5.2.0"
+  }
 }
