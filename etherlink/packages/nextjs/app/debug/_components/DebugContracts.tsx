@@ -14,7 +14,7 @@ const contractNames = Object.keys(contractsData) as ContractName[];
 export function DebugContracts() {
   const [selectedContract, setSelectedContract] = useLocalStorage<ContractName>(
     selectedContractStorageKey,
-    contractNames[0],
+    contractNames[2],
     { initializeWithValue: false },
   );
 

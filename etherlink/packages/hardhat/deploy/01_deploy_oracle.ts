@@ -1,7 +1,7 @@
 import { HardhatRuntimeEnvironment } from "hardhat/types";
 import { DeployFunction } from "hardhat-deploy/types";
-import { RapidExample } from "../typechain-types";
-import { Contract, ContractFactory } from "@ethersproject/contracts";
+// import { RapidExample } from "../typechain-types";
+import { Contract } from "@ethersproject/contracts";
 import { WrapperBuilder } from "@redstone-finance/evm-connector";
 import * as RAPID_ARTIFACTS from "../deployments/etherlink/RapidExample.json";
 import { JsonRpcProvider } from "@ethersproject/providers";
