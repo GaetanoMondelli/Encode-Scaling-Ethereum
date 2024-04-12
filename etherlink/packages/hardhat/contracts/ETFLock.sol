@@ -6,13 +6,14 @@ import { IERC721 } from "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 import { IERC20 } from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import { ISimpleERC20 } from "./SimpleERC20.sol";
 import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
+import "hardhat/console.sol";
 
 struct TokenQuantity {
 	address _address;
 	uint256 _quantity;
 	uint32 _chainId;
 	address _contributor;
-	address _aggretator;
+	address _aggregator;
 }
 
 struct Vault {
@@ -100,13 +101,27 @@ contract ETFLock {
 			"Vault is not open or empty"
 		);
 
+		if (vaults[_vaultId].state == VaultState.EMPTY) {
+			for (uint256 i = 0; i < requiredTokens.length; i++) {
+				vaults[_vaultId]._tokens.push(TokenQuantity(
+					requiredTokens[i]._address,
+					0,
+					_chainId,
+					address(0),
+					requiredTokens[i]._aggregator
+				));
+			}
+			vaults[_vaultId].state = VaultState.OPEN;
+		}
+
 		for (uint256 i = 0; i < _tokens.length; i++) {
 			if (_tokens[i]._chainId != _chainId) {
 				revert(
 					"Token chainId does not match the chainId of the contract"
 				);
 			}
-			if (
+			console.log("Token address: %s", _tokens[i]._address, i, vaults[_vaultId]._tokens.length);			
+			if (				
 				_tokens[i]._quantity + vaults[_vaultId]._tokens[i]._quantity >
 				addressToToken[_tokens[i]._address]._quantity
 			) {
@@ -118,7 +133,7 @@ contract ETFLock {
 				address(this),
 				_tokens[i]._quantity
 			);
-			vaults[_vaultId]._tokens.push(_tokens[i]);
+			vaults[_vaultId]._tokens[i]._quantity += _tokens[i]._quantity;
 
 			emit Deposit(
 				_vaultId,
@@ -134,12 +149,12 @@ contract ETFLock {
 
 			// uint256 price = AggregatorV3Interface(_tokens[i]._aggretator).latestRoundData().answer;
 
-			(, /* uint80 roundID */ int answer, , , ) = AggregatorV3Interface(
-				_tokens[i]._aggretator
-			).latestRoundData();
+			// (, /* uint80 roundID */ int answer, , , ) = AggregatorV3Interface(
+			// 	_tokens[i]._aggregator
+			// ).latestRoundData();
 
 			accountContributionsPerVault[_vaultId][msg.sender] += _tokens[i]
-				._quantity * uint256(answer);
+				._quantity;
 		}
 
 		for (uint256 i = 0; i < requiredTokens.length; i++) {
