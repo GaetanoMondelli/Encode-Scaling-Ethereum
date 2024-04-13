@@ -7,6 +7,7 @@ import { CollateralVaultView } from "./_components/CollateralVault";
 import { Deposit } from "./_components/Deposit";
 import { MatrixView } from "./_components/MatrixView";
 import PieToken from "./_components/PieToken";
+import TokenBalanceAllowance from "./_components/tokenBalanceAllowance";
 import "./index.css";
 import { BigNumber } from "@ethersproject/bignumber";
 import type { NextPage } from "next";
@@ -16,6 +17,14 @@ import { useTransactor } from "~~/hooks/scaffold-eth";
 import { useTargetNetwork } from "~~/hooks/scaffold-eth/useTargetNetwork";
 import { getParsedError, notification } from "~~/utils/scaffold-eth";
 import { getAllContracts } from "~~/utils/scaffold-eth/contractsData";
+
+// import { DebugContracts } from "./_components/DebugContracts";
+
+// import { DebugContracts } from "./_components/DebugContracts";
+
+// import { DebugContracts } from "./_components/DebugContracts";
+
+// import { DebugContracts } from "./_components/DebugContracts";
 
 // import { DebugContracts } from "./_components/DebugContracts";
 
@@ -39,9 +48,9 @@ const ETF: NextPage = () => {
   const [bundleId, setBundleId] = useState<string>("1");
   const [bundles, setBundles] = useState<any>();
   const [vault, setVault] = useState<any>({});
-  const [resultFee, setResultFee] = useState<any>();
-  const [balance, setBalance] = useState<any>();
-  const [txValue, setTxValue] = useState<string | bigint>("");
+  const [tokens, setTokens] = useState<any>();
+  // const [resultFee, setResultFee] = useState<any>();
+  // const [txValue, setTxValue] = useState<string | bigint>("");
   const writeTxn = useTransactor();
   const { chain } = useNetwork();
 
@@ -50,6 +59,18 @@ const ETF: NextPage = () => {
   const { address: connectedAddress } = useAccount();
 
   const contractName = "ETFLock";
+
+  const { isFetching: isFetToken, refetch: tokensFetch } = useContractRead({
+    address: contractsData[contractName].address,
+    functionName: "getRequiredTokens",
+    abi: contractsData[contractName].abi,
+    args: [],
+    enabled: false,
+    onError: (error: any) => {
+      const parsedErrror = getParsedError(error);
+      console.log(parsedErrror);
+    },
+  });
 
   const { isFetching, refetch } = useContractRead({
     address: contractsData[contractName].address,
@@ -77,18 +98,6 @@ const ETF: NextPage = () => {
 
   const etfTokenAddress = "0xEbC26af07cbbE8E87b8Fe3A1F5ac02950D3Fa2A8";
 
-  const { isFetching: isFet, refetch: refet } = useContractRead({
-    address: etfTokenAddress,
-    functionName: "balanceOf",
-    abi: contractsData["SimpleERC20"].abi,
-    args: [connectedAddress],
-    enabled: false,
-    onError: (error: any) => {
-      const parsedErrror = getParsedError(error);
-      notification.error(parsedErrror);
-    },
-  });
-
   const handleWrite = async () => {
     if (writeAsync) {
       try {
@@ -101,28 +110,6 @@ const ETF: NextPage = () => {
       }
     }
   };
-
-  // const [displayedTxResult, setDisplayedTxResult] = useState<TransactionReceipt>();
-  // const { data: txResult } = useWaitForTransaction({
-  //   hash: result?.hash,
-  // });
-
-  // useEffect(() => {
-  //   setDisplayedTxResult(txResult);
-  // }, [txResult]);
-
-  useEffect(() => {
-    async function fetchData() {
-      if (isFet || !connectedAddress) {
-        return;
-      }
-      if (refet) {
-        const { data } = await refet();
-        setBalance(data);
-      }
-    }
-    fetchData();
-  }, [connectedAddress]);
 
   useEffect(() => {
     async function fetchData() {
@@ -144,12 +131,26 @@ const ETF: NextPage = () => {
       }
       if (vaultSate) {
         const { data } = await vaultSate();
-        console.log('vault', data);
+        console.log("vault", data);
         setVault(data);
       }
     }
     fetchData();
   }, [bundleId]);
+
+  useEffect(() => {
+    async function fetchData() {
+      if (isFetToken) {
+        return;
+      }
+      if (tokensFetch) {
+        const { data } = await tokensFetch();
+        console.log("tokens", data);
+        setTokens(data);
+      }
+    }
+    fetchData();
+  }, []);
 
   return (
     <>
@@ -176,16 +177,21 @@ const ETF: NextPage = () => {
             width: "100%",
           }}
         >
-        {bundles && <MatrixView setBundleId={setBundleId} bundleId={bundleId} bundles={bundles} />}
-        {vault && vault._tokens && <PieToken input={vault}></PieToken>}
-
+          {bundles && <MatrixView setBundleId={setBundleId} bundleId={bundleId} bundles={bundles} />}
+          {vault && vault._tokens && <PieToken input={vault}></PieToken>}
         </div>
         {/* {JSON.stringify(vault)} */}
         <br></br>
+        <TokenBalanceAllowance name={"ETF"} tokenAddress={etfTokenAddress} />
+        {tokens &&
+          tokens.map((token: any, index: number) => {
+            return <TokenBalanceAllowance key={index} name={index.toString()} tokenAddress={token._address} />;
+          })}
 
-        <b>ETF Token Balance</b>
+
+        {/* <b>ETF Token Balance</b>
         {displayTxResult(balance)}
-        <br></br>
+        <br></br> */}
         {/* <button className="btn btn-secondary btn-sm" disabled={writeDisabled || isLoading} onClick={handleWrite}>
           {isLoading && <span className="loading loading-spinner loading-xs"></span>}
           Send 💸

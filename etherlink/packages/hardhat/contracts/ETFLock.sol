@@ -89,6 +89,10 @@ contract ETFLock {
 		return vaults[_vaultId];
 	}
 
+	function getRequiredTokens() public view returns (TokenQuantity[] memory) {
+		return requiredTokens;
+	}
+
 	function _deposit(
 		DepositInfo memory _depositInfo,
 		uint32 _chainId

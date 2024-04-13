@@ -14,7 +14,6 @@ import { BigNumber } from "@ethersproject/bignumber";
 const deployYourContract: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   const { deployer } = await hre.getNamedAccounts();
   const { deploy } = hre.deployments;
-  // const sepoliaChainId = 11155111;
   const etherlinkChainId = 128123;
   const decimalFactor = BigNumber.from(10).pow(18);
   const tokenPerVault = BigNumber.from(100).mul(decimalFactor).toString();
@@ -60,7 +59,7 @@ const deployYourContract: DeployFunction = async function (hre: HardhatRuntimeEn
     for (let i = 0; i < requiredTokens.length; i++) {
       await deploy("SimpleERC20", {
         from: deployer,
-        args: ["Token" + i, "TK" + i, 18],
+        args: ["Token" + i, "TK" + i, 0],
         log: true,
       });
       await deploy("MockAggregator", {

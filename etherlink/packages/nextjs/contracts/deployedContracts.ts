@@ -7,7 +7,7 @@ import { GenericContractsDeclaration } from "~~/utils/scaffold-eth/contract";
 const deployedContracts = {
   128123: {
     ETFLock: {
-      address: "0x99C87134ac483f5647280CE96877CCaD3c577430",
+      address: "0xe80563E449AA75552126f977e83fD9F45eeCbdB5",
       abi: [
         {
           inputs: [
@@ -261,6 +261,46 @@ const deployedContracts = {
               internalType: "uint256",
               name: "",
               type: "uint256",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "getRequiredTokens",
+          outputs: [
+            {
+              components: [
+                {
+                  internalType: "address",
+                  name: "_address",
+                  type: "address",
+                },
+                {
+                  internalType: "uint256",
+                  name: "_quantity",
+                  type: "uint256",
+                },
+                {
+                  internalType: "uint32",
+                  name: "_chainId",
+                  type: "uint32",
+                },
+                {
+                  internalType: "address",
+                  name: "_contributor",
+                  type: "address",
+                },
+                {
+                  internalType: "address",
+                  name: "_aggregator",
+                  type: "address",
+                },
+              ],
+              internalType: "struct TokenQuantity[]",
+              name: "",
+              type: "tuple[]",
             },
           ],
           stateMutability: "view",
@@ -790,7 +830,7 @@ const deployedContracts = {
       inheritedFunctions: {},
     },
     MockAggregator: {
-      address: "0x11FC4928bf7CA4C3f465c36c72364D3c35f7917c",
+      address: "0xCf42490CB5bB1f9861A6974604A5042CF5bA2E04",
       abi: [
         {
           inputs: [
@@ -1170,7 +1210,7 @@ const deployedContracts = {
       inheritedFunctions: {},
     },
     SimpleERC20: {
-      address: "0xEbC26af07cbbE8E87b8Fe3A1F5ac02950D3Fa2A8",
+      address: "0x0F894FF829F3135904429200E897B12E1bBF4aE1",
       abi: [
         {
           inputs: [

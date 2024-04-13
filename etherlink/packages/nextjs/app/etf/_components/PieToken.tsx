@@ -4,26 +4,6 @@ import { Pie } from "react-chartjs-2";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-// const input = {
-//   _tokens: [
-//     {
-//       _address: "0xEb51553D10B3177F4FEefcB0A85D0C1F5cBb81ae",
-//       _quantity: "100000000000000000000",
-//       _chainId: 128123,
-//       _contributor: "0x0000000000000000000000000000000000000000",
-//       _aggregator: "0x76281BCDEFadD3dA0b57Ff8dCd188922Eaf49240",
-//     },
-//     {
-//       _address: "0xEf4E389997548234E138C88567925B1B20746EdC",
-//       _quantity: "200000000000000000000",
-//       _chainId: 128123,
-//       _contributor: "0x0000000000000000000000000000000000000000",
-//       _aggregator: "0x11FC4928bf7CA4C3f465c36c72364D3c35f7917c",
-//     },
-//   ],
-//   state: 2,
-// };
-
 const getRandomColorFromAddress = (address: string) => {
   let hash = 0;
   for (let i = 0; i < address.length; i++) {
