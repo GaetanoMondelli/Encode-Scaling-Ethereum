@@ -2,10 +2,12 @@
 
 pragma solidity ^0.8.0;
 
-import { IERC721 } from "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 import { IERC20 } from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@hyperlane-xyz/core/contracts/interfaces/IMailbox.sol";
 import { IInterchainSecurityModule } from "@hyperlane-xyz/core/contracts/interfaces/IInterchainSecurityModule.sol";
+import { ISimpleERC20 } from "./SimpleERC20.sol";
+import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
+import "hardhat/console.sol";
 
 interface ISpecifiesInterchainSecurityModule {
 	function interchainSecurityModule()
@@ -19,6 +21,7 @@ struct TokenQuantity {
 	uint256 _quantity;
 	uint32 _chainId;
 	address _contributor;
+	address _aggregator;
 }
 
 struct Vault {
@@ -46,11 +49,20 @@ struct DepositInfo {
 }
 
 contract ETFSide is ISpecifiesInterchainSecurityModule {
-	address public mainChainLock;
-	TokenQuantity[] requiredTokens;
+	address public sideChainLock;
+	TokenQuantity[] public requiredTokens;
+	mapping(address => TokenQuantity) public addressToToken;
 	uint32 public chainId;
+
+	address public mainChainLock;
 	IMailbox outbox;
 	IInterchainSecurityModule securityModule;
+
+	address public bridge;
+
+	mapping(uint256 => address[]) contributorsByVault;
+	mapping(uint256 => mapping(address => uint256))
+		public accountContributionsPerVault;
 
 	event Deposit(
 		uint256 _vaultId,
@@ -73,6 +85,7 @@ contract ETFSide is ISpecifiesInterchainSecurityModule {
 		securityModule = IInterchainSecurityModule(_securityModule);
 		for (uint256 i = 0; i < _requiredTokens.length; i++) {
 			requiredTokens.push(_requiredTokens[i]);
+			addressToToken[_requiredTokens[i]._address] = _requiredTokens[i];
 		}
 	}
 
@@ -88,6 +101,10 @@ contract ETFSide is ISpecifiesInterchainSecurityModule {
 		return vaults[_vaultId];
 	}
 
+	function getRequiredTokens() public view returns (TokenQuantity[] memory) {
+		return requiredTokens;
+	}
+
 	function _deposit(
 		DepositInfo memory _depositInfo,
 		uint32 _chainId
@@ -100,16 +117,32 @@ contract ETFSide is ISpecifiesInterchainSecurityModule {
 			"Vault is not open or empty"
 		);
 
+		// require(_chainId == chainId, "ChainId does not match the contract chainId")
+
+		if (vaults[_vaultId].state == VaultState.EMPTY) {
+			for (uint256 i = 0; i < requiredTokens.length; i++) {
+				vaults[_vaultId]._tokens.push(
+					TokenQuantity(
+						requiredTokens[i]._address,
+						0,
+						_chainId,
+						address(0),
+						requiredTokens[i]._aggregator
+					)
+				);
+			}
+			vaults[_vaultId].state = VaultState.OPEN;
+		}
+
 		for (uint256 i = 0; i < _tokens.length; i++) {
 			if (_tokens[i]._chainId != _chainId) {
 				revert(
 					"Token chainId does not match the chainId of the contract"
 				);
 			}
-
 			if (
 				_tokens[i]._quantity + vaults[_vaultId]._tokens[i]._quantity >
-				requiredTokens[i]._quantity
+				addressToToken[_tokens[i]._address]._quantity
 			) {
 				revert("Token quantity exceeds the required amount");
 			}
@@ -119,7 +152,7 @@ contract ETFSide is ISpecifiesInterchainSecurityModule {
 				address(this),
 				_tokens[i]._quantity
 			);
-			vaults[_vaultId]._tokens.push(_tokens[i]);
+			vaults[_vaultId]._tokens[i]._quantity += _tokens[i]._quantity;
 
 			emit Deposit(
 				_vaultId,
@@ -128,6 +161,13 @@ contract ETFSide is ISpecifiesInterchainSecurityModule {
 				_tokens[i]._chainId,
 				_tokens[i]._contributor
 			);
+
+			if (accountContributionsPerVault[_vaultId][msg.sender] == 0) {
+				contributorsByVault[_vaultId].push(msg.sender);
+			}
+
+			accountContributionsPerVault[_vaultId][msg.sender] += _tokens[i]
+				._quantity;
 		}
 
 		for (uint256 i = 0; i < requiredTokens.length; i++) {
@@ -141,7 +181,9 @@ contract ETFSide is ISpecifiesInterchainSecurityModule {
 		vaults[_vaultId].state = VaultState.MINTED;
 	}
 
-	function depositAndNotify(DepositInfo calldata _depositInfo) public {
+	function depositAndNotify(
+		DepositInfo calldata _depositInfo
+	) public payable {
 		_deposit(_depositInfo, chainId);
 		bytes32 mainChainLockBytes32 = addressToBytes32(mainChainLock);
 		uint256 fee = outbox.quoteDispatch(
@@ -156,28 +198,44 @@ contract ETFSide is ISpecifiesInterchainSecurityModule {
 		);
 	}
 
+	// modifier that allows only bridge to execute
+	modifier onlyBridge() {
+		require(
+			msg.sender == address(securityModule),
+			"Only bridge can call this function"
+		);
+		_;
+	}
+
+	function _burn(uint256 _vaultId, address burner) internal {
+		require(
+			vaults[_vaultId].state == VaultState.MINTED,
+			"Vault is not minted"
+		);
+
+		for (uint256 j = 0; j < vaults[_vaultId]._tokens.length; j++) {
+			IERC20(vaults[_vaultId]._tokens[j]._address).transfer(
+				burner,
+				vaults[_vaultId]._tokens[j]._quantity
+			);
+		}
+		vaults[_vaultId].state = VaultState.BURNED;
+	}
+
 	function handle(
 		uint32 _origin,
 		bytes32 _sender,
 		bytes calldata _message
 	) external payable {
 		require(
-			bytes32ToAddress(_sender) == mainChainLock,
+			bytes32ToAddress(_sender) == sideChainLock,
 			"Sender is not the sideChainLock"
 		);
 
 		DepositInfo memory _depositInfo = abi.decode(_message, (DepositInfo));
 		uint32 _chainId = _depositInfo.tokens[0]._chainId;
-		_deposit(_depositInfo, _chainId);
-	}
-
-	function burn(uint256 _vaultId) public {
-		for (uint256 j = 0; j < vaults[_vaultId]._tokens.length; j++) {
-			IERC20(vaults[_vaultId]._tokens[j]._address).transfer(
-				msg.sender,
-				vaults[_vaultId]._tokens[j]._quantity
-			);
-		}
+		address burner = _depositInfo.tokens[0]._contributor;
+		_burn(_depositInfo.vaultId, burner);
 	}
 
 	function addressToBytes32(address _addr) internal pure returns (bytes32) {
