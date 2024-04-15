@@ -45,6 +45,7 @@
   },
   "packageManager": "yarn@3.2.3",
   "dependencies": {
+    "antd": "^5.16.2",
     "chart.js": "^4.4.2",
     "react-chartjs-2": "^5.2.0"
   }

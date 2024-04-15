@@ -45,6 +45,7 @@ contract ETFLock {
 	TokenQuantity[] public requiredTokens;
 	mapping(address => TokenQuantity) public addressToToken;
 	uint32 public chainId;
+	uint32 public mainChainId;
 	address public etfToken;
 	uint256 public etfTokenPerVault;
 

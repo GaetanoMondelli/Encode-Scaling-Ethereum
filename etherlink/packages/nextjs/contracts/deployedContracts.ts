@@ -7,7 +7,7 @@ import { GenericContractsDeclaration } from "~~/utils/scaffold-eth/contract";
 const deployedContracts = {
   128123: {
     ETFLock: {
-      address: "0xe80563E449AA75552126f977e83fD9F45eeCbdB5",
+      address: "0x6262C72Fa362D5B95dDdeafA57BCeCC662b78756",
       abi: [
         {
           inputs: [
@@ -440,6 +440,24 @@ const deployedContracts = {
           type: "function",
         },
         {
+          inputs: [
+            {
+              internalType: "uint256",
+              name: "_vaultId",
+              type: "uint256",
+            },
+            {
+              internalType: "enum VaultState",
+              name: "_state",
+              type: "uint8",
+            },
+          ],
+          name: "setVaultState",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
           inputs: [],
           name: "sideChainLock",
           outputs: [
@@ -830,7 +848,7 @@ const deployedContracts = {
       inheritedFunctions: {},
     },
     MockAggregator: {
-      address: "0xCf42490CB5bB1f9861A6974604A5042CF5bA2E04",
+      address: "0xa0c2613591cE2dbD934aE3bc3523200066Fa9e57",
       abi: [
         {
           inputs: [
@@ -1210,7 +1228,7 @@ const deployedContracts = {
       inheritedFunctions: {},
     },
     SimpleERC20: {
-      address: "0x0F894FF829F3135904429200E897B12E1bBF4aE1",
+      address: "0xcf221476F7DD942cB794c33599cbe248429EE212",
       abi: [
         {
           inputs: [
@@ -1348,6 +1366,24 @@ const deployedContracts = {
             },
           ],
           stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "sender",
+              type: "address",
+            },
+            {
+              internalType: "uint256",
+              name: "amount",
+              type: "uint256",
+            },
+          ],
+          name: "burn",
+          outputs: [],
+          stateMutability: "nonpayable",
           type: "function",
         },
         {

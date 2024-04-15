@@ -3,13 +3,14 @@
 
 import { useEffect, useState } from "react";
 import { TxReceipt, displayTxResult } from "../debug/_components/contract";
-import { CollateralVaultView } from "./_components/CollateralVault";
-import { Deposit } from "./_components/Deposit";
+import { DepositButton } from "./_components/DepositButton";
+import { DepositController } from "./_components/DepositController";
 import { MatrixView } from "./_components/MatrixView";
 import PieToken from "./_components/PieToken";
 import TokenBalanceAllowance from "./_components/tokenBalanceAllowance";
 import "./index.css";
 import { BigNumber } from "@ethersproject/bignumber";
+import { Watermark } from "antd";
 import type { NextPage } from "next";
 import { TransactionReceipt } from "viem";
 import { useAccount, useContractRead, useContractWrite, useNetwork, useWaitForTransaction } from "wagmi";
@@ -39,16 +40,18 @@ import { getAllContracts } from "~~/utils/scaffold-eth/contractsData";
 // import { DebugContracts } from "./_components/DebugContracts";
 
 const ETF: NextPage = () => {
-  const initialCollateralAmount = 1;
-
-  const collateralAmount = BigNumber.from(initialCollateralAmount).mul(BigNumber.from(10).pow(18));
-  const collateralAmountFee = collateralAmount.mul(2).div(100).add(collateralAmount);
-
   const contractsData = getAllContracts();
   const [bundleId, setBundleId] = useState<string>("1");
   const [bundles, setBundles] = useState<any>();
   const [vault, setVault] = useState<any>({});
-  const [tokens, setTokens] = useState<any>();
+  const [tokens, setTokens] = useState<any>([]);
+
+  const [quantityTokenA, setQuantityTokenA] = useState<any>("");
+  const [quantityTokenB, setQuantityTokenB] = useState<any>("");
+  const [quantityTokenC, setQuantityTokenC] = useState<any>("");
+
+  const [etfTokenAddress, setEtfTokenAddress] = useState<any>("0x106d24F579D77fbe71CBBF169f6Dc376208e25b5");
+
   // const [resultFee, setResultFee] = useState<any>();
   // const [txValue, setTxValue] = useState<string | bigint>("");
   const writeTxn = useTransactor();
@@ -63,6 +66,18 @@ const ETF: NextPage = () => {
   const { isFetching: isFetToken, refetch: tokensFetch } = useContractRead({
     address: contractsData[contractName].address,
     functionName: "getRequiredTokens",
+    abi: contractsData[contractName].abi,
+    args: [],
+    enabled: false,
+    onError: (error: any) => {
+      const parsedErrror = getParsedError(error);
+      console.log(parsedErrror);
+    },
+  });
+
+  const { isFetching: isETFTokenAddressFetching, refetch: etfTokenAddressFetch } = useContractRead({
+    address: contractsData[contractName].address,
+    functionName: "etfToken",
     abi: contractsData[contractName].abi,
     args: [],
     enabled: false,
@@ -96,20 +111,7 @@ const ETF: NextPage = () => {
     },
   });
 
-  const etfTokenAddress = "0xEbC26af07cbbE8E87b8Fe3A1F5ac02950D3Fa2A8";
-
-  const handleWrite = async () => {
-    if (writeAsync) {
-      try {
-        const makeWriteWithParams = () => writeAsync({ value: BigInt(collateralAmountFee.toString()) });
-        await writeTxn(makeWriteWithParams);
-        // onChange();
-      } catch (e: any) {
-        const message = getParsedError(e);
-        notification.error(message);
-      }
-    }
-  };
+  // const etfTokenAddress = "0x106d24F579D77fbe71CBBF169f6Dc376208e25b5";
 
   useEffect(() => {
     async function fetchData() {
@@ -119,6 +121,19 @@ const ETF: NextPage = () => {
       if (refetch) {
         const { data } = await refetch();
         setBundles(data);
+      }
+    }
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    async function fetchData() {
+      if (isETFTokenAddressFetching) {
+        return;
+      }
+      if (etfTokenAddressFetch) {
+        const { data } = await etfTokenAddressFetch();
+        setEtfTokenAddress(data);
       }
     }
     fetchData();
@@ -152,8 +167,34 @@ const ETF: NextPage = () => {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    if (!tokens || tokens.length < 2) {
+      return;
+    }
+
+    setQuantityTokenA(tokens[0]._quantity.toString());
+    setQuantityTokenB(tokens[1]._quantity.toString());
+    // setQuantityTokenC(tokens[2]._quantity.toString());
+  }, [tokens]);
+
   return (
-    <>
+    <Watermark
+      zIndex={-9}
+      style={
+        // take the whole screen in the behind all the elements
+        {
+          position: "absolute",
+          top: 0,
+          left: 0,
+          width: "100%",
+          minHeight: "100%",
+        }
+      }
+      content="XRP Ledger"
+      // image="https://w7.pngwing.com/pngs/459/4/png-transparent-xrp-symbol-black-hd-logo.png"
+      height={130}
+      width={150}
+    >
       <div
         style={{
           backgroundColor: "white",
@@ -163,10 +204,35 @@ const ETF: NextPage = () => {
           // centering the card
           margin: "auto",
           width: "1000px",
+          marginTop: "30px",
         }}
         className="card"
       >
-        <h1 className="text-4xl my-0">ETF {bundleId}</h1>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            // take the whole width
+            justifyContent: "space-between",
+            alignItems: "center",
+            width: "100%",
+          }}
+        >
+          <h1 className="text-4xl my-0">ETF #{bundleId}</h1>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-between",
+              // centering the elements vertically
+              alignItems: "center",
+              gap: "12px",
+            }}
+          >
+            <p>Tezos Etherlink Logo</p>
+          </div>
+        </div>
+        <br></br>
         {/* <p>{displayTxResult(contractsData[contractName].address)}</p> */}
 
         <div
@@ -182,33 +248,66 @@ const ETF: NextPage = () => {
         </div>
         {/* {JSON.stringify(vault)} */}
         <br></br>
-        <TokenBalanceAllowance name={"ETF"} tokenAddress={etfTokenAddress} />
+        {etfTokenAddress && <TokenBalanceAllowance name={"ETF"} tokenAddress={etfTokenAddress} />}
         {tokens &&
           tokens.map((token: any, index: number) => {
-            return <TokenBalanceAllowance key={index} name={index.toString()} tokenAddress={token._address} />;
+            return chain?.id === token._chainId ? (
+              <TokenBalanceAllowance key={index} name={index.toString()} tokenAddress={token._address} />
+            ) : (
+              <b>
+                {index} Token:{" "}
+                {
+                  // only show first 4 characters of the address and last 4 characters of the address
+                  token._address.slice(0, 6) +
+                    "..." +
+                    token._address.slice(token._address.length - 4, token._address.length)
+                }{" "}
+                on another chain (chainId:{token._chainId})
+              </b>
+            );
           })}
 
-
-        {/* <b>ETF Token Balance</b>
-        {displayTxResult(balance)}
-        <br></br> */}
-        {/* <button className="btn btn-secondary btn-sm" disabled={writeDisabled || isLoading} onClick={handleWrite}>
-          {isLoading && <span className="loading loading-spinner loading-xs"></span>}
-          Send 💸
-        </button>
-        {txResult ? (
-          <div className="flex-grow basis-0">
-            {displayedTxResult ? <TxReceipt txResult={displayedTxResult} /> : null}
-          </div>
-        ) : null} */}
         <br></br>
         <br></br>
-        <Deposit bundleId={bundleId} />
+        <h1>Collateral Vault</h1>
+        <p>Bundle ID: {bundleId}</p>
+        {etfTokenAddress}
+        <b>Required Tokens</b>
+        <DepositController
+          quantity={quantityTokenA}
+          setQuantity={setQuantityTokenA}
+          requiredQuantity={tokens && tokens[0] ? tokens[0]._quantity : 0}
+          tokenAddress={tokens && tokens[0] ? tokens[0]._address : ""}
+          chainId={tokens && tokens[0] ? tokens[0]._chainId : ""}
+        />
+        <DepositController
+          quantity={quantityTokenB}
+          setQuantity={setQuantityTokenB}
+          requiredQuantity={tokens && tokens[1] ? tokens[1]._quantity : 0}
+          tokenAddress={tokens && tokens[1] ? tokens[1]._address : ""}
+          chainId={tokens && tokens[1] ? tokens[1]._chainId : ""}
+        />
+        {/* <DepositController
+          quantity={quantityTokenB}
+          setQuantity={setQuantityTokenB}
+          requiredQuantity={tokens && tokens[2] ? tokens[2]._quantity : 0}
+          tokenAddress={tokens && tokens[2] ? tokens[2]._address : ""}
+          chainId={tokens && tokens[2] ? tokens[2]._chainId : ""}
+        /> */}
         <br></br>
-        {/* <CollateralVaultView bundleId={bundleId} /> */}
         <br></br>
+        <DepositButton
+          bundleId={bundleId}
+          state={vault?.state}
+          tokenAddressA={tokens && tokens[0] ? tokens[0]._address : ""}
+          quantityTokenA={quantityTokenA}
+          tokenAddressB={tokens && tokens[1] ? tokens[1]._address : ""}
+          quantityTokenB={quantityTokenB}
+          tokenAddressC={tokens && tokens[2] ? tokens[2]._address : ""}
+          quantityTokenC={quantityTokenC}
+        ></DepositButton>
       </div>
-    </>
+    </Watermark>
   );
 };
 
