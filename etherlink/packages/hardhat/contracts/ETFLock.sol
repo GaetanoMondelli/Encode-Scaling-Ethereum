@@ -93,6 +93,10 @@ contract ETFLock {
 		return requiredTokens;
 	}
 
+	function setVaultState(uint256 _vaultId, VaultState _state) public {
+		vaults[_vaultId].state = _state;
+	}
+
 	function _deposit(
 		DepositInfo memory _depositInfo,
 		uint32 _chainId
@@ -105,38 +109,50 @@ contract ETFLock {
 			"Vault is not open or empty"
 		);
 
+		// require(_chainId == chainId, "ChainId does not match the contract chainId")
+
 		if (vaults[_vaultId].state == VaultState.EMPTY) {
 			for (uint256 i = 0; i < requiredTokens.length; i++) {
-				vaults[_vaultId]._tokens.push(TokenQuantity(
-					requiredTokens[i]._address,
-					0,
-					_chainId,
-					address(0),
-					requiredTokens[i]._aggregator
-				));
+				vaults[_vaultId]._tokens.push(
+					TokenQuantity(
+						requiredTokens[i]._address,
+						0,
+						requiredTokens[i]._chainId,
+						address(0),
+						requiredTokens[i]._aggregator
+					)
+				);
 			}
 			vaults[_vaultId].state = VaultState.OPEN;
 		}
 
 		for (uint256 i = 0; i < _tokens.length; i++) {
-			if (_tokens[i]._chainId != _chainId) {
-				revert(
-					"Token chainId does not match the chainId of the contract"
-				);
-			}
-			console.log("Token address: %s", _tokens[i]._address, i, vaults[_vaultId]._tokens.length);			
-			if (				
+			// if (_tokens[i]._chainId != _chainId) {
+			// 	revert(
+			// 		"Token chainId does not match the chainId of the contract"
+			// 	);
+			// }
+			console.log(
+				"Token address: %s",
+				_tokens[i]._address,
+				i,
+				vaults[_vaultId]._tokens.length
+			);
+			if (
 				_tokens[i]._quantity + vaults[_vaultId]._tokens[i]._quantity >
 				addressToToken[_tokens[i]._address]._quantity
 			) {
 				revert("Token quantity exceeds the required amount");
 			}
 
-			IERC20(_tokens[i]._address).transferFrom(
-				_tokens[i]._contributor,
-				address(this),
-				_tokens[i]._quantity
-			);
+			if (_tokens[i]._chainId == _chainId) {
+				IERC20(_tokens[i]._address).transferFrom(
+					_tokens[i]._contributor,
+					address(this),
+					_tokens[i]._quantity
+				);
+			}
+
 			vaults[_vaultId]._tokens[i]._quantity += _tokens[i]._quantity;
 
 			emit Deposit(
@@ -212,12 +228,21 @@ contract ETFLock {
 	}
 
 	function burn(uint256 _vaultId) public {
+		require(
+			vaults[_vaultId].state == VaultState.MINTED,
+			"Vault is not minted"
+		);
+		// require to pay back the etfToken
+		ISimpleERC20(etfToken).burn(msg.sender, etfTokenPerVault);
 		for (uint256 j = 0; j < vaults[_vaultId]._tokens.length; j++) {
-			IERC20(vaults[_vaultId]._tokens[j]._address).transfer(
-				msg.sender,
-				vaults[_vaultId]._tokens[j]._quantity
-			);
+			if (vaults[_vaultId]._tokens[j]._chainId == chainId) {
+				IERC20(vaults[_vaultId]._tokens[j]._address).transfer(
+					msg.sender,
+					vaults[_vaultId]._tokens[j]._quantity
+				);
+			}
 		}
+		vaults[_vaultId].state = VaultState.BURNED;
 	}
 
 	function addressToBytes32(address _addr) internal pure returns (bytes32) {
