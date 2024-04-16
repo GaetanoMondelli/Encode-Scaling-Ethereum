@@ -24,35 +24,35 @@ const deployYourContract: DeployFunction = async function (hre: HardhatRuntimeEn
   const sepoliaISMAddress = CORE_DEPLOYMENT["sepolia"]["messageIdMultisigIsm"];
 
   if (hre.network.name === "sepolia") {
-    const requiredSideTokens = [
-      {
-        _address: "",
-        _quantity: BigNumber.from(100).mul(decimalFactor).toString(),
-        _chainId: sepoliaChainId,
-        _contributor: deployer,
-        // ZERP ADDRESS
-        _aggregator: zeroAddress,
-      },
-    ];
+    // const requiredSideTokens = [
+    //   {
+    //     _address: "",
+    //     _quantity: BigNumber.from(100).mul(decimalFactor).toString(),
+    //     _chainId: sepoliaChainId,
+    //     _contributor: deployer,
+    //     // ZERP ADDRESS
+    //     _aggregator: zeroAddress,
+    //   },
+    // ];
 
-    for (let i = 0; i < requiredSideTokens.length; i++) {
-      await deploy("SimpleERC20", {
-        from: deployer,
-        args: ["SIDEToken" + i, "SIDETK" + i, 0],
-        log: true,
-      });
+    // for (let i = 0; i < requiredSideTokens.length; i++) {
+    //   await deploy("SimpleERC20", {
+    //     from: deployer,
+    //     args: ["SIDEToken" + i, "SIDETK" + i, 0],
+    //     log: true,
+    //   });
 
-      const t = await hre.ethers.getContract<SimpleERC20>("SimpleERC20", deployer);
-      // await t.mint(deployer, BigNumber.from(1000).mul(BigNumber.from(10).pow(18)).toString());
-      requiredSideTokens[i]._address = await t.getAddress();
-    }
+    //   const t = await hre.ethers.getContract<SimpleERC20>("SimpleERC20", deployer);
+    //   // await t.mint(deployer, BigNumber.from(1000).mul(BigNumber.from(10).pow(18)).toString());
+    //   requiredSideTokens[i]._address = await t.getAddress();
+    // }
 
-    console.log("Required side tokens: ", requiredSideTokens);
-    await deploy("ETFLock", {
-      from: deployer,
-      args: [etherlinkChainId, sepoliaChainId, requiredSideTokens, zeroAddress, tokenPerVault],
-      log: true,
-    });
+    // console.log("Required side tokens: ", requiredSideTokens);
+    // await deploy("ETFLock", {
+    //   from: deployer,
+    //   args: [etherlinkChainId, sepoliaChainId, requiredSideTokens, zeroAddress, tokenPerVault],
+    //   log: true,
+    // });
 
     const etfSide = await hre.ethers.getContract<ETFLock>("ETFLock", deployer);
 
@@ -62,7 +62,7 @@ const deployYourContract: DeployFunction = async function (hre: HardhatRuntimeEn
     // });
 
     // const main ETF contract
-    const mainETFAddress = "0x9693ddAbC7b6999Ca74FC8879e09c7Df2BC492Be";
+    const mainETFAddress = "0x526c3B5A92aeA8a60659cA122A042e0cdF5dCF91";
 
     // set side chain params
     await etfSide.setSideChainParams(mainETFAddress, sepoliaMailBoxAddress, sepoliaISMAddress);
@@ -103,6 +103,7 @@ const deployYourContract: DeployFunction = async function (hre: HardhatRuntimeEn
       await t.mint(deployer, BigNumber.from(1000).mul(BigNumber.from(10).pow(18)).toString());
       requiredTokens[i]._address = await t.getAddress();
       requiredTokens[i]._aggregator = await (await hre.ethers.getContract("MockAggregator", deployer)).getAddress();
+      console.log("Token address: ", requiredTokens[i]._address);
     }
 
     await deploy("MockAggregator", {

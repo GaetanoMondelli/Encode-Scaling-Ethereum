@@ -2,3 +2,5 @@ hyperlane-monorepo/
 hyperlane_db_relayer/
 hyperlane_db_validator/
 validator_signatures/
+bridge/hyperlane_db_validator_sepolia/
+bridge/validator_signatures_sepolia/

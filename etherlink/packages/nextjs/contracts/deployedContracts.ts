@@ -7,7 +7,7 @@ import { GenericContractsDeclaration } from "~~/utils/scaffold-eth/contract";
 const deployedContracts = {
   128123: {
     ETFLock: {
-      address: "0x9693ddAbC7b6999Ca74FC8879e09c7Df2BC492Be",
+      address: "0x526c3B5A92aeA8a60659cA122A042e0cdF5dCF91",
       abi: [
         {
           inputs: [
@@ -272,6 +272,52 @@ const deployedContracts = {
           type: "function",
         },
         {
+          inputs: [
+            {
+              components: [
+                {
+                  internalType: "address",
+                  name: "_address",
+                  type: "address",
+                },
+                {
+                  internalType: "uint256",
+                  name: "_quantity",
+                  type: "uint256",
+                },
+                {
+                  internalType: "uint32",
+                  name: "_chainId",
+                  type: "uint32",
+                },
+                {
+                  internalType: "address",
+                  name: "_contributor",
+                  type: "address",
+                },
+                {
+                  internalType: "address",
+                  name: "_aggregator",
+                  type: "address",
+                },
+              ],
+              internalType: "struct TokenQuantity",
+              name: "_tokenQuantity",
+              type: "tuple",
+            },
+          ],
+          name: "getIndexForDepositInfo",
+          outputs: [
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
           inputs: [],
           name: "getRequiredTokens",
           outputs: [
@@ -439,6 +485,25 @@ const deployedContracts = {
               internalType: "address",
               name: "",
               type: "address",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+          ],
+          name: "receivedMessages",
+          outputs: [
+            {
+              internalType: "uint32",
+              name: "",
+              type: "uint32",
             },
           ],
           stateMutability: "view",
@@ -956,7 +1021,7 @@ const deployedContracts = {
       inheritedFunctions: {},
     },
     MockAggregator: {
-      address: "0xd3f9F519f5f3a1932F9b0a85e0836bD99CD1B854",
+      address: "0x8F24B22fEC09bd35521E6488f709E92CcE8Aa148",
       abi: [
         {
           inputs: [
@@ -1336,7 +1401,7 @@ const deployedContracts = {
       inheritedFunctions: {},
     },
     SimpleERC20: {
-      address: "0x3a3D08A1F3207D5dEa004857D2fa7E86787be57c",
+      address: "0x51ee111AbF4A375A171736faccF461F7152783cE",
       abi: [
         {
           inputs: [

@@ -50,6 +50,8 @@ contract ETFLock {
 	uint32 public chainId;
 	uint32 public mainChainId;
 
+	uint32[] public receivedMessages;
+
 	// Siechain params
 	address public mainChainLock;
 	IMailbox outbox;
@@ -144,6 +146,17 @@ contract ETFLock {
 		return chainId == mainChainId;
 	}
 
+
+	function getIndexForDepositInfo(TokenQuantity memory _tokenQuantity) public view returns (uint256) {
+		// return the index of the token in the requiredTokens array
+		for (uint256 i = 0; i < requiredTokens.length; i++) {
+			if (requiredTokens[i]._address == _tokenQuantity._address) {
+				return i;
+			}
+		}
+		return 0;
+	}
+
 	function _deposit(
 		DepositInfo memory _depositInfo,
 		uint32 _chainId
@@ -186,6 +199,9 @@ contract ETFLock {
 				revert("Token quantity exceeds the required amount");
 			}
 
+
+			uint256 index = getIndexForDepositInfo(_tokens[i]);
+
 			if (_tokens[i]._chainId == _chainId) {
 				IERC20(_tokens[i]._address).transferFrom(
 					_tokens[i]._contributor,
@@ -194,7 +210,8 @@ contract ETFLock {
 				);
 			}
 
-			vaults[_vaultId]._tokens[i]._quantity += _tokens[i]._quantity;
+			
+			vaults[_vaultId]._tokens[index]._quantity += _tokens[i]._quantity;
 
 			emit Deposit(
 				_vaultId,
@@ -205,8 +222,8 @@ contract ETFLock {
 			);
 
 			if (isMainChain()) {
-				if (accountContributionsPerVault[_vaultId][msg.sender] == 0) {
-					contributorsByVault[_vaultId].push(msg.sender);
+				if (accountContributionsPerVault[_vaultId][_tokens[i]._contributor] == 0) {
+					contributorsByVault[_vaultId].push(_tokens[i]._contributor);
 				}
 
 				// uint256 price = AggregatorV3Interface(_tokens[i]._aggretator).latestRoundData().answer;
@@ -215,7 +232,7 @@ contract ETFLock {
 				// 	_tokens[i]._aggregator
 				// ).latestRoundData();
 
-				accountContributionsPerVault[_vaultId][msg.sender] += _tokens[i]
+				accountContributionsPerVault[_vaultId][_tokens[i]._contributor] += _tokens[i]
 					._quantity;
 			}
 		}
@@ -281,21 +298,21 @@ contract ETFLock {
 		bytes32 _sender,
 		bytes calldata _message
 	) external payable {
-		require(
-			isMainChain() && bytes32ToAddress(_sender) == sideChainLock,
-			"Sender to mainChain is not the sideChainLock"
-		);
+		// require(
+		// 	isMainChain() && bytes32ToAddress(_sender) == sideChainLock,
+		// 	"Sender to mainChain is not the sideChainLock"
+		// );
 
-		require(
-			!isMainChain() && bytes32ToAddress(_sender) == mainChainLock,
-			"Sender to sideChain is not the mainChainLock"
-		);
+		// require(
+		// 	!isMainChain() && bytes32ToAddress(_sender) == mainChainLock,
+		// 	"Sender to sideChain is not the mainChainLock"
+		// );
 
 
 		if(isMainChain()) {
 			DepositInfo memory _depositInfo = abi.decode(_message, (DepositInfo));
-			uint32 _chainId = _depositInfo.tokens[0]._chainId;
-			_deposit(_depositInfo, _chainId);
+			// uint32 _chainId = _depositInfo.tokens[0]._chainId;
+			_deposit(_depositInfo, chainId);
 			return;
 		}
 		else {
