@@ -7,7 +7,7 @@ import { GenericContractsDeclaration } from "~~/utils/scaffold-eth/contract";
 const deployedContracts = {
   128123: {
     ETFLock: {
-      address: "0x7eBA9F2dAb2d51dA19b962b8AfD5780d8C26c19d",
+      address: "0x9693ddAbC7b6999Ca74FC8879e09c7Df2BC492Be",
       abi: [
         {
           inputs: [
@@ -242,7 +242,7 @@ const deployedContracts = {
           ],
           name: "deposit",
           outputs: [],
-          stateMutability: "nonpayable",
+          stateMutability: "payable",
           type: "function",
         },
         {
@@ -491,6 +491,11 @@ const deployedContracts = {
               type: "address",
             },
             {
+              internalType: "uint32",
+              name: "_sideChainId",
+              type: "uint32",
+            },
+            {
               internalType: "address",
               name: "_outbox",
               type: "address",
@@ -545,6 +550,19 @@ const deployedContracts = {
           name: "setVaultState",
           outputs: [],
           stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "sideChainId",
+          outputs: [
+            {
+              internalType: "uint32",
+              name: "",
+              type: "uint32",
+            },
+          ],
+          stateMutability: "view",
           type: "function",
         },
         {
@@ -938,7 +956,7 @@ const deployedContracts = {
       inheritedFunctions: {},
     },
     MockAggregator: {
-      address: "0x8c0Cd795a947b256C8e99fe9b6D82F1C3eCbd82e",
+      address: "0xd3f9F519f5f3a1932F9b0a85e0836bD99CD1B854",
       abi: [
         {
           inputs: [
@@ -1318,7 +1336,7 @@ const deployedContracts = {
       inheritedFunctions: {},
     },
     SimpleERC20: {
-      address: "0xa36860d8C5f59917CC603713c18FE31e01Db376f",
+      address: "0x3a3D08A1F3207D5dEa004857D2fa7E86787be57c",
       abi: [
         {
           inputs: [
@@ -1691,7 +1709,7 @@ const deployedContracts = {
   },
   11155111: {
     ETFLock: {
-      address: "0xD51e3eeEC5AEd58e5342a67E3d0957fF2F229CD6",
+      address: "0x5788001D3816e173559B4A7b015b42759cD62a9a",
       abi: [
         {
           inputs: [
@@ -2175,6 +2193,11 @@ const deployedContracts = {
               type: "address",
             },
             {
+              internalType: "uint32",
+              name: "_sideChainId",
+              type: "uint32",
+            },
+            {
               internalType: "address",
               name: "_outbox",
               type: "address",
@@ -2229,6 +2252,19 @@ const deployedContracts = {
           name: "setVaultState",
           outputs: [],
           stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "sideChainId",
+          outputs: [
+            {
+              internalType: "uint32",
+              name: "",
+              type: "uint32",
+            },
+          ],
+          stateMutability: "view",
           type: "function",
         },
         {

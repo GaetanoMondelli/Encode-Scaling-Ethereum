@@ -18,6 +18,10 @@ export VALIDATOR_SIGNATURES_DIR=../../bridge/validator_signatures
 export DB_RELAYER=../../bridge/hyperlane_db_relayer
 export DB_VALIDATOR=../../bridge/hyperlane_db_validator
 
+export VALIDATOR_SIGNATURES_DIR_SEPOLIA=../../bridge/validator_signatures_sepolia
+export DB_VALIDATOR_SEPOLIA=../../bridge/hyperlane_db_validator_sepolia
+
+
 
 
 if [ ! -d "$CONFIG_FOLDER" ]; then
@@ -60,7 +64,7 @@ ls -l $CONFIG_FILES
 
 cleanup() {
     echo "Cleaning up and terminating processes..."
-    kill "$pid1" "$pid2"
+    kill "$pid1" "$pid2" "$pid3"
     exit
 }
 
@@ -86,7 +90,15 @@ cargo run --release --bin relayer -- \
     --metrics-port 9091 &
 pid2=$!
 
+cargo run --release --bin validator -- \
+    --db $DB_VALIDATOR_SEPOLIA \
+    --originChainName sepolia \
+    --checkpointSyncer.type localStorage \
+    --checkpointSyncer.path $VALIDATOR_SIGNATURES_DIR_SEPOLIA \
+    --validator.key $HYP_KEY &
+pid3=$!
+
 # Wait for both processes to finish
-wait "$pid1" "$pid2"
+wait "$pid1" "$pid2" "$pid3"
 
 echo "Both processes have finished."

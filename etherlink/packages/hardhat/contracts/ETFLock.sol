@@ -44,6 +44,7 @@ struct DepositInfo {
 
 contract ETFLock {
 	address public sideChainLock;
+	uint32 public sideChainId;
 	TokenQuantity[] public requiredTokens;
 	mapping(address => TokenQuantity) public addressToToken;
 	uint32 public chainId;
@@ -90,7 +91,6 @@ contract ETFLock {
 	}
 
 	function setSideChainParams(
-
 		address _mainChainLock,
 		address _outbox,
 		address _securityModule
@@ -106,14 +106,16 @@ contract ETFLock {
 
 	function setMainChainParams(
 		address _sideChainLock,
+		uint32 _sideChainId,
 		address _outbox,
 		address _securityModule
 	) public {
 		require(
-			!isMainChain(),
+			isMainChain(),
 			"Side Chain lock address can only be set mainchain"
 		);
 		outbox = IMailbox(_outbox);
+		sideChainId = _sideChainId;
 		securityModule = IInterchainSecurityModule(_securityModule);
 		sideChainLock = _sideChainLock;
 	}
@@ -240,12 +242,12 @@ contract ETFLock {
 	) internal {
 		bytes32 mainChainLockBytes32 = addressToBytes32(mainChainLock);
 		uint256 fee = outbox.quoteDispatch(
-			chainId,
+			mainChainId,
 			mainChainLockBytes32,
 			abi.encode(_depositInfo)
 		);
 		outbox.dispatch{ value: fee }(
-			chainId,
+			mainChainId,
 			mainChainLockBytes32,
 			abi.encode(_depositInfo)
 		);
@@ -280,13 +282,26 @@ contract ETFLock {
 		bytes calldata _message
 	) external payable {
 		require(
-			bytes32ToAddress(_sender) == sideChainLock,
-			"Sender is not the sideChainLock"
+			isMainChain() && bytes32ToAddress(_sender) == sideChainLock,
+			"Sender to mainChain is not the sideChainLock"
 		);
 
-		DepositInfo memory _depositInfo = abi.decode(_message, (DepositInfo));
-		uint32 _chainId = _depositInfo.tokens[0]._chainId;
-		_deposit(_depositInfo, _chainId);
+		require(
+			!isMainChain() && bytes32ToAddress(_sender) == mainChainLock,
+			"Sender to sideChain is not the mainChainLock"
+		);
+
+
+		if(isMainChain()) {
+			DepositInfo memory _depositInfo = abi.decode(_message, (DepositInfo));
+			uint32 _chainId = _depositInfo.tokens[0]._chainId;
+			_deposit(_depositInfo, _chainId);
+			return;
+		}
+		else {
+			uint256 _vaultId = abi.decode(_message, (uint256));
+			burn(_vaultId);
+		}
 	}
 
 	function burn(uint256 _vaultId) public {
@@ -306,6 +321,19 @@ contract ETFLock {
 			}
 		}
 		vaults[_vaultId].state = VaultState.BURNED;
+
+		// notify burn to sidechain
+		bytes32 sideChainLockBytes32 = addressToBytes32(sideChainLock);
+		uint256 fee = outbox.quoteDispatch(
+			sideChainId,
+			sideChainLockBytes32,
+			abi.encode(_vaultId)
+		);
+		outbox.dispatch{ value: fee }(
+			sideChainId,
+			sideChainLockBytes32,
+			abi.encode(_vaultId)
+		);
 	}
 
 	function addressToBytes32(address _addr) internal pure returns (bytes32) {

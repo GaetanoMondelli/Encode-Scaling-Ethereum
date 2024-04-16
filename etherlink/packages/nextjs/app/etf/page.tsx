@@ -342,7 +342,7 @@ const ETF: NextPage = () => {
             _quantity: token._quantity,
             _chainId: token._chainId,
           }))}
-          chainId={chain?.id}
+          chainId={chain?.id ?? etherlinkChainId}
         ></DepositButton>
       </div>
     </Watermark>

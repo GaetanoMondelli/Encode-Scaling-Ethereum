@@ -1,5 +1,5 @@
 import React from "react";
-import { sepolia, useAccount, useContractWrite } from "wagmi";
+import { sepolia, useAccount, useContractWrite, useSwitchNetwork } from "wagmi";
 import { getAllContracts } from "~~/utils/scaffold-eth/contractsData";
 
 const etherlinkchainId = 128123;
@@ -19,6 +19,7 @@ export function DepositButton({
 }) {
   const contractsData = getAllContracts(chainId);
   const { address: connectedAddress } = useAccount();
+  const { switchNetwork } = useSwitchNetwork();
 
   const {
     data: burn,
@@ -79,87 +80,110 @@ export function DepositButton({
     ],
   });
 
-  return state < 2 ? (
+  return (
     <>
-      <button
-        className="bg-green-500 hover:bg-green-700 text-white size font-bold py-2 px-6 rounded-full"
-        style={{
-          marginLeft: "4%",
-          marginRight: "4%",
-          cursor: "pointer",
-          fontSize: "18px",
-        }}
-        onClick={async () => {
-          console.log(
-            "ciao",
-            tokenQuantities
-              ?.filter((tokenQuantity: any) => tokenQuantity._chainId === chainId)
-              ?.map((tokenQuantity: any) => ({
-                _address: tokenQuantity._address,
-                _quantity: tokenQuantity._quantity.toString(),
-                _chainId: tokenQuantity._chainId,
-                _contributor: connectedAddress,
-                _aggregator: contractsData["MockAggregator"]?.address || zeroAddress,
-              })),
-          );
+      {state < 2 ? (
+        <>
+          <button
+            className="bg-green-500 hover:bg-green-700 text-white size font-bold py-2 px-6 rounded-full"
+            style={{
+              marginLeft: "4%",
+              marginRight: "4%",
+              cursor: "pointer",
+              fontSize: "18px",
+            }}
+            onClick={async () => {
+              console.log(
+                "ciao",
+                tokenQuantities
+                  ?.filter((tokenQuantity: any) => tokenQuantity._chainId === chainId)
+                  ?.map((tokenQuantity: any) => ({
+                    _address: tokenQuantity._address,
+                    _quantity: tokenQuantity._quantity.toString(),
+                    _chainId: tokenQuantity._chainId,
+                    _contributor: connectedAddress,
+                    _aggregator: contractsData["MockAggregator"]?.address || zeroAddress,
+                  })),
+              );
 
-          await depositAsync();
-          // // sleep for 2 seconds
-          await new Promise(r => setTimeout(r, 6000));
-          window.location.reload();
-        }}
-        disabled={isdepLoading}
-      >
-        Deposit
-      </button>
-      <br></br>
-      <hr></hr>
+              await depositAsync();
+              // // sleep for 2 seconds
+              await new Promise(r => setTimeout(r, 6000));
+              window.location.reload();
+            }}
+            disabled={isdepLoading}
+          >
+            Deposit
+          </button>
+          <br></br>
+          <hr></hr>
 
-      <br></br>
+          <br></br>
 
-      {["42", "27", "12", "65", "7", "18", "71"].includes(bundleId.toString()) && (
+          {["42", "27", "12", "65", "7", "18", "71"].includes(bundleId.toString()) && (
+            <button
+              className="bg-orange-500 hover:bg-orange-700 text-white size font-bold py-2 px-6 rounded-full"
+              style={{
+                marginLeft: "4%",
+                marginRight: "4%",
+                cursor: "pointer",
+                fontSize: "18px",
+              }}
+              onClick={async () => {
+                await replayMessageAsync();
+                // sleep for 2 seconds
+                await new Promise(r => setTimeout(r, 6000));
+                window.location.reload();
+              }}
+              disabled={isdepLoading}
+            >
+              Fetch and Replay Messages
+            </button>
+          )}
+        </>
+      ) : state == 2 && chainId == etherlinkchainId ? (
         <button
-          className="bg-orange-500 hover:bg-orange-700 text-white size font-bold py-2 px-6 rounded-full"
+          //   className="bg-green-500 hover:bg-green-700 text-white size font-bold py-2 px-6 rounded-full"
+          className="bg-red-500 hover:bg-red-700 text-white size font-bold py-2 px-6 rounded-full"
           style={{
             marginLeft: "4%",
             marginRight: "4%",
             cursor: "pointer",
             fontSize: "18px",
           }}
+          disabled={isburnLoading}
           onClick={async () => {
-            await replayMessageAsync();
-            // sleep for 2 seconds
-            await new Promise(r => setTimeout(r, 6000));
+            await burnAsync();
+            // reload the page
+            await new Promise(r => setTimeout(r, 4000));
+
             window.location.reload();
           }}
-          disabled={isdepLoading}
         >
-          Fetch and Replay Messages
+          Burn
+        </button>
+      ) : (
+        <></>
+      )}
+      <br></br>
+      {chainId == sepoliaChainId && (
+        <button
+          className="bg-blue-500 hover:bg-blue-700 text-white size font-bold py-2 px-6 rounded-full"
+          style={{ cursor: "pointer", fontSize: "16px" }}
+          // switch chain to etherlink
+          onClick={async () => {
+            if (switchNetwork) {
+              try {
+                await switchNetwork(etherlinkchainId);
+              } catch (e: any) {
+                console.log(e);
+              }
+            }
+          }}
+        >
+          Switch Mainchain
         </button>
       )}
     </>
-  ) : state == 2 ? (
-    <button
-      //   className="bg-green-500 hover:bg-green-700 text-white size font-bold py-2 px-6 rounded-full"
-      className="bg-red-500 hover:bg-red-700 text-white size font-bold py-2 px-6 rounded-full"
-      style={{
-        marginLeft: "4%",
-        marginRight: "4%",
-        cursor: "pointer",
-        fontSize: "18px",
-      }}
-      disabled={isburnLoading}
-      onClick={async () => {
-        await burnAsync();
-        // reload the page
-        await new Promise(r => setTimeout(r, 4000));
-
-        window.location.reload();
-      }}
-    >
-      Burn
-    </button>
-  ) : (
-    <p>Burned</p>
   );
 }

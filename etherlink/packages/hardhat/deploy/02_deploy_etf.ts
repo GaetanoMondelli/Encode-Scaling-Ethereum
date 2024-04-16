@@ -1,6 +1,6 @@
 import { HardhatRuntimeEnvironment } from "hardhat/types";
 import { DeployFunction } from "hardhat-deploy/types";
-import { SimpleERC20, ETFLock } from "../typechain-types";
+import { SimpleERC20, ETFLock, contracts } from "../typechain-types";
 import * as CORE_DEPLOYMENT from "../../../../bridge/artifacts/core-deployment-2024-04-11-01-28-34.json";
 import * as RECEIVER_DEPLOYMENT from "../deployments/sepolia/HyperlaneMessageReceiver.json";
 import { BigNumber } from "@ethersproject/bignumber";
@@ -62,7 +62,7 @@ const deployYourContract: DeployFunction = async function (hre: HardhatRuntimeEn
     // });
 
     // const main ETF contract
-    const mainETFAddress = "0x7eBA9F2dAb2d51dA19b962b8AfD5780d8C26c19d";
+    const mainETFAddress = "0x9693ddAbC7b6999Ca74FC8879e09c7Df2BC492Be";
 
     // set side chain params
     await etfSide.setSideChainParams(mainETFAddress, sepoliaMailBoxAddress, sepoliaISMAddress);
@@ -139,10 +139,14 @@ const deployYourContract: DeployFunction = async function (hre: HardhatRuntimeEn
     });
     const etf = await hre.ethers.getContract<ETFLock>("ETFLock", deployer);
     await etfToken.setOwner(await etf.getAddress());
-    requiredTokens.map(async token => {
-      const t = await hre.ethers.getContract<SimpleERC20>(token._address, deployer);
-      await t.approve(await etf.getAddress(), BigNumber.from(1000).mul(BigNumber.from(10).pow(18)).toString());
-    });
+
+
+    await etf.setMainChainParams(
+      "0x5788001D3816e173559B4A7b015b42759cD62a9a",
+      sepoliaChainId,
+      CORE_DEPLOYMENT["etherlink"]["mailbox"],
+      CORE_DEPLOYMENT["etherlink"]["messageIdMultisigIsm"],
+    );
   }
 };
 
