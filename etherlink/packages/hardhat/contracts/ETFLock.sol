@@ -5,6 +5,8 @@ pragma solidity ^0.8.0;
 import { IERC721 } from "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 import { IERC20 } from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import { ISimpleERC20 } from "./SimpleERC20.sol";
+import "@hyperlane-xyz/core/contracts/interfaces/IMailbox.sol";
+import { IInterchainSecurityModule } from "@hyperlane-xyz/core/contracts/interfaces/IInterchainSecurityModule.sol";
 import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
 import "hardhat/console.sol";
 
@@ -46,6 +48,13 @@ contract ETFLock {
 	mapping(address => TokenQuantity) public addressToToken;
 	uint32 public chainId;
 	uint32 public mainChainId;
+	
+	// Siechain params
+	address public mainChainLock;
+	IMailbox outbox;
+	IInterchainSecurityModule securityModule;
+
+	// Mainchain params
 	address public etfToken;
 	uint256 public etfTokenPerVault;
 
@@ -64,11 +73,13 @@ contract ETFLock {
 	mapping(uint256 => Vault) public vaults;
 
 	constructor(
+		uint32 _mainChain,
 		uint32 _chainId,
 		TokenQuantity[] memory _requiredTokens,
 		address _etfToken,
 		uint256 _etfTokenPerVault
 	) {
+		mainChainId = _mainChain;
 		chainId = _chainId;
 		etfToken = _etfToken;
 		etfTokenPerVault = _etfTokenPerVault;
@@ -76,6 +87,15 @@ contract ETFLock {
 			requiredTokens.push(_requiredTokens[i]);
 			addressToToken[_requiredTokens[i]._address] = _requiredTokens[i];
 		}
+	}
+
+	function setSideChainParams(address _mainChainLock,
+		address _outbox, address _securityModule 
+	) public {
+		require(!isMainChain(), "Main chain lock address cannot be set on main chain");
+		mainChainLock = _mainChainLock;
+		outbox = IMailbox(_outbox);
+		securityModule = IInterchainSecurityModule(_securityModule);
 	}
 
 	function getVaultStates() public view returns (VaultState[] memory) {
@@ -96,6 +116,10 @@ contract ETFLock {
 
 	function setVaultState(uint256 _vaultId, VaultState _state) public {
 		vaults[_vaultId].state = _state;
+	}
+
+	function isMainChain() public view returns (bool) {
+		return chainId == mainChainId;
 	}
 
 	function _deposit(
@@ -164,18 +188,20 @@ contract ETFLock {
 				_tokens[i]._contributor
 			);
 
-			if (accountContributionsPerVault[_vaultId][msg.sender] == 0) {
-				contributorsByVault[_vaultId].push(msg.sender);
+			if (isMainChain()) {
+				if (accountContributionsPerVault[_vaultId][msg.sender] == 0) {
+					contributorsByVault[_vaultId].push(msg.sender);
+				}
+
+				// uint256 price = AggregatorV3Interface(_tokens[i]._aggretator).latestRoundData().answer;
+
+				// (, /* uint80 roundID */ int answer, , , ) = AggregatorV3Interface(
+				// 	_tokens[i]._aggregator
+				// ).latestRoundData();
+
+				accountContributionsPerVault[_vaultId][msg.sender] += _tokens[i]
+					._quantity;
 			}
-
-			// uint256 price = AggregatorV3Interface(_tokens[i]._aggretator).latestRoundData().answer;
-
-			// (, /* uint80 roundID */ int answer, , , ) = AggregatorV3Interface(
-			// 	_tokens[i]._aggregator
-			// ).latestRoundData();
-
-			accountContributionsPerVault[_vaultId][msg.sender] += _tokens[i]
-				._quantity;
 		}
 
 		for (uint256 i = 0; i < requiredTokens.length; i++) {
@@ -187,8 +213,33 @@ contract ETFLock {
 			}
 		}
 		vaults[_vaultId].state = VaultState.MINTED;
-		distributeShares(_vaultId);
+
+		if(isMainChain()){
+			distributeShares(_vaultId);
+		}
+		else{
+			notifyDepositToMainChain(_depositInfo);
+		}
 	}
+
+
+
+	function notifyDepositToMainChain(
+		DepositInfo memory _depositInfo
+	)internal {
+		bytes32 mainChainLockBytes32 = addressToBytes32(mainChainLock);
+		uint256 fee = outbox.quoteDispatch(
+			chainId,
+			mainChainLockBytes32,
+			abi.encode(_depositInfo)
+		);
+		outbox.dispatch{ value: fee }(
+			chainId,
+			mainChainLockBytes32,
+			abi.encode(_depositInfo)
+		);
+	}
+
 
 	function distributeShares(uint256 _vaultId) internal {
 		uint256 totalContributions = 0;
@@ -234,6 +285,7 @@ contract ETFLock {
 			"Vault is not minted"
 		);
 		// require to pay back the etfToken
+		require(isMainChain(), "Only main chain can burn");
 		ISimpleERC20(etfToken).burn(msg.sender, etfTokenPerVault);
 		for (uint256 j = 0; j < vaults[_vaultId]._tokens.length; j++) {
 			if (vaults[_vaultId]._tokens[j]._chainId == chainId) {

@@ -46,7 +46,7 @@ describe("Hyperlane Bridge", function () {
       },
     ];
 
-    etf = (await etfLockFactory.deploy(domain, requiredTokens, etfToken, tokenPerVault)) as ETFLock;
+    etf = (await etfLockFactory.deploy(domain, domain, requiredTokens, etfToken, tokenPerVault)) as ETFLock;
     await etfToken.setOwner(await etf.getAddress());
     await tokenA.approve(await etf.getAddress(), BigNumber.from(1000).mul(decimalFactor).toString());
     await tokenB.approve(await etf.getAddress(), BigNumber.from(1000).mul(decimalFactor).toString());
