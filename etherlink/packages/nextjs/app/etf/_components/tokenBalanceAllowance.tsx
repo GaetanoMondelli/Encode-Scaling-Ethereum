@@ -7,13 +7,14 @@ import { getAllContracts } from "~~/utils/scaffold-eth/contractsData";
 interface TokenBalanceAllowanceProps {
   name: string;
   tokenAddress: string;
+  chainId: number;
 }
 
-const TokenBalanceAllowance: React.FC<TokenBalanceAllowanceProps> = ({ name, tokenAddress }) => {
+const TokenBalanceAllowance: React.FC<TokenBalanceAllowanceProps> = ({ name, tokenAddress, chainId }) => {
   const [balance, setBalance] = useState<any>();
   const [allowance, setAllowance] = useState<any>();
   const { address: connectedAddress } = useAccount();
-  const contractsData = getAllContracts();
+  const contractsData = getAllContracts(chainId);
 
   const { isFetching: isFet, refetch: fetchBalance } = useContractRead({
     address: tokenAddress,

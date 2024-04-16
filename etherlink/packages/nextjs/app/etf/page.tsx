@@ -13,8 +13,14 @@ import { BigNumber } from "@ethersproject/bignumber";
 import { Watermark } from "antd";
 import type { NextPage } from "next";
 import { TransactionReceipt } from "viem";
-import { useAccount, useContractRead, useContractWrite, useNetwork, useWaitForTransaction } from "wagmi";
-import { useChainId } from "wagmi";
+import {
+  useAccount,
+  useContractRead,
+  useContractWrite,
+  useNetwork,
+  useSwitchNetwork,
+  useWaitForTransaction,
+} from "wagmi";
 import { useTransactor } from "~~/hooks/scaffold-eth";
 import { useTargetNetwork } from "~~/hooks/scaffold-eth/useTargetNetwork";
 import { getParsedError, notification } from "~~/utils/scaffold-eth";
@@ -22,19 +28,21 @@ import { getAllContracts } from "~~/utils/scaffold-eth/contractsData";
 
 // import { DebugContracts } from "./_components/DebugContracts";
 
-// import { DebugContracts } from "./_components/DebugContracts";
+const etherlinkChainId = 128123;
+const sepoliaChainId = 11155111;
 
 const ETF: NextPage = () => {
   const [bundleId, setBundleId] = useState<string>("1");
   const [bundles, setBundles] = useState<any>();
   const [vault, setVault] = useState<any>({});
   const [tokens, setTokens] = useState<any>([]);
+  const [isMainChain, setIsMainChain] = useState<boolean>(false);
 
   const [quantityTokenA, setQuantityTokenA] = useState<any>("");
   const [quantityTokenB, setQuantityTokenB] = useState<any>("");
   const [quantityTokenC, setQuantityTokenC] = useState<any>("");
 
-  const [etfTokenAddress, setEtfTokenAddress] = useState<any>("0x106d24F579D77fbe71CBBF169f6Dc376208e25b5");
+  const [etfTokenAddress, setEtfTokenAddress] = useState<any>("");
 
   // const [resultFee, setResultFee] = useState<any>();
   // const [txValue, setTxValue] = useState<string | bigint>("");
@@ -89,6 +97,18 @@ const ETF: NextPage = () => {
     },
   });
 
+  const { isFetching: isMainnetLoad, refetch: isMainnetFetch } = useContractRead({
+    address: contractsData[contractName].address,
+    functionName: "isMainChain",
+    abi: contractsData[contractName].abi,
+    args: [],
+    enabled: false,
+    onError: (error: any) => {
+      const parsedErrror = getParsedError(error);
+      console.log(parsedErrror);
+    },
+  });
+
   const { isFetching, refetch } = useContractRead({
     address: contractsData[contractName].address,
     functionName: "getVaultStates",
@@ -123,6 +143,19 @@ const ETF: NextPage = () => {
       if (refetch) {
         const { data } = await refetch();
         setBundles(data);
+      }
+    }
+    fetchData();
+  }, [chain, isFetching, refetch]);
+
+  useEffect(() => {
+    async function fetchData() {
+      if (isMainnetLoad) {
+        return;
+      }
+      if (isMainnetFetch) {
+        const { data } = await isMainnetFetch();
+        setIsMainChain(data as boolean);
       }
     }
     fetchData();
@@ -170,18 +203,26 @@ const ETF: NextPage = () => {
   }, []);
 
   useEffect(() => {
-    if (!tokens || tokens.length < 2) {
+    if (!tokens || tokens.length < 1) {
       return;
     }
 
     setQuantityTokenA(tokens[0]._quantity.toString());
+
+    if (!tokens || tokens.length < 2) {
+      return;
+    }
+
     setQuantityTokenB(tokens[1]._quantity.toString());
-    // setQuantityTokenC(tokens[2]._quantity.toString());
+    setQuantityTokenC(tokens[2]._quantity.toString());
   }, [tokens]);
 
   return (
     <Watermark
       zIndex={-9}
+      font={{
+        fontSize: "30",
+      }}
       style={
         // take the whole screen in the behind all the elements
         {
@@ -192,10 +233,10 @@ const ETF: NextPage = () => {
           minHeight: "100%",
         }
       }
-      content="XRP Ledger"
+      content={chain?.id === etherlinkChainId ? ["Etherlink", "Main Chain"] : ["Sepolia", "Side Chain"]}
       // image="https://w7.pngwing.com/pngs/459/4/png-transparent-xrp-symbol-black-hd-logo.png"
-      height={130}
-      width={150}
+      height={230}
+      width={250}
     >
       <div
         style={{
@@ -248,13 +289,15 @@ const ETF: NextPage = () => {
           {bundles && <MatrixView setBundleId={setBundleId} bundleId={bundleId} bundles={bundles} />}
           {vault && vault._tokens && <PieToken input={vault}></PieToken>}
         </div>
-        {/* {JSON.stringify(vault)} */}
+        {/* {JSON.stringify(isMainChain)} */}
         <br></br>
-        {etfTokenAddress && <TokenBalanceAllowance name={"ETF"} tokenAddress={etfTokenAddress} />}
+        {isMainChain && etfTokenAddress && <TokenBalanceAllowance name={"ETF"} tokenAddress={etfTokenAddress} />}
         {tokens &&
           tokens.map((token: any, index: number) => {
             return chain?.id === token._chainId ? (
-              <TokenBalanceAllowance key={index} name={index.toString()} tokenAddress={token._address} />
+              <TokenBalanceAllowance key={index} 
+              chainId={chain?.id || ""}
+              name={index.toString()} tokenAddress={token._address} />
             ) : (
               <b>
                 {index} Token:{" "}
@@ -273,40 +316,33 @@ const ETF: NextPage = () => {
         <br></br>
         <h1>Collateral Vault</h1>
         <p>Bundle ID: {bundleId}</p>
-        {etfTokenAddress}
         <b>Required Tokens</b>
-        <DepositController
-          quantity={quantityTokenA}
-          setQuantity={setQuantityTokenA}
-          requiredQuantity={tokens && tokens[0] ? tokens[0]._quantity : 0}
-          tokenAddress={tokens && tokens[0] ? tokens[0]._address : ""}
-          chainId={tokens && tokens[0] ? tokens[0]._chainId : ""}
-        />
-        <DepositController
-          quantity={quantityTokenB}
-          setQuantity={setQuantityTokenB}
-          requiredQuantity={tokens && tokens[1] ? tokens[1]._quantity : 0}
-          tokenAddress={tokens && tokens[1] ? tokens[1]._address : ""}
-          chainId={tokens && tokens[1] ? tokens[1]._chainId : ""}
-        />
-        {/* <DepositController
-          quantity={quantityTokenB}
-          setQuantity={setQuantityTokenB}
-          requiredQuantity={tokens && tokens[2] ? tokens[2]._quantity : 0}
-          tokenAddress={tokens && tokens[2] ? tokens[2]._address : ""}
-          chainId={tokens && tokens[2] ? tokens[2]._chainId : ""}
-        /> */}
-        <br></br>
+        {tokens &&
+          tokens.map((token: any, index: number) => {
+            return (
+              <>
+                <DepositController
+                  key={index}
+                  quantity={index === 0 ? quantityTokenA : index === 1 ? quantityTokenB : quantityTokenA}
+                  setQuantity={index === 0 ? setQuantityTokenA : index === 1 ? setQuantityTokenB : setQuantityTokenC}
+                  requiredQuantity={token._quantity}
+                  tokenAddress={token._address}
+                  chainId={token._chainId}
+                />
+              </>
+            );
+          })}
+
         <br></br>
         <DepositButton
           bundleId={bundleId}
           state={vault?.state}
-          tokenAddressA={tokens && tokens[0] ? tokens[0]._address : ""}
-          quantityTokenA={quantityTokenA}
-          tokenAddressB={tokens && tokens[1] ? tokens[1]._address : ""}
-          quantityTokenB={quantityTokenB}
-          tokenAddressC={tokens && tokens[2] ? tokens[2]._address : ""}
-          quantityTokenC={quantityTokenC}
+          tokenQuantities={tokens?.map((token: any) => ({
+            _address: token._address,
+            _quantity: token._quantity,
+            _chainId: token._chainId,
+          }))}
+          chainId={chain?.id}
         ></DepositButton>
       </div>
     </Watermark>

@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { useContractWrite } from "wagmi";
+import { sepolia, useContractWrite, useSwitchNetwork, useChainId, useNetwork } from "wagmi";
 import { displayTxResult } from "~~/app/debug/_components/contract";
 import { useTransactor } from "~~/hooks/scaffold-eth";
 // import { useTargetNetwork } from "~~/hooks/scaffold-eth/useTargetNetwork";
@@ -20,10 +20,13 @@ export function DepositController({
   tokenAddress: any;
   chainId: any;
 }) {
-  const contractsData = getAllContracts();
+  const contractsData = getAllContracts(
+    chainId
+  );
   const writeTxn = useTransactor();
   const contractName = "ETFLock";
   const etherlinkchainId = 128123;
+  const sepoliaChainId = 11155111;
   const contractSimpleName = "SimpleERC20";
 
   const {
@@ -36,6 +39,9 @@ export function DepositController({
     abi: contractsData[contractSimpleName].abi,
     args: [contractsData[contractName].address, quantity],
   });
+  const { switchNetwork } = useSwitchNetwork();
+  const { chain } = useNetwork();
+
 
   return (
     <div>
@@ -74,9 +80,11 @@ export function DepositController({
             <p>Required:</p>
             {displayTxResult(requiredQuantity)}
           </div>
-          {chainId === etherlinkchainId && (
+          {chainId === chain?.id && (
             <div>
-              <p>Approve token</p>
+              <p>Approve token for 
+                {contractsData[contractName].address}
+                </p>
               <button
                 className="bg-blue-500 hover:bg-blue-700 text-white size font-bold py-2 px-6 rounded-full"
                 style={{ cursor: "pointer", fontSize: "12px" }}
@@ -96,7 +104,7 @@ export function DepositController({
               </button>
             </div>
           )}
-          {chainId === etherlinkchainId && (
+          {chainId === chain?.id && (
             <div>
               <p>Quantity:</p>
               <input
@@ -105,6 +113,26 @@ export function DepositController({
                 value={quantity}
                 onChange={e => setQuantity(e.target.value)}
               ></input>
+            </div>
+          )}
+          {chainId !== chain?.id && (
+            <div>
+              <p>Chain Sepolia </p>
+              <button
+                className="bg-orange-500 hover:bg-orange-700 text-white size font-bold py-2 px-6 rounded-full"
+                style={{ cursor: "pointer", fontSize: "12px" }}
+                onClick={async () => {
+                  if (switchNetwork) {
+                    try {
+                      await switchNetwork(sepoliaChainId);
+                    } catch (e: any) {
+                      console.log(e);
+                    }
+                  }
+                }}
+              >
+                Switch Chain
+              </button>
             </div>
           )}
           {/* {chainId === etherlinkchainId && (

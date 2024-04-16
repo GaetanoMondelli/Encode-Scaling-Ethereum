@@ -48,7 +48,7 @@ contract ETFLock {
 	mapping(address => TokenQuantity) public addressToToken;
 	uint32 public chainId;
 	uint32 public mainChainId;
-	
+
 	// Siechain params
 	address public mainChainLock;
 	IMailbox outbox;
@@ -89,13 +89,33 @@ contract ETFLock {
 		}
 	}
 
-	function setSideChainParams(address _mainChainLock,
-		address _outbox, address _securityModule 
+	function setSideChainParams(
+
+		address _mainChainLock,
+		address _outbox,
+		address _securityModule
 	) public {
-		require(!isMainChain(), "Main chain lock address cannot be set on main chain");
+		require(
+			!isMainChain(),
+			"Main chain lock address cannot be set on main chain"
+		);
 		mainChainLock = _mainChainLock;
 		outbox = IMailbox(_outbox);
 		securityModule = IInterchainSecurityModule(_securityModule);
+	}
+
+	function setMainChainParams(
+		address _sideChainLock,
+		address _outbox,
+		address _securityModule
+	) public {
+		require(
+			!isMainChain(),
+			"Side Chain lock address can only be set mainchain"
+		);
+		outbox = IMailbox(_outbox);
+		securityModule = IInterchainSecurityModule(_securityModule);
+		sideChainLock = _sideChainLock;
 	}
 
 	function getVaultStates() public view returns (VaultState[] memory) {
@@ -157,12 +177,6 @@ contract ETFLock {
 			// 		"Token chainId does not match the chainId of the contract"
 			// 	);
 			// }
-			console.log(
-				"Token address: %s",
-				_tokens[i]._address,
-				i,
-				vaults[_vaultId]._tokens.length
-			);
 			if (
 				_tokens[i]._quantity + vaults[_vaultId]._tokens[i]._quantity >
 				addressToToken[_tokens[i]._address]._quantity
@@ -214,19 +228,16 @@ contract ETFLock {
 		}
 		vaults[_vaultId].state = VaultState.MINTED;
 
-		if(isMainChain()){
+		if (isMainChain()) {
 			distributeShares(_vaultId);
-		}
-		else{
+		} else {
 			notifyDepositToMainChain(_depositInfo);
 		}
 	}
 
-
-
 	function notifyDepositToMainChain(
 		DepositInfo memory _depositInfo
-	)internal {
+	) internal {
 		bytes32 mainChainLockBytes32 = addressToBytes32(mainChainLock);
 		uint256 fee = outbox.quoteDispatch(
 			chainId,
@@ -239,7 +250,6 @@ contract ETFLock {
 			abi.encode(_depositInfo)
 		);
 	}
-
 
 	function distributeShares(uint256 _vaultId) internal {
 		uint256 totalContributions = 0;
@@ -260,7 +270,7 @@ contract ETFLock {
 		}
 	}
 
-	function deposit(DepositInfo memory _depositInfo) public {
+	function deposit(DepositInfo memory _depositInfo) public payable {
 		_deposit(_depositInfo, chainId);
 	}
 

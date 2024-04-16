@@ -4,28 +4,20 @@ import { getAllContracts } from "~~/utils/scaffold-eth/contractsData";
 
 const etherlinkchainId = 128123;
 const sepoliaChainId = 11155111;
-  const zeroAddress = "0x0000000000000000000000000000000000000000";
+const zeroAddress = "0x0000000000000000000000000000000000000000";
 
 export function DepositButton({
   bundleId,
   state,
-  tokenAddressA,
-  quantityTokenA,
-  tokenAddressB,
-  quantityTokenB,
-  tokenAddressC,
-  quantityTokenC,
+  tokenQuantities,
+  chainId,
 }: {
   bundleId: string;
   state: any;
-  tokenAddressA: any;
-  quantityTokenA: any;
-  tokenAddressB: any;
-  quantityTokenB: any;
-  tokenAddressC: any;
-  quantityTokenC: any;
+  tokenQuantities: any;
+  chainId: number;
 }) {
-  const contractsData = getAllContracts();
+  const contractsData = getAllContracts(chainId);
   const { address: connectedAddress } = useAccount();
 
   const {
@@ -51,24 +43,18 @@ export function DepositButton({
     args: [
       {
         vaultId: bundleId,
-        tokens: [
-          {
-            _address: tokenAddressA,
-            _quantity: quantityTokenA,
-            _chainId: etherlinkchainId,
+        tokens: tokenQuantities
+          ?.filter((tokenQuantity: any) => tokenQuantity._chainId === chainId)
+          ?.map((tokenQuantity: any) => ({
+            _address: tokenQuantity._address,
+            _quantity: tokenQuantity._quantity.toString(),
+            _chainId: tokenQuantity._chainId,
             _contributor: connectedAddress,
             _aggregator: contractsData["MockAggregator"]?.address || zeroAddress,
-          },
-          {
-            _address: tokenAddressB,
-            _quantity: quantityTokenB,
-            _chainId: etherlinkchainId,
-            _contributor: connectedAddress,
-            _aggregator: contractsData["MockAggregator"]?.address || zeroAddress,
-          },
-        ],
+          })),
       },
     ],
+    value: chainId === sepoliaChainId ? BigInt(10000000) : BigInt(0),
   });
 
   const {
@@ -82,29 +68,13 @@ export function DepositButton({
     args: [
       {
         vaultId: bundleId,
-        tokens: [
-          {
-            _address: tokenAddressA,
-            _quantity: 0,
-            _chainId: etherlinkchainId,
-            _contributor: connectedAddress,
-            _aggregator: contractsData["MockAggregator"]?.address || zeroAddress,
-          },
-          {
-            _address: tokenAddressB,
-            _quantity: 0,
-            _chainId: etherlinkchainId,
-            _contributor: connectedAddress,
-            _aggregator: contractsData["MockAggregator"]?.address || zeroAddress,
-          },
-          {
-            _address: tokenAddressC,
-            _quantity: quantityTokenC,
-            _chainId: sepoliaChainId,
-            _contributor: connectedAddress,
-            _aggregator: contractsData["MockAggregator"]?.address || zeroAddress,
-          },
-        ],
+        tokens: tokenQuantities?.map((tokenQuantity: any) => ({
+          _address: tokenQuantity._address,
+          _quantity: tokenQuantity._chainId !== chainId ? tokenQuantity._quantity : 0,
+          _chainId: tokenQuantity._chainId,
+          _contributor: connectedAddress,
+          _aggregator: contractsData["MockAggregator"]?.address || zeroAddress,
+        })),
       },
     ],
   });
@@ -120,8 +90,21 @@ export function DepositButton({
           fontSize: "18px",
         }}
         onClick={async () => {
+          console.log(
+            "ciao",
+            tokenQuantities
+              ?.filter((tokenQuantity: any) => tokenQuantity._chainId === chainId)
+              ?.map((tokenQuantity: any) => ({
+                _address: tokenQuantity._address,
+                _quantity: tokenQuantity._quantity.toString(),
+                _chainId: tokenQuantity._chainId,
+                _contributor: connectedAddress,
+                _aggregator: contractsData["MockAggregator"]?.address || zeroAddress,
+              })),
+          );
+
           await depositAsync();
-          // sleep for 2 seconds
+          // // sleep for 2 seconds
           await new Promise(r => setTimeout(r, 6000));
           window.location.reload();
         }}
@@ -131,6 +114,7 @@ export function DepositButton({
       </button>
       <br></br>
       <hr></hr>
+
       <br></br>
 
       {["42", "27", "12", "65", "7", "18", "71"].includes(bundleId.toString()) && (
