@@ -4,6 +4,7 @@ import { getAllContracts } from "~~/utils/scaffold-eth/contractsData";
 
 const etherlinkchainId = 128123;
 const sepoliaChainId = 11155111;
+  const zeroAddress = "0x0000000000000000000000000000000000000000";
 
 export function DepositButton({
   bundleId,
@@ -56,14 +57,14 @@ export function DepositButton({
             _quantity: quantityTokenA,
             _chainId: etherlinkchainId,
             _contributor: connectedAddress,
-            _aggregator: contractsData["MockAggregator"].address,
+            _aggregator: contractsData["MockAggregator"]?.address || zeroAddress,
           },
           {
             _address: tokenAddressB,
             _quantity: quantityTokenB,
             _chainId: etherlinkchainId,
             _contributor: connectedAddress,
-            _aggregator: contractsData["MockAggregator"].address,
+            _aggregator: contractsData["MockAggregator"]?.address || zeroAddress,
           },
         ],
       },
@@ -87,21 +88,21 @@ export function DepositButton({
             _quantity: 0,
             _chainId: etherlinkchainId,
             _contributor: connectedAddress,
-            _aggregator: contractsData["MockAggregator"].address,
+            _aggregator: contractsData["MockAggregator"]?.address || zeroAddress,
           },
           {
             _address: tokenAddressB,
             _quantity: 0,
             _chainId: etherlinkchainId,
             _contributor: connectedAddress,
-            _aggregator: contractsData["MockAggregator"].address,
+            _aggregator: contractsData["MockAggregator"]?.address || zeroAddress,
           },
           {
             _address: tokenAddressC,
             _quantity: quantityTokenC,
             _chainId: sepoliaChainId,
             _contributor: connectedAddress,
-            _aggregator: contractsData["MockAggregator"].address,
+            _aggregator: contractsData["MockAggregator"]?.address || zeroAddress,
           },
         ],
       },

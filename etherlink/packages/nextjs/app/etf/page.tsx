@@ -1,7 +1,7 @@
 // import { DebugContracts } from "./_components/DebugContracts";
 "use client";
 
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import { TxReceipt, displayTxResult } from "../debug/_components/contract";
 import { DepositButton } from "./_components/DepositButton";
 import { DepositController } from "./_components/DepositController";
@@ -14,6 +14,7 @@ import { Watermark } from "antd";
 import type { NextPage } from "next";
 import { TransactionReceipt } from "viem";
 import { useAccount, useContractRead, useContractWrite, useNetwork, useWaitForTransaction } from "wagmi";
+import { useChainId } from "wagmi";
 import { useTransactor } from "~~/hooks/scaffold-eth";
 import { useTargetNetwork } from "~~/hooks/scaffold-eth/useTargetNetwork";
 import { getParsedError, notification } from "~~/utils/scaffold-eth";
@@ -23,24 +24,7 @@ import { getAllContracts } from "~~/utils/scaffold-eth/contractsData";
 
 // import { DebugContracts } from "./_components/DebugContracts";
 
-// import { DebugContracts } from "./_components/DebugContracts";
-
-// import { DebugContracts } from "./_components/DebugContracts";
-
-// import { DebugContracts } from "./_components/DebugContracts";
-
-// import { DebugContracts } from "./_components/DebugContracts";
-
-// import { DebugContracts } from "./_components/DebugContracts";
-
-// import { DebugContracts } from "./_components/DebugContracts";
-
-// import { DebugContracts } from "./_components/DebugContracts";
-
-// import { DebugContracts } from "./_components/DebugContracts";
-
 const ETF: NextPage = () => {
-  const contractsData = getAllContracts();
   const [bundleId, setBundleId] = useState<string>("1");
   const [bundles, setBundles] = useState<any>();
   const [vault, setVault] = useState<any>({});
@@ -56,6 +40,8 @@ const ETF: NextPage = () => {
   // const [txValue, setTxValue] = useState<string | bigint>("");
   const writeTxn = useTransactor();
   const { chain } = useNetwork();
+
+  const contractsData = getAllContracts(chain?.id);
 
   const { targetNetwork } = useTargetNetwork();
   const writeDisabled = !chain || chain?.id !== targetNetwork.id;
@@ -74,6 +60,22 @@ const ETF: NextPage = () => {
       console.log(parsedErrror);
     },
   });
+
+  useEffect(() => {
+    // Function to reload the page
+    const reloadPage = () => {
+      console.log("Network changed, reloading page...");
+      window.location.reload();
+    };
+
+    // Set up an event listener for network changes
+    window.ethereum.on("chainChanged", reloadPage);
+
+    // Clean up the event listener when the component unmounts
+    return () => {
+      window.ethereum.removeListener("chainChanged", reloadPage);
+    };
+  }, [chain]);
 
   const { isFetching: isETFTokenAddressFetching, refetch: etfTokenAddressFetch } = useContractRead({
     address: contractsData[contractName].address,
