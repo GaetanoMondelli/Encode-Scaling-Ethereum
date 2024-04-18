@@ -9,6 +9,7 @@ import "@hyperlane-xyz/core/contracts/interfaces/IMailbox.sol";
 import { IInterchainSecurityModule } from "@hyperlane-xyz/core/contracts/interfaces/IInterchainSecurityModule.sol";
 import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
 import "hardhat/console.sol";
+import "@redstone-finance/evm-connector/contracts/data-services/RapidDemoConsumerBase.sol";
 
 struct TokenQuantity {
 	address _address;
@@ -42,7 +43,7 @@ struct DepositInfo {
 	TokenQuantity[] tokens;
 }
 
-contract ETFLock {
+contract ETFLock is RapidDemoConsumerBase {
 	address public sideChainLock;
 	uint32 public sideChainId;
 	TokenQuantity[] public requiredTokens;
@@ -169,7 +170,7 @@ contract ETFLock {
 			"Vault is not open or empty"
 		);
 
-		// require(_chainId == chainId, "ChainId does not match the contract chainId")
+		require(_chainId == chainId, "ChainId does not match the contract chainId");
 
 		if (vaults[_vaultId].state == VaultState.EMPTY) {
 			for (uint256 i = 0; i < requiredTokens.length; i++) {
@@ -187,11 +188,11 @@ contract ETFLock {
 		}
 
 		for (uint256 i = 0; i < _tokens.length; i++) {
-			// if (_tokens[i]._chainId != _chainId) {
-			// 	revert(
-			// 		"Token chainId does not match the chainId of the contract"
-			// 	);
-			// }
+			if (_tokens[i]._chainId != _chainId) {
+				revert(
+					"Token chainId does not match the chainId of the contract"
+				);
+			}
 			if (
 				_tokens[i]._quantity + vaults[_vaultId]._tokens[i]._quantity >
 				addressToToken[_tokens[i]._address]._quantity
@@ -226,6 +227,14 @@ contract ETFLock {
 					contributorsByVault[_vaultId].push(_tokens[i]._contributor);
 				}
 
+				bytes32[] memory dataFeedIds = new bytes32[](6);
+				dataFeedIds[0] = bytes32("BNB");
+				uint256[] memory prices = getOracleNumericValuesFromTxMsg(dataFeedIds);
+
+				uint256 price = prices[0];
+
+
+				//  CHAINLINK INTERFACE
 				// uint256 price = AggregatorV3Interface(_tokens[i]._aggretator).latestRoundData().answer;
 
 				// (, /* uint80 roundID */ int answer, , , ) = AggregatorV3Interface(
@@ -233,7 +242,7 @@ contract ETFLock {
 				// ).latestRoundData();
 
 				accountContributionsPerVault[_vaultId][_tokens[i]._contributor] += _tokens[i]
-					._quantity;
+					._quantity * price;
 			}
 		}
 
@@ -298,15 +307,15 @@ contract ETFLock {
 		bytes32 _sender,
 		bytes calldata _message
 	) external payable {
-		// require(
-		// 	isMainChain() && bytes32ToAddress(_sender) == sideChainLock,
-		// 	"Sender to mainChain is not the sideChainLock"
-		// );
+		require(
+			isMainChain() && bytes32ToAddress(_sender) == sideChainLock,
+			"Sender to mainChain is not the sideChainLock"
+		);
 
-		// require(
-		// 	!isMainChain() && bytes32ToAddress(_sender) == mainChainLock,
-		// 	"Sender to sideChain is not the mainChainLock"
-		// );
+		require(
+			!isMainChain() && bytes32ToAddress(_sender) == mainChainLock,
+			"Sender to sideChain is not the mainChainLock"
+		);
 
 
 		if(isMainChain()) {

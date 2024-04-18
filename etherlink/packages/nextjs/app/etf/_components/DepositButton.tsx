@@ -120,7 +120,7 @@ export function DepositButton({
 
           <br></br>
 
-          {["42", "27", "12", "65", "7", "18", "71"].includes(bundleId.toString()) && (
+          {/* {["42", "27", "12", "65", "7", "18", "71"].includes(bundleId.toString()) && (
             <button
               className="bg-orange-500 hover:bg-orange-700 text-white size font-bold py-2 px-6 rounded-full"
               style={{
@@ -139,7 +139,7 @@ export function DepositButton({
             >
               Fetch and Replay Messages
             </button>
-          )}
+          )} */}
         </>
       ) : state == 2 && chainId == etherlinkchainId ? (
         <button

@@ -272,7 +272,10 @@ const ETF: NextPage = () => {
               gap: "12px",
             }}
           >
-            <p>Tezos Etherlink Logo</p>
+            <img 
+            alt="tezos logo"
+            width="200px"
+            src="https://images.squarespace-cdn.com/content/v1/5f9bcc27c14fc6134658484b/1708088493395-KIR6PXL6441SPS048RLB/etherlink.png"></img>
           </div>
         </div>
         <br></br>

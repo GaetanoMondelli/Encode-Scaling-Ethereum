@@ -7,7 +7,7 @@ import { GenericContractsDeclaration } from "~~/utils/scaffold-eth/contract";
 const deployedContracts = {
   128123: {
     ETFLock: {
-      address: "0x526c3B5A92aeA8a60659cA122A042e0cdF5dCF91",
+      address: "0x0F077B8750838830309F93fa7f746f440DbF7690",
       abi: [
         {
           inputs: [
@@ -1021,7 +1021,7 @@ const deployedContracts = {
       inheritedFunctions: {},
     },
     MockAggregator: {
-      address: "0x8F24B22fEC09bd35521E6488f709E92CcE8Aa148",
+      address: "0x08BD38AB533bEFBa97a3DBEb0C42f1Ba109Ab6b9",
       abi: [
         {
           inputs: [
@@ -1401,7 +1401,7 @@ const deployedContracts = {
       inheritedFunctions: {},
     },
     SimpleERC20: {
-      address: "0x51ee111AbF4A375A171736faccF461F7152783cE",
+      address: "0xAA2872F62170de5d9e00Fa4BE91615E7b4C24A06",
       abi: [
         {
           inputs: [
@@ -1774,7 +1774,7 @@ const deployedContracts = {
   },
   11155111: {
     ETFLock: {
-      address: "0x5788001D3816e173559B4A7b015b42759cD62a9a",
+      address: "0x0d808c694f5b916343D2139181599CA545d72B0e",
       abi: [
         {
           inputs: [
@@ -2039,6 +2039,52 @@ const deployedContracts = {
           type: "function",
         },
         {
+          inputs: [
+            {
+              components: [
+                {
+                  internalType: "address",
+                  name: "_address",
+                  type: "address",
+                },
+                {
+                  internalType: "uint256",
+                  name: "_quantity",
+                  type: "uint256",
+                },
+                {
+                  internalType: "uint32",
+                  name: "_chainId",
+                  type: "uint32",
+                },
+                {
+                  internalType: "address",
+                  name: "_contributor",
+                  type: "address",
+                },
+                {
+                  internalType: "address",
+                  name: "_aggregator",
+                  type: "address",
+                },
+              ],
+              internalType: "struct TokenQuantity",
+              name: "_tokenQuantity",
+              type: "tuple",
+            },
+          ],
+          name: "getIndexForDepositInfo",
+          outputs: [
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
           inputs: [],
           name: "getRequiredTokens",
           outputs: [
@@ -2206,6 +2252,25 @@ const deployedContracts = {
               internalType: "address",
               name: "",
               type: "address",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+          ],
+          name: "receivedMessages",
+          outputs: [
+            {
+              internalType: "uint32",
+              name: "",
+              type: "uint32",
             },
           ],
           stateMutability: "view",
