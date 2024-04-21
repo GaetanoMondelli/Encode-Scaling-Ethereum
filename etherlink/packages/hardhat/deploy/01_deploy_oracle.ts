@@ -25,7 +25,7 @@ const deployYourContract: DeployFunction = async function (hre: HardhatRuntimeEn
       log: true,
     });
 
-    const privateKey = "0x1294695293f333466d699cca83fce35cf2c3dd960fd35a93d44ae548835c9b32";
+    const privateKey = "";
 
     const provider = new JsonRpcProvider("https://node.ghostnet.etherlink.com");
     const wallet = new Wallet(privateKey).connect(provider);

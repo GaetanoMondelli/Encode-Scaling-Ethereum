@@ -8,7 +8,7 @@ import RAPID_ARTIFACTS from "../deployments/etherlink/RapidExample.json";
 import { WrapperBuilder } from "@redstone-finance/evm-connector";
 export const preDeployedSNXContractOnMumbai = "0xdE617C9DaDDF41EbD739cA57eBbA607C11ba902d";
 export const amountSNX = BigNumber.from(6).mul(BigNumber.from(10).pow(18));
-// const privateKey = "0x1294695293f333466d699cca83fce35cf2c3dd960fd35a93d44ae548835c9b32";
+// const privateKey = "";
 
 async function main() {
   // const deployedContractAddress = "0xADb76B04aAE2dEc0043b3CFc26A51Cd9bD75164a";

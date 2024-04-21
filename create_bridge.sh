@@ -5,7 +5,7 @@ if [ ! -d "hyperlane-monorepo" ]; then
     gh repo clone hyperlane-xyz/hyperlane-monorepo
 fi
 
-export HYP_KEY="0x1294695293f333466d699cca83fce35cf2c3dd960fd35a93d44ae548835c9b32"
+export HYP_KEY=""
 
 echo $HYP_KEY
 

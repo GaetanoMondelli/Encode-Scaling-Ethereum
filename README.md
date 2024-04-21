@@ -1,14 +1,21 @@
-# Encode-Scaling-Ethereum
+# XTF PROTOCOL
+
+## Encode-Scaling-Ethereum
 [Scaling Web3 Hackathon by Encode](https://www.encode.club/scaling-web3-hackathon)
 
 [Youtube Video](https://youtu.be/XFFX6IIjIs4)
 
-# XTF PROTOCOL
+[Slide Deck](https://docs.google.com/presentation/d/1Xu0mYl5tPJ1mL1anzwi6o8UegXOMOciamjvTEnzhtPg/edit#slide=id.g2ce5208aab4_0_0)
 
-XTF is a multichain and decentralised version of TradFi ETF.  XTF divides the ETF large bucket into smaller vaults, each mirroring the same asset mix on a smaller scale.This structure allows anyone -not only large organizations- to contribute to a vault’s asset collection and receive ETF share tokens in return.Assets are securely and transparently stored across different chains.We utilise bridges (Hyperlane) to track assets locked on other chains in Etherlink. When all the assets required by a vault are collected on all chains, ETF token shares are issued on Etherlink. The issuance is proportional to each contributor’s investment in the vault. The contribution to each vault depends on the quantity of assets deposited and the price of these assets at the time the vault is completed.Prices are fetched upon vault completion by RedStone
+[Gaetano's contact](https://www.linkedin.com/in/gaetano-mondelli/)
 
 
-gh repo clone hyperlane-xyz/hyperlane-monorepo
+## Description
+
+XTF is a multichain and decentralised version of TradFi ETF.  XTF divides the ETF large bucket into smaller vaults, each mirroring the same asset mix on a smaller scale.This structure allows anyone -not only large organizations- to contribute to a vault’s asset collection and receive ETF share tokens in return.Assets are securely and transparently stored across different chains.We utilise bridges (Hyperlane) to track assets locked on other chains in Etherlink. When all the assets required by a vault are collected on all chains, ETF token shares are issued on Etherlink. The issuance is proportional to each contributor’s investment in the vault. The contribution to each vault depends on the quantity of assets deposited and the price of these assets at the time the vault is completed.Prices are fetched upon vault completion by RedStone.
+
+
+<!-- gh repo clone hyperlane-xyz/hyperlane-monorepo -->
 
 
 
@@ -170,6 +177,44 @@ Note that during the demo, while a Sepolia transaction usually takes a few secon
 The [ETFLock.test](etherlink/packages/hardhat/test/ETFLock.ts) checks basic construction and operations of the ETF lock. 
 
 
+
+# INTERFACE
+
+![ui-interface](screen.png)
+
+
+The UI was built using [Scaffold eth 2.0](https://github.com/scaffold-eth/scaffold-eth-2) and frontened uses Next.js with React.js. React blockhain hooks to query evm hains were built using `wagmi` and low level interactions were made using `viem`.
+
+The interface displays a large box representing the ETF assets pool, which is divided into smaller vaults to make deposits more manageable. Users can deposit any required tokens into any vault if:
+- The vault state is either EMPTY or OPEN (indicated by gray, blue, or orange colors).
+- The token is listed in the index (see the required tokens section).
+- The deposited token amount does not exceed the required quantity.
+
+``` 
+STATES ={
+	EMPTY: "No deposit has been made",
+	OPEN: "Some deposit have been made",
+	MINTED: "All the required deposit have been made, ETF share tokens have been issued to vault's contributors",
+	BURNED: "A user has exhanged the right amount of ETF share tokens for redeeming the underlying assets"
+}
+```
+
+Users are not required to deposit the full amount initially; however, minimum investment thresholds may be introduced in the future to prevent spam. Once all required assets are collected, the vault state changes to MINTED and is highlighted in green. ETF Share tokens are then issued based on the contributions, calculated using Redstone or Chainlink price oracles. The balance of the ETF tokens is shown at the top of the [token balances/allowance section](etherlink/packages/nextjs/app/etf/_components/tokenBalanceAllowance.tsx) below the matrix.
+
+Vault inspection and asset details are accessible by clicking on any vault in the matrix. The [pie chart](etherlink/packages/nextjs/app/etf/_components/PieToken.tsx) displays the value allocation of assets. Precise quantities can be checked by hovering the mouse over the pie chart.
+
+The bottom section, known as the [Required Token Section](etherlink/packages/nextjs/app/etf/_components/DepositController.tsx), provides information on which assets are needed, their quantities, and on which blockchain they reside. Users can edit the quantity they wish to deposit, and for assets on other chains, they can conveniently press the "Select Chain" button to switch chains and display the sidechain contract related to the ETF. This section also allows users to check if they have sufficient allowance for this contract and, if necessary, increase it by clicking "APPROVE" in the required token section.
+
+Finally, the last section includes the [action button](etherlink/packages/nextjs/app/etf/_components/DepositButton.tsx), which displays different operations depending on the chain and vault state:
+
+- Vault [Mainchain, OPEN | EMPTY] => [Deposit]
+- Vault [Mainchain, MINTED] => [Burn]
+- Vault [Mainchain, BURNED] => []
+- Vault [Sidechain, OPEN | EMPTY] => [Deposit, Return to Mainchain]
+- Vault [Sidechain, MINTED] => [Return to Mainchain]
+- Vault [Sidechain, BURNED] => [Return to Mainchain]
+
+
 # DEPLOYMENT Script
 
 
@@ -180,3 +225,12 @@ The following [deployment script](etherlink/packages/hardhat/deploy/02_deploy_et
 3. You then run the same script with npm run deploy-sepolia.
 4. Finally, we need to re-run the Etherlink part with npm run deploy-etherlink, commenting out the deployment part (to avoid the creation of a new instance) and commenting out the part where we set the sidechain parameter with the address of the sidechain contract deployed in Sepolia.
 This information is needed to route messages between different chains.
+
+
+
+# OPEN ISSUES
+
+1. Hyperlane's Bridge sometimes loses some messgaes (https://discord.com/channels/935678348330434570/1226115716957208586) **Mitigation**: Protocol messages to be idempotent to be message-lost-issues resistant 
+
+2. Redstone wrapper sdk library comaptibility with Hardhat v6.0 (https://discord.com/channels/786251205008949258/992359929467895838/1228301971568590929)
+**Mitigation**: Using [@ethersproject](https://www.npmjs.com/search?q=%40ethersproject%2F) library for legacy (and depreated support) of old ethers functions. Losing some og the usability and sempliity of Hardhat but works as per this [deployment test sccript](etherlink/packages/hardhat/deploy/01_deploy_oracle.ts) 
