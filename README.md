@@ -226,6 +226,74 @@ The following [deployment script](etherlink/packages/hardhat/deploy/02_deploy_et
 4. Finally, we need to re-run the Etherlink part with npm run deploy-etherlink, commenting out the deployment part (to avoid the creation of a new instance) and commenting out the part where we set the sidechain parameter with the address of the sidechain contract deployed in Sepolia.
 This information is needed to route messages between different chains.
 
+---
+
+# ZK-ROOL UPS AND LAYER2
+
+## WHY XTF x PRESTO?
+
+![presto-logo](presto.png)
+
+It is evident that layer two can be beneficial by such architecture for the following reasons:
+- **Control on the Fees, Potentially Eliminating Them**: Using a custom zk-rollup allows for better control over transaction fees, which is crucial for protocols where high transaction volumes are expected, such as in trading or managing ETFs. The aggregation and batch processing of transactions in a rollup can significantly reduce costs compared to executing each transaction individually on the mainnet.
+
+- **Enhanced Scalability**: zk-rollups process transactions off the main Ethereum blockchain but still post transaction data to it. This reduces the load on the mainnet, leading to higher throughput. It’s particularly beneficial for financial protocols like XTF, where numerous transactions need to be processed efficiently.
+
+- **Running the Protocol in a Controlled Environment Subject to Regulation**: This point is especially important for handling regulated assets, often referred to as real-world assets. Custom zk-rollups can be designed to include features that comply with specific regulatory requirements. These might include mechanisms for enhanced KYC (Know Your Customer) and AML (Anti-Money Laundering) compliance, and the ability to enforce specific rules about who can participate in the network (e.g., via an allowlist of wallet public keys, as you mentioned in the Presto enterprise user's documentation).
+Regarding the specific example of fractionalization projects in the UK, where certain assets were deemed non-compliant because they were identified as non-fungible, this underscores the need for a controlled environment. In cases like whiskey, where individual bottles can be considered unique assets, a custom zk-rollup could be tailored to address these nuances by enforcing specific rules on how assets are tokenized and traded.
+
+Implementing a custom zk-rollup provides the flexibility to design a protocol that can adapt to and comply with different regulatory environments, particularly in the context of handling regulated **real-world assets (RWA)**, which are estimated by **Outlier Venture** to represent a significant market potential, potentially as high as *$15 trillion by 2030*. A custom zk-rollup can effectively control transaction fees, by processing large volumes of transactions off-chain while maintaining crucial data on-chain. Furthermore, a controlled environment provided by a custom zk-rollup ensures adherence to regulatory standards, which is crucial for RWAs. This environment can be tailored to include advanced KYC and AML compliance mechanisms, and enforce regulations through an allowlist of wallet public keys, ensuring that only authorized participants engage with the protocol.
+
+
+## XTF x PRESTO ARCHITECTURE
+
+![architecture-presto](presto-arch.png)
+
+
+- **Bridge**: Although Presto provides a token bridge via the user interface, XTF necessitates a mechanism for cross-chain communication. Consequently, a Hyperlane bridge was deployed to facilitate message exchanges between the Presto chain and Sepolia, enhancing interoperability across different blockchain networks. Here the ([script-bridge-presto](/create_bridge_zkrollup.sh)) to conveniently deploy all the required components (validators, relayer) 
+
+While Presto offers a token bridge from the user interface, XTF requires a way to send messages between chains and for this reason a Hyperlane  was deployed between the Presto chain and Sepolia.
+
+- **Oracle**:
+On the new Presto chain, it is possible to observe an instance of the Quasar oracle through this [transaction]((https://sn2-stavanger-blockscout.eu-north-2.gateway.fm/address/0x6b83Ba48c05BF480fC7254225BcEAE64E41Faf18)). Deploying a custom Quasar oracle is straightforward using this [repository](https://github.com/gateway-fm/quasar-contract?tab=readme-ov-file). For this particular demonstration, the [Quasar oracle](gateway.fm/packages/hardhat/contracts/Quasar.sol) was employed to ensure reliable data feeds and smart contract executions.
+
+
+[ETFLock (gaetway.fm)](gateway.fm/packages/hardhat/contracts/ETFLock.sol)
+```java
+			if (isMainChain()) {
+				if (accountContributionsPerVault[_vaultId][_tokens[i]._contributor] == 0) {
+					contributorsByVault[_vaultId].push(_tokens[i]._contributor);
+				}
+				// Quasar Interface
+				uint256 price = IQuasar(quasarAddress).getPrice(_tokens[i]._tokenId);
+
+				accountContributionsPerVault[_vaultId][_tokens[i]._contributor] += _tokens[i]
+					._quantity * price;
+			}
+```
+
+Given the [partnership](https://twitter.com/redstone_defi/status/1707412621237141675) between Redstone and Presto, it is also possbile to integrate [Redstone oracles](gateway.fm/packages/hardhat/contracts/Rapid.sol) into the Presto platform. Note that this integration will necessitate wrapping frontend calls with the Redstone SDK.
+
+
+[ETFLock (gaetway.fm)](gateway.fm/packages/hardhat/contracts/ETFLock.sol)
+```java
+			if (isMainChain()) {
+				if (accountContributionsPerVault[_vaultId][_tokens[i]._contributor] == 0) {
+					contributorsByVault[_vaultId].push(_tokens[i]._contributor);
+				}
+
+
+				// REDSTONE INTERFACE
+				bytes32[] memory dataFeedIds = new bytes32[](6);
+				dataFeedIds[0] = bytes32("ASSET_ID");
+				uint256[] memory prices = getOracleNumericValuesFromTxMsg(dataFeedIds);
+
+				accountContributionsPerVault[_vaultId][_tokens[i]._contributor] += _tokens[i]
+					._quantity * price;
+			}
+```
+
+It is also possible to utilize the standard [V3Aggregator](gateway.fm/packages/hardhat/contracts/MockAggregator.sol) interface from *Chainlink* by changing just one line of code.
 
 
 # OPEN ISSUES
