@@ -12,4 +12,12 @@ sepolia:
   protocol: ethereum
   rpcUrls:
     - http: "https://sepolia.drpc.org"
+presto:
+  name: presto
+  chainId: 686669576
+  domainId: 686669576
+  protocol: ethereum
+  rpcUrls:
+    - http: "https://sepolia.drpc.org"
 
+https://sn2-stavanger-rpc.eu-north-2.gateway.fm
