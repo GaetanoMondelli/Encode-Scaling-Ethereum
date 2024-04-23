@@ -1,0 +1,535 @@
+{
+  "address": "0xe6531282A7f4f253Ecc341B5Ef9680e72B3083Aa",
+  "abi": [
+    {
+      "inputs": [],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "uint64",
+          "name": "id",
+          "type": "uint64"
+        },
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "symbol",
+          "type": "string"
+        }
+      ],
+      "name": "CurrencyAdded",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "uint64",
+          "name": "id",
+          "type": "uint64"
+        },
+        {
+          "indexed": false,
+          "internalType": "bool",
+          "name": "state",
+          "type": "bool"
+        }
+      ],
+      "name": "CurrencyStateChanged",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "uint64",
+          "name": "id",
+          "type": "uint64"
+        },
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "symbol",
+          "type": "string"
+        }
+      ],
+      "name": "CurrencyUpdated",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "previousOwner",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "newOwner",
+          "type": "address"
+        }
+      ],
+      "name": "OwnershipTransferred",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "uint64",
+          "name": "id",
+          "type": "uint64"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "price",
+          "type": "uint256"
+        }
+      ],
+      "name": "PriceUpdated",
+      "type": "event"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "symbol",
+          "type": "string"
+        }
+      ],
+      "name": "addCurrency",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint64",
+          "name": "id",
+          "type": "uint64"
+        },
+        {
+          "internalType": "bool",
+          "name": "state",
+          "type": "bool"
+        }
+      ],
+      "name": "changeCurrencyState",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "symbol",
+          "type": "string"
+        }
+      ],
+      "name": "getCurrencyID",
+      "outputs": [
+        {
+          "internalType": "uint64",
+          "name": "",
+          "type": "uint64"
+        },
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint64",
+          "name": "id",
+          "type": "uint64"
+        }
+      ],
+      "name": "getCurrencyMetadata",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "string",
+              "name": "name",
+              "type": "string"
+            },
+            {
+              "internalType": "string",
+              "name": "symbol",
+              "type": "string"
+            }
+          ],
+          "internalType": "struct Quasar.Currency",
+          "name": "",
+          "type": "tuple"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getNextID",
+      "outputs": [
+        {
+          "internalType": "uint64",
+          "name": "",
+          "type": "uint64"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint64",
+          "name": "id",
+          "type": "uint64"
+        }
+      ],
+      "name": "getPrice",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getSupportedCurrencies",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "string",
+              "name": "name",
+              "type": "string"
+            },
+            {
+              "internalType": "string",
+              "name": "symbol",
+              "type": "string"
+            }
+          ],
+          "internalType": "struct Quasar.Currency[]",
+          "name": "",
+          "type": "tuple[]"
+        },
+        {
+          "internalType": "bool[]",
+          "name": "",
+          "type": "bool[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint64",
+          "name": "id",
+          "type": "uint64"
+        }
+      ],
+      "name": "isCurrencySupported",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "owner",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint64",
+          "name": "id",
+          "type": "uint64"
+        },
+        {
+          "internalType": "uint256",
+          "name": "price",
+          "type": "uint256"
+        }
+      ],
+      "name": "pushPrice",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "renounceOwnership",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "newOwner",
+          "type": "address"
+        }
+      ],
+      "name": "transferOwnership",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint64",
+          "name": "id",
+          "type": "uint64"
+        },
+        {
+          "internalType": "string",
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "symbol",
+          "type": "string"
+        }
+      ],
+      "name": "updateCurrency",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "transactionHash": "0x6f12cc0d343b9c8965f40ab0f231dd7fbacfaa94118ba0c223726e94a79bde08",
+  "receipt": {
+    "to": null,
+    "from": "0x2a1F5eB3e84e58e6F1e565306298B9dE1273f203",
+    "contractAddress": "0xe6531282A7f4f253Ecc341B5Ef9680e72B3083Aa",
+    "transactionIndex": 0,
+    "gasUsed": "1233335",
+    "logsBloom": "0x00200000000000020000000000000000000000000000000000800000000000000000000000000000000000000000000000000000000008000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000020000000000000000000800000000000000000000000000000000400000000000000040000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000020000000000000000000000200000000000000000000000000040000000000000000",
+    "blockHash": "0x7f71ca44626bbdf49fb398799f30378e216603c16a71896f38b007536c8cb53f",
+    "transactionHash": "0x6f12cc0d343b9c8965f40ab0f231dd7fbacfaa94118ba0c223726e94a79bde08",
+    "logs": [
+      {
+        "transactionIndex": 0,
+        "blockNumber": 15919,
+        "transactionHash": "0x6f12cc0d343b9c8965f40ab0f231dd7fbacfaa94118ba0c223726e94a79bde08",
+        "address": "0xe6531282A7f4f253Ecc341B5Ef9680e72B3083Aa",
+        "topics": [
+          "0x8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e0",
+          "0x0000000000000000000000000000000000000000000000000000000000000000",
+          "0x0000000000000000000000002a1f5eb3e84e58e6f1e565306298b9de1273f203"
+        ],
+        "data": "0x",
+        "logIndex": 0,
+        "blockHash": "0x7f71ca44626bbdf49fb398799f30378e216603c16a71896f38b007536c8cb53f"
+      }
+    ],
+    "blockNumber": 15919,
+    "cumulativeGasUsed": "1233335",
+    "status": 1,
+    "byzantium": true
+  },
+  "args": [],
+  "numDeployments": 1,
+  "solcInputHash": "89e55ea3beec74d94f9d878f8a0f0c16",
+  "metadata": "{\"compiler\":{\"version\":\"0.8.17+commit.8df45f5f\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"uint64\",\"name\":\"id\",\"type\":\"uint64\"},{\"indexed\":false,\"internalType\":\"string\",\"name\":\"name\",\"type\":\"string\"},{\"indexed\":false,\"internalType\":\"string\",\"name\":\"symbol\",\"type\":\"string\"}],\"name\":\"CurrencyAdded\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"uint64\",\"name\":\"id\",\"type\":\"uint64\"},{\"indexed\":false,\"internalType\":\"bool\",\"name\":\"state\",\"type\":\"bool\"}],\"name\":\"CurrencyStateChanged\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"uint64\",\"name\":\"id\",\"type\":\"uint64\"},{\"indexed\":false,\"internalType\":\"string\",\"name\":\"name\",\"type\":\"string\"},{\"indexed\":false,\"internalType\":\"string\",\"name\":\"symbol\",\"type\":\"string\"}],\"name\":\"CurrencyUpdated\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"previousOwner\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"OwnershipTransferred\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"uint64\",\"name\":\"id\",\"type\":\"uint64\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"price\",\"type\":\"uint256\"}],\"name\":\"PriceUpdated\",\"type\":\"event\"},{\"inputs\":[{\"internalType\":\"string\",\"name\":\"name\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"symbol\",\"type\":\"string\"}],\"name\":\"addCurrency\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint64\",\"name\":\"id\",\"type\":\"uint64\"},{\"internalType\":\"bool\",\"name\":\"state\",\"type\":\"bool\"}],\"name\":\"changeCurrencyState\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"string\",\"name\":\"symbol\",\"type\":\"string\"}],\"name\":\"getCurrencyID\",\"outputs\":[{\"internalType\":\"uint64\",\"name\":\"\",\"type\":\"uint64\"},{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint64\",\"name\":\"id\",\"type\":\"uint64\"}],\"name\":\"getCurrencyMetadata\",\"outputs\":[{\"components\":[{\"internalType\":\"string\",\"name\":\"name\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"symbol\",\"type\":\"string\"}],\"internalType\":\"struct Quasar.Currency\",\"name\":\"\",\"type\":\"tuple\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"getNextID\",\"outputs\":[{\"internalType\":\"uint64\",\"name\":\"\",\"type\":\"uint64\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint64\",\"name\":\"id\",\"type\":\"uint64\"}],\"name\":\"getPrice\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"getSupportedCurrencies\",\"outputs\":[{\"components\":[{\"internalType\":\"string\",\"name\":\"name\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"symbol\",\"type\":\"string\"}],\"internalType\":\"struct Quasar.Currency[]\",\"name\":\"\",\"type\":\"tuple[]\"},{\"internalType\":\"bool[]\",\"name\":\"\",\"type\":\"bool[]\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint64\",\"name\":\"id\",\"type\":\"uint64\"}],\"name\":\"isCurrencySupported\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint64\",\"name\":\"id\",\"type\":\"uint64\"},{\"internalType\":\"uint256\",\"name\":\"price\",\"type\":\"uint256\"}],\"name\":\"pushPrice\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"renounceOwnership\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"transferOwnership\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint64\",\"name\":\"id\",\"type\":\"uint64\"},{\"internalType\":\"string\",\"name\":\"name\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"symbol\",\"type\":\"string\"}],\"name\":\"updateCurrency\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{\"owner()\":{\"details\":\"Returns the address of the current owner.\"},\"renounceOwnership()\":{\"details\":\"Leaves the contract without owner. It will not be possible to call `onlyOwner` functions anymore. Can only be called by the current owner. NOTE: Renouncing ownership will leave the contract without an owner, thereby removing any functionality that is only available to the owner.\"},\"transferOwnership(address)\":{\"details\":\"Transfers ownership of the contract to a new account (`newOwner`). Can only be called by the current owner.\"}},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"contracts/Quasar.sol\":\"Quasar\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\",\"useLiteralContent\":true},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"@openzeppelin/contracts/access/Ownable.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\n// OpenZeppelin Contracts (last updated v4.7.0) (access/Ownable.sol)\\n\\npragma solidity ^0.8.0;\\n\\nimport \\\"../utils/Context.sol\\\";\\n\\n/**\\n * @dev Contract module which provides a basic access control mechanism, where\\n * there is an account (an owner) that can be granted exclusive access to\\n * specific functions.\\n *\\n * By default, the owner account will be the one that deploys the contract. This\\n * can later be changed with {transferOwnership}.\\n *\\n * This module is used through inheritance. It will make available the modifier\\n * `onlyOwner`, which can be applied to your functions to restrict their use to\\n * the owner.\\n */\\nabstract contract Ownable is Context {\\n    address private _owner;\\n\\n    event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);\\n\\n    /**\\n     * @dev Initializes the contract setting the deployer as the initial owner.\\n     */\\n    constructor() {\\n        _transferOwnership(_msgSender());\\n    }\\n\\n    /**\\n     * @dev Throws if called by any account other than the owner.\\n     */\\n    modifier onlyOwner() {\\n        _checkOwner();\\n        _;\\n    }\\n\\n    /**\\n     * @dev Returns the address of the current owner.\\n     */\\n    function owner() public view virtual returns (address) {\\n        return _owner;\\n    }\\n\\n    /**\\n     * @dev Throws if the sender is not the owner.\\n     */\\n    function _checkOwner() internal view virtual {\\n        require(owner() == _msgSender(), \\\"Ownable: caller is not the owner\\\");\\n    }\\n\\n    /**\\n     * @dev Leaves the contract without owner. It will not be possible to call\\n     * `onlyOwner` functions anymore. Can only be called by the current owner.\\n     *\\n     * NOTE: Renouncing ownership will leave the contract without an owner,\\n     * thereby removing any functionality that is only available to the owner.\\n     */\\n    function renounceOwnership() public virtual onlyOwner {\\n        _transferOwnership(address(0));\\n    }\\n\\n    /**\\n     * @dev Transfers ownership of the contract to a new account (`newOwner`).\\n     * Can only be called by the current owner.\\n     */\\n    function transferOwnership(address newOwner) public virtual onlyOwner {\\n        require(newOwner != address(0), \\\"Ownable: new owner is the zero address\\\");\\n        _transferOwnership(newOwner);\\n    }\\n\\n    /**\\n     * @dev Transfers ownership of the contract to a new account (`newOwner`).\\n     * Internal function without access restriction.\\n     */\\n    function _transferOwnership(address newOwner) internal virtual {\\n        address oldOwner = _owner;\\n        _owner = newOwner;\\n        emit OwnershipTransferred(oldOwner, newOwner);\\n    }\\n}\\n\",\"keccak256\":\"0xa94b34880e3c1b0b931662cb1c09e5dfa6662f31cba80e07c5ee71cd135c9673\",\"license\":\"MIT\"},\"@openzeppelin/contracts/utils/Context.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\n// OpenZeppelin Contracts v4.4.1 (utils/Context.sol)\\n\\npragma solidity ^0.8.0;\\n\\n/**\\n * @dev Provides information about the current execution context, including the\\n * sender of the transaction and its data. While these are generally available\\n * via msg.sender and msg.data, they should not be accessed in such a direct\\n * manner, since when dealing with meta-transactions the account sending and\\n * paying for execution may not be the actual sender (as far as an application\\n * is concerned).\\n *\\n * This contract is only required for intermediate, library-like contracts.\\n */\\nabstract contract Context {\\n    function _msgSender() internal view virtual returns (address) {\\n        return msg.sender;\\n    }\\n\\n    function _msgData() internal view virtual returns (bytes calldata) {\\n        return msg.data;\\n    }\\n}\\n\",\"keccak256\":\"0xe2e337e6dde9ef6b680e07338c493ebea1b5fd09b43424112868e9cc1706bca7\",\"license\":\"MIT\"},\"contracts/Quasar.sol\":{\"content\":\"// SPDX-License-Identifier: UNLICENSED\\npragma solidity ^0.8.13;\\n\\nimport \\\"@openzeppelin/contracts/access/Ownable.sol\\\";\\n\\ncontract Quasar is Ownable {\\n    // Next currency ID\\n    uint64 private _nextID;\\n\\n    // Currency metadata struct\\n    struct Currency {\\n        string name;\\n        string symbol;\\n    }\\n\\n    // Mapping currency ID to currency metadata\\n    mapping(uint64 => Currency) private _currencies;\\n\\n    // Mapping currency ID to currency price\\n    mapping(uint64 => uint256) private _currencyPrices;\\n\\n    // Mapping currency ID to currency state. If true, currency is supported\\n    mapping(uint64 => bool) private _isCurrencySupported;\\n\\n    // Triggered whenever new currency is added\\n    event CurrencyAdded(uint64 indexed id, string name, string symbol);\\n\\n    // Triggered whenever currency metadata is updated\\n    event CurrencyUpdated(uint64 indexed id, string name, string symbol);\\n\\n    // Triggered whenever currency price is updated\\n    event PriceUpdated(uint64 indexed id, uint256 price);\\n\\n    // Triggered whenever currency state is changed\\n    event CurrencyStateChanged(uint64 indexed id, bool state);\\n\\n    constructor() {\\n        _nextID = 1;\\n    }\\n\\n    /*\\n     * Allows to get currency ID\\n     *\\n     * @param symbol - currency symbol\\n     *\\n     * @return currency ID as uint64\\n     * @return is currency active as bool\\n     */\\n    function getCurrencyID(string memory symbol) external view returns(uint64, bool) {\\n        for (uint64 i = 0; i < _nextID; i++) {\\n            if (keccak256(abi.encode(_currencies[i+1].symbol)) == keccak256(abi.encode(symbol))) {\\n                return (i+1, _isCurrencySupported[i+1]);\\n            }\\n        }\\n\\n        return (0, false);\\n    }\\n\\n    /*\\n     * Allows to get all supported currencies\\n     *\\n     * @return currencies as Currency struct array\\n     * @return is currency active statuses as bool array\\n     */\\n    function getSupportedCurrencies() external view returns(Currency[] memory, bool[] memory) {\\n        Currency[] memory currencies = new Currency[](_nextID-1);\\n        bool[] memory isActive = new bool[](_nextID-1);\\n\\n        for (uint64 i = 0; i < _nextID; i++) {\\n            currencies[i] = _currencies[i+1];\\n            isActive[i] = _isCurrencySupported[i+1];\\n        }\\n\\n        return (currencies, isActive);\\n    }\\n\\n    /*\\n     * Allows to get current next ID\\n     *\\n     * @return next currency ID as uint64\\n     */\\n    function getNextID() external view returns (uint64) {\\n        return _nextID;\\n    }\\n\\n    /*\\n     * Allows to add new currency\\n     *\\n     * Requirements:\\n     * - caller should be a contract owner\\n     * - name cannot be blank\\n     * - symbol cannot be blank\\n     *\\n     * @param name - currency name\\n     * @param symbol - currency symbol\\n     *\\n     * @emits `CurrencyAdded` event with ID, name and symbol as arguments\\n     */\\n    function addCurrency(string memory name, string memory symbol) external onlyOwner {\\n        require(bytes(name).length > 0, \\\"Quasar: name cannot be blank\\\");\\n        require(bytes(symbol).length > 0, \\\"Quasar: symbol cannot be blank\\\");\\n\\n        uint64 id = _nextID;\\n\\n        _currencies[id] = Currency(name, symbol);\\n        _nextID++;\\n        _isCurrencySupported[id] = true;\\n\\n        emit CurrencyAdded(id, name, symbol);\\n    }\\n\\n    /*\\n     * Allows to update existing currency\\n     *\\n     * Requirements:\\n     * - caller should be a contract owner\\n     * - currency should exist\\n     * - name cannot be blank\\n     * - symbol cannot be blank\\n     *\\n     * @param id - currency ID\\n     * @param name - currency name\\n     * @param symbol - currency symbol\\n     *\\n     * @emits `CurrencyUpdated` event with ID, name and symbol as arguments\\n     */\\n    function updateCurrency(uint64 id, string memory name, string memory symbol) external onlyOwner {\\n        require(_isCurrencySupported[id], \\\"Quasar: currency should be supported\\\");\\n        require(bytes(name).length > 0, \\\"Quasar: name cannot be blank\\\");\\n        require(bytes(symbol).length > 0, \\\"Quasar: symbol cannot be blank\\\");\\n\\n        _currencies[id].name = name;\\n        _currencies[id].symbol = symbol;\\n\\n        emit CurrencyUpdated(id, name, symbol);\\n    }\\n\\n    /*\\n     * Allows to get currency metadata by given ID\\n     *\\n     * @param id - currency ID\\n     *\\n     * @return currency metadata as Currency struct type\\n     */\\n    function getCurrencyMetadata(uint64 id) external view returns (Currency memory) {\\n        return _currencies[id];\\n    }\\n\\n    /*\\n     * Allows to push price for given currency ID\\n     *\\n     * Requirements:\\n     * - caller should be a contract owner\\n     * - currency should exist\\n     *\\n     * @param id - currency ID\\n     * @param price - currency price\\n     *\\n     * @emit PriceUpdated event with id and price as arguments\\n     */\\n    function pushPrice(uint64 id, uint256 price) external onlyOwner {\\n        require(_isCurrencySupported[id], \\\"Quasar: currency should be supported\\\");\\n\\n        _currencyPrices[id] = price;\\n\\n        emit PriceUpdated(id, price);\\n    }\\n\\n    /*\\n     * Allows to get currency price\\n     *\\n     * @param id - currency ID\\n     *\\n     * @return currency price as uint256\\n     */\\n    function getPrice(uint64 id) external view returns (uint256) {\\n        require(_isCurrencyExists(id), \\\"Quasar: currency does not exist\\\");\\n\\n        return _currencyPrices[id];\\n    }\\n\\n    /*\\n     * Allows to change currency state\\n     *\\n     * Requirements:\\n     * - caller should be a contract owner\\n     * - currency should exist\\n     *\\n     * @param id - currency ID\\n     * @param state - new currency state\\n     *\\n     * @emit CurrencyStateChanged event with id and new state as arguments\\n     */\\n    function changeCurrencyState(uint64 id, bool state) external onlyOwner {\\n        require(_isCurrencyExists(id), \\\"Quasar: currency does not exist\\\");\\n\\n        _isCurrencySupported[id] = state;\\n\\n        emit CurrencyStateChanged(id, state);\\n    }\\n\\n    /*\\n     * Allows to get current currency state\\n     *\\n     * @param id - currency ID\\n     *\\n     * @return currency state as bool\\n     */\\n    function isCurrencySupported(uint64 id) external view returns (bool) {\\n        return _isCurrencySupported[id];\\n    }\\n\\n    // Allows to check if currency exist by given currency ID\\n    function _isCurrencyExists(uint64 id) internal view returns (bool) {\\n        return bytes(_currencies[id].name).length > 0;\\n    }\\n}\\n\",\"keccak256\":\"0xb5c052d60f41725f399ae5380960e4f461c59142c7871b4b28779e627242c105\",\"license\":\"UNLICENSED\"}},\"version\":1}",
+  "bytecode": "0x608060405234801561001057600080fd5b5061001a33610038565b60008054600160a01b600160e01b031916600160a01b179055610088565b600080546001600160a01b038381166001600160a01b0319831681178455604051919092169283917f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e09190a35050565b6114e2806100976000396000f3fe608060405234801561001057600080fd5b50600436106100cf5760003560e01c806379e6c42a1161008c578063abc5e6a611610066578063abc5e6a6146101dc578063ce36ad73146101ef578063f2fde38b14610202578063fd30e0a01461021557600080fd5b806379e6c42a1461019b578063861d0d35146101ae5780638da5cb5b146101c157600080fd5b8063184ca4f2146100d45780631c3fcee0146100fd5780632b0b086e1461012f5780632ce758631461015a578063520bcf4b14610170578063715018a614610191575b600080fd5b6100e76100e2366004610e32565b610251565b6040516100f49190610ed1565b60405180910390f35b61011061010b366004610f86565b6103b1565b604080516001600160401b0390931683529015156020830152016100f4565b600054600160a01b90046001600160401b03166040516001600160401b0390911681526020016100f4565b6101626104bc565b6040516100f4929190610fc2565b61018361017e366004610e32565b6107df565b6040519081526020016100f4565b610199610857565b005b6101996101a936600461105f565b61086b565b6101996101bc366004611089565b610904565b6000546040516001600160a01b0390911681526020016100f4565b6101996101ea3660046110c5565b6109b9565b6101996101fd366004611138565b610b2d565b61019961021036600461119b565b610cc3565b610241610223366004610e32565b6001600160401b031660009081526003602052604090205460ff1690565b60405190151581526020016100f4565b60408051808201909152606080825260208201526001600160401b038216600090815260016020526040908190208151808301909252805482908290610296906111c4565b80601f01602080910402602001604051908101604052809291908181526020018280546102c2906111c4565b801561030f5780601f106102e45761010080835404028352916020019161030f565b820191906000526020600020905b8154815290600101906020018083116102f257829003601f168201915b50505050508152602001600182018054610328906111c4565b80601f0160208091040260200160405190810160405280929190818152602001828054610354906111c4565b80156103a15780601f10610376576101008083540402835291602001916103a1565b820191906000526020600020905b81548152906001019060200180831161038457829003601f168201915b5050505050815250509050919050565b60008060005b6000546001600160401b03600160a01b909104811690821610156104b057836040516020016103e691906111fe565b604051602081830303815290604052805190602001206001600083600161040d9190611227565b6001600160401b03166001600160401b03168152602001908152602001600020600101604051602001610440919061124e565b604051602081830303815290604052805190602001200361049e57610466816001611227565b60036000610475846001611227565b6001600160401b03168152602081019190915260400160002054909560ff909116945092505050565b806104a8816112d9565b9150506103b7565b50600093849350915050565b6000805460609182916104e190600190600160a01b90046001600160401b03166112ff565b6001600160401b03166001600160401b0381111561050157610501610ee4565b60405190808252806020026020018201604052801561054657816020015b604080518082019091526060808252602082015281526020019060019003908161051f5790505b50600080549192509061056b90600190600160a01b90046001600160401b03166112ff565b6001600160401b03166001600160401b0381111561058b5761058b610ee4565b6040519080825280602002602001820160405280156105b4578160200160208202803683370190505b50905060005b6000546001600160401b03600160a01b909104811690821610156107d557600160006105e68383611227565b6001600160401b03166001600160401b03168152602001908152602001600020604051806040016040529081600082018054610621906111c4565b80601f016020809104026020016040519081016040528092919081815260200182805461064d906111c4565b801561069a5780601f1061066f5761010080835404028352916020019161069a565b820191906000526020600020905b81548152906001019060200180831161067d57829003601f168201915b505050505081526020016001820180546106b3906111c4565b80601f01602080910402602001604051908101604052809291908181526020018280546106df906111c4565b801561072c5780601f106107015761010080835404028352916020019161072c565b820191906000526020600020905b81548152906001019060200180831161070f57829003601f168201915b50505050508152505083826001600160401b0316815181106107505761075061131f565b60209081029190910101526003600061076a836001611227565b6001600160401b03166001600160401b0316815260200190815260200160002060009054906101000a900460ff1682826001600160401b0316815181106107b3576107b361131f565b91151560209283029190910190910152806107cd816112d9565b9150506105ba565b5090939092509050565b60006107ea82610d3c565b61083b5760405162461bcd60e51b815260206004820152601f60248201527f5175617361723a2063757272656e637920646f6573206e6f742065786973740060448201526064015b60405180910390fd5b506001600160401b031660009081526002602052604090205490565b61085f610d6c565b6108696000610dc6565b565b610873610d6c565b6001600160401b03821660009081526003602052604090205460ff166108ab5760405162461bcd60e51b815260040161083290611335565b6001600160401b03821660008181526002602052604090819020839055517f07ff9b8a0601277d4417d6e639b80e205b57cb801379edfda2ab6820e3b7b30e906108f89084815260200190565b60405180910390a25050565b61090c610d6c565b61091582610d3c565b6109615760405162461bcd60e51b815260206004820152601f60248201527f5175617361723a2063757272656e637920646f6573206e6f74206578697374006044820152606401610832565b6001600160401b038216600081815260036020908152604091829020805460ff191685151590811790915591519182527fc491c163d3b6cfb2f97ec0acd164a01b48db3856f076d6079a1b7bd34525197691016108f8565b6109c1610d6c565b6001600160401b03831660009081526003602052604090205460ff166109f95760405162461bcd60e51b815260040161083290611335565b6000825111610a4a5760405162461bcd60e51b815260206004820152601c60248201527f5175617361723a206e616d652063616e6e6f7420626520626c616e6b000000006044820152606401610832565b6000815111610a9b5760405162461bcd60e51b815260206004820152601e60248201527f5175617361723a2073796d626f6c2063616e6e6f7420626520626c616e6b00006044820152606401610832565b6001600160401b0383166000908152600160205260409020610abd83826113c8565b506001600160401b038316600090815260016020819052604090912001610ae482826113c8565b50826001600160401b03167fc6b670b7657fbec139696e713de6494d3f00f0dcd52fba8b368bc306a33a6b688383604051610b20929190611487565b60405180910390a2505050565b610b35610d6c565b6000825111610b865760405162461bcd60e51b815260206004820152601c60248201527f5175617361723a206e616d652063616e6e6f7420626520626c616e6b000000006044820152606401610832565b6000815111610bd75760405162461bcd60e51b815260206004820152601e60248201527f5175617361723a2073796d626f6c2063616e6e6f7420626520626c616e6b00006044820152606401610832565b600080546040805180820182528581526020808201869052600160a01b9093046001600160401b03168085526001909352922082519192918190610c1b90826113c8565b5060208201516001820190610c3090826113c8565b505060008054600160a01b90046001600160401b031691506014610c53836112d9565b82546101009290920a6001600160401b03818102199093169183160217909155821660008181526003602052604090819020805460ff19166001179055519091507fad343e4211b41810d43dbf7ba860cd361ec4e7ecfeba134b4306a3251a35e3e890610b209086908690611487565b610ccb610d6c565b6001600160a01b038116610d305760405162461bcd60e51b815260206004820152602660248201527f4f776e61626c653a206e6577206f776e657220697320746865207a65726f206160448201526564647265737360d01b6064820152608401610832565b610d3981610dc6565b50565b6001600160401b03811660009081526001602052604081208054829190610d62906111c4565b9050119050919050565b6000546001600160a01b031633146108695760405162461bcd60e51b815260206004820181905260248201527f4f776e61626c653a2063616c6c6572206973206e6f7420746865206f776e65726044820152606401610832565b600080546001600160a01b038381166001600160a01b0319831681178455604051919092169283917f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e09190a35050565b80356001600160401b0381168114610e2d57600080fd5b919050565b600060208284031215610e4457600080fd5b610e4d82610e16565b9392505050565b6000815180845260005b81811015610e7a57602081850181015186830182015201610e5e565b506000602082860101526020601f19601f83011685010191505092915050565b6000815160408452610eaf6040850182610e54565b905060208301518482036020860152610ec88282610e54565b95945050505050565b602081526000610e4d6020830184610e9a565b634e487b7160e01b600052604160045260246000fd5b600082601f830112610f0b57600080fd5b81356001600160401b0380821115610f2557610f25610ee4565b604051601f8301601f19908116603f01168101908282118183101715610f4d57610f4d610ee4565b81604052838152866020858801011115610f6657600080fd5b836020870160208301376000602085830101528094505050505092915050565b600060208284031215610f9857600080fd5b81356001600160401b03811115610fae57600080fd5b610fba84828501610efa565b949350505050565b6000604082016040835280855180835260608501915060608160051b8601019250602080880160005b8381101561101957605f19888703018552611007868351610e9a565b95509382019390820190600101610feb565b50508584038187015286518085528782019482019350915060005b82811015611052578451151584529381019392810192600101611034565b5091979650505050505050565b6000806040838503121561107257600080fd5b61107b83610e16565b946020939093013593505050565b6000806040838503121561109c57600080fd5b6110a583610e16565b9150602083013580151581146110ba57600080fd5b809150509250929050565b6000806000606084860312156110da57600080fd5b6110e384610e16565b925060208401356001600160401b03808211156110ff57600080fd5b61110b87838801610efa565b9350604086013591508082111561112157600080fd5b5061112e86828701610efa565b9150509250925092565b6000806040838503121561114b57600080fd5b82356001600160401b038082111561116257600080fd5b61116e86838701610efa565b9350602085013591508082111561118457600080fd5b5061119185828601610efa565b9150509250929050565b6000602082840312156111ad57600080fd5b81356001600160a01b0381168114610e4d57600080fd5b600181811c908216806111d857607f821691505b6020821081036111f857634e487b7160e01b600052602260045260246000fd5b50919050565b602081526000610e4d6020830184610e54565b634e487b7160e01b600052601160045260246000fd5b6001600160401b0381811683821601908082111561124757611247611211565b5092915050565b6000602080835260008454611262816111c4565b80848701526040600180841660008114611283576001811461129d576112cb565b60ff1985168984015283151560051b8901830195506112cb565b896000528660002060005b858110156112c35781548b82018601529083019088016112a8565b8a0184019650505b509398975050505050505050565b60006001600160401b038083168181036112f5576112f5611211565b6001019392505050565b6001600160401b0382811682821603908082111561124757611247611211565b634e487b7160e01b600052603260045260246000fd5b60208082526024908201527f5175617361723a2063757272656e63792073686f756c6420626520737570706f6040820152631c9d195960e21b606082015260800190565b601f8211156113c357600081815260208120601f850160051c810160208610156113a05750805b601f850160051c820191505b818110156113bf578281556001016113ac565b5050505b505050565b81516001600160401b038111156113e1576113e1610ee4565b6113f5816113ef84546111c4565b84611379565b602080601f83116001811461142a57600084156114125750858301515b600019600386901b1c1916600185901b1785556113bf565b600085815260208120601f198616915b828110156114595788860151825594840194600190910190840161143a565b50858210156114775787850151600019600388901b60f8161c191681555b5050505050600190811b01905550565b60408152600061149a6040830185610e54565b8281036020840152610ec88185610e5456fea2646970667358221220db01d3d7b15517422fc02bbac0209d6d08c424c25435f76744e4a47a0ee2a04864736f6c63430008110033",
+  "deployedBytecode": "0x608060405234801561001057600080fd5b50600436106100cf5760003560e01c806379e6c42a1161008c578063abc5e6a611610066578063abc5e6a6146101dc578063ce36ad73146101ef578063f2fde38b14610202578063fd30e0a01461021557600080fd5b806379e6c42a1461019b578063861d0d35146101ae5780638da5cb5b146101c157600080fd5b8063184ca4f2146100d45780631c3fcee0146100fd5780632b0b086e1461012f5780632ce758631461015a578063520bcf4b14610170578063715018a614610191575b600080fd5b6100e76100e2366004610e32565b610251565b6040516100f49190610ed1565b60405180910390f35b61011061010b366004610f86565b6103b1565b604080516001600160401b0390931683529015156020830152016100f4565b600054600160a01b90046001600160401b03166040516001600160401b0390911681526020016100f4565b6101626104bc565b6040516100f4929190610fc2565b61018361017e366004610e32565b6107df565b6040519081526020016100f4565b610199610857565b005b6101996101a936600461105f565b61086b565b6101996101bc366004611089565b610904565b6000546040516001600160a01b0390911681526020016100f4565b6101996101ea3660046110c5565b6109b9565b6101996101fd366004611138565b610b2d565b61019961021036600461119b565b610cc3565b610241610223366004610e32565b6001600160401b031660009081526003602052604090205460ff1690565b60405190151581526020016100f4565b60408051808201909152606080825260208201526001600160401b038216600090815260016020526040908190208151808301909252805482908290610296906111c4565b80601f01602080910402602001604051908101604052809291908181526020018280546102c2906111c4565b801561030f5780601f106102e45761010080835404028352916020019161030f565b820191906000526020600020905b8154815290600101906020018083116102f257829003601f168201915b50505050508152602001600182018054610328906111c4565b80601f0160208091040260200160405190810160405280929190818152602001828054610354906111c4565b80156103a15780601f10610376576101008083540402835291602001916103a1565b820191906000526020600020905b81548152906001019060200180831161038457829003601f168201915b5050505050815250509050919050565b60008060005b6000546001600160401b03600160a01b909104811690821610156104b057836040516020016103e691906111fe565b604051602081830303815290604052805190602001206001600083600161040d9190611227565b6001600160401b03166001600160401b03168152602001908152602001600020600101604051602001610440919061124e565b604051602081830303815290604052805190602001200361049e57610466816001611227565b60036000610475846001611227565b6001600160401b03168152602081019190915260400160002054909560ff909116945092505050565b806104a8816112d9565b9150506103b7565b50600093849350915050565b6000805460609182916104e190600190600160a01b90046001600160401b03166112ff565b6001600160401b03166001600160401b0381111561050157610501610ee4565b60405190808252806020026020018201604052801561054657816020015b604080518082019091526060808252602082015281526020019060019003908161051f5790505b50600080549192509061056b90600190600160a01b90046001600160401b03166112ff565b6001600160401b03166001600160401b0381111561058b5761058b610ee4565b6040519080825280602002602001820160405280156105b4578160200160208202803683370190505b50905060005b6000546001600160401b03600160a01b909104811690821610156107d557600160006105e68383611227565b6001600160401b03166001600160401b03168152602001908152602001600020604051806040016040529081600082018054610621906111c4565b80601f016020809104026020016040519081016040528092919081815260200182805461064d906111c4565b801561069a5780601f1061066f5761010080835404028352916020019161069a565b820191906000526020600020905b81548152906001019060200180831161067d57829003601f168201915b505050505081526020016001820180546106b3906111c4565b80601f01602080910402602001604051908101604052809291908181526020018280546106df906111c4565b801561072c5780601f106107015761010080835404028352916020019161072c565b820191906000526020600020905b81548152906001019060200180831161070f57829003601f168201915b50505050508152505083826001600160401b0316815181106107505761075061131f565b60209081029190910101526003600061076a836001611227565b6001600160401b03166001600160401b0316815260200190815260200160002060009054906101000a900460ff1682826001600160401b0316815181106107b3576107b361131f565b91151560209283029190910190910152806107cd816112d9565b9150506105ba565b5090939092509050565b60006107ea82610d3c565b61083b5760405162461bcd60e51b815260206004820152601f60248201527f5175617361723a2063757272656e637920646f6573206e6f742065786973740060448201526064015b60405180910390fd5b506001600160401b031660009081526002602052604090205490565b61085f610d6c565b6108696000610dc6565b565b610873610d6c565b6001600160401b03821660009081526003602052604090205460ff166108ab5760405162461bcd60e51b815260040161083290611335565b6001600160401b03821660008181526002602052604090819020839055517f07ff9b8a0601277d4417d6e639b80e205b57cb801379edfda2ab6820e3b7b30e906108f89084815260200190565b60405180910390a25050565b61090c610d6c565b61091582610d3c565b6109615760405162461bcd60e51b815260206004820152601f60248201527f5175617361723a2063757272656e637920646f6573206e6f74206578697374006044820152606401610832565b6001600160401b038216600081815260036020908152604091829020805460ff191685151590811790915591519182527fc491c163d3b6cfb2f97ec0acd164a01b48db3856f076d6079a1b7bd34525197691016108f8565b6109c1610d6c565b6001600160401b03831660009081526003602052604090205460ff166109f95760405162461bcd60e51b815260040161083290611335565b6000825111610a4a5760405162461bcd60e51b815260206004820152601c60248201527f5175617361723a206e616d652063616e6e6f7420626520626c616e6b000000006044820152606401610832565b6000815111610a9b5760405162461bcd60e51b815260206004820152601e60248201527f5175617361723a2073796d626f6c2063616e6e6f7420626520626c616e6b00006044820152606401610832565b6001600160401b0383166000908152600160205260409020610abd83826113c8565b506001600160401b038316600090815260016020819052604090912001610ae482826113c8565b50826001600160401b03167fc6b670b7657fbec139696e713de6494d3f00f0dcd52fba8b368bc306a33a6b688383604051610b20929190611487565b60405180910390a2505050565b610b35610d6c565b6000825111610b865760405162461bcd60e51b815260206004820152601c60248201527f5175617361723a206e616d652063616e6e6f7420626520626c616e6b000000006044820152606401610832565b6000815111610bd75760405162461bcd60e51b815260206004820152601e60248201527f5175617361723a2073796d626f6c2063616e6e6f7420626520626c616e6b00006044820152606401610832565b600080546040805180820182528581526020808201869052600160a01b9093046001600160401b03168085526001909352922082519192918190610c1b90826113c8565b5060208201516001820190610c3090826113c8565b505060008054600160a01b90046001600160401b031691506014610c53836112d9565b82546101009290920a6001600160401b03818102199093169183160217909155821660008181526003602052604090819020805460ff19166001179055519091507fad343e4211b41810d43dbf7ba860cd361ec4e7ecfeba134b4306a3251a35e3e890610b209086908690611487565b610ccb610d6c565b6001600160a01b038116610d305760405162461bcd60e51b815260206004820152602660248201527f4f776e61626c653a206e6577206f776e657220697320746865207a65726f206160448201526564647265737360d01b6064820152608401610832565b610d3981610dc6565b50565b6001600160401b03811660009081526001602052604081208054829190610d62906111c4565b9050119050919050565b6000546001600160a01b031633146108695760405162461bcd60e51b815260206004820181905260248201527f4f776e61626c653a2063616c6c6572206973206e6f7420746865206f776e65726044820152606401610832565b600080546001600160a01b038381166001600160a01b0319831681178455604051919092169283917f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e09190a35050565b80356001600160401b0381168114610e2d57600080fd5b919050565b600060208284031215610e4457600080fd5b610e4d82610e16565b9392505050565b6000815180845260005b81811015610e7a57602081850181015186830182015201610e5e565b506000602082860101526020601f19601f83011685010191505092915050565b6000815160408452610eaf6040850182610e54565b905060208301518482036020860152610ec88282610e54565b95945050505050565b602081526000610e4d6020830184610e9a565b634e487b7160e01b600052604160045260246000fd5b600082601f830112610f0b57600080fd5b81356001600160401b0380821115610f2557610f25610ee4565b604051601f8301601f19908116603f01168101908282118183101715610f4d57610f4d610ee4565b81604052838152866020858801011115610f6657600080fd5b836020870160208301376000602085830101528094505050505092915050565b600060208284031215610f9857600080fd5b81356001600160401b03811115610fae57600080fd5b610fba84828501610efa565b949350505050565b6000604082016040835280855180835260608501915060608160051b8601019250602080880160005b8381101561101957605f19888703018552611007868351610e9a565b95509382019390820190600101610feb565b50508584038187015286518085528782019482019350915060005b82811015611052578451151584529381019392810192600101611034565b5091979650505050505050565b6000806040838503121561107257600080fd5b61107b83610e16565b946020939093013593505050565b6000806040838503121561109c57600080fd5b6110a583610e16565b9150602083013580151581146110ba57600080fd5b809150509250929050565b6000806000606084860312156110da57600080fd5b6110e384610e16565b925060208401356001600160401b03808211156110ff57600080fd5b61110b87838801610efa565b9350604086013591508082111561112157600080fd5b5061112e86828701610efa565b9150509250925092565b6000806040838503121561114b57600080fd5b82356001600160401b038082111561116257600080fd5b61116e86838701610efa565b9350602085013591508082111561118457600080fd5b5061119185828601610efa565b9150509250929050565b6000602082840312156111ad57600080fd5b81356001600160a01b0381168114610e4d57600080fd5b600181811c908216806111d857607f821691505b6020821081036111f857634e487b7160e01b600052602260045260246000fd5b50919050565b602081526000610e4d6020830184610e54565b634e487b7160e01b600052601160045260246000fd5b6001600160401b0381811683821601908082111561124757611247611211565b5092915050565b6000602080835260008454611262816111c4565b80848701526040600180841660008114611283576001811461129d576112cb565b60ff1985168984015283151560051b8901830195506112cb565b896000528660002060005b858110156112c35781548b82018601529083019088016112a8565b8a0184019650505b509398975050505050505050565b60006001600160401b038083168181036112f5576112f5611211565b6001019392505050565b6001600160401b0382811682821603908082111561124757611247611211565b634e487b7160e01b600052603260045260246000fd5b60208082526024908201527f5175617361723a2063757272656e63792073686f756c6420626520737570706f6040820152631c9d195960e21b606082015260800190565b601f8211156113c357600081815260208120601f850160051c810160208610156113a05750805b601f850160051c820191505b818110156113bf578281556001016113ac565b5050505b505050565b81516001600160401b038111156113e1576113e1610ee4565b6113f5816113ef84546111c4565b84611379565b602080601f83116001811461142a57600084156114125750858301515b600019600386901b1c1916600185901b1785556113bf565b600085815260208120601f198616915b828110156114595788860151825594840194600190910190840161143a565b50858210156114775787850151600019600388901b60f8161c191681555b5050505050600190811b01905550565b60408152600061149a6040830185610e54565b8281036020840152610ec88185610e5456fea2646970667358221220db01d3d7b15517422fc02bbac0209d6d08c424c25435f76744e4a47a0ee2a04864736f6c63430008110033",
+  "devdoc": {
+    "kind": "dev",
+    "methods": {
+      "owner()": {
+        "details": "Returns the address of the current owner."
+      },
+      "renounceOwnership()": {
+        "details": "Leaves the contract without owner. It will not be possible to call `onlyOwner` functions anymore. Can only be called by the current owner. NOTE: Renouncing ownership will leave the contract without an owner, thereby removing any functionality that is only available to the owner."
+      },
+      "transferOwnership(address)": {
+        "details": "Transfers ownership of the contract to a new account (`newOwner`). Can only be called by the current owner."
+      }
+    },
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {},
+    "version": 1
+  },
+  "storageLayout": {
+    "storage": [
+      {
+        "astId": 2680,
+        "contract": "contracts/Quasar.sol:Quasar",
+        "label": "_owner",
+        "offset": 0,
+        "slot": "0",
+        "type": "t_address"
+      },
+      {
+        "astId": 8394,
+        "contract": "contracts/Quasar.sol:Quasar",
+        "label": "_nextID",
+        "offset": 20,
+        "slot": "0",
+        "type": "t_uint64"
+      },
+      {
+        "astId": 8404,
+        "contract": "contracts/Quasar.sol:Quasar",
+        "label": "_currencies",
+        "offset": 0,
+        "slot": "1",
+        "type": "t_mapping(t_uint64,t_struct(Currency)8399_storage)"
+      },
+      {
+        "astId": 8408,
+        "contract": "contracts/Quasar.sol:Quasar",
+        "label": "_currencyPrices",
+        "offset": 0,
+        "slot": "2",
+        "type": "t_mapping(t_uint64,t_uint256)"
+      },
+      {
+        "astId": 8412,
+        "contract": "contracts/Quasar.sol:Quasar",
+        "label": "_isCurrencySupported",
+        "offset": 0,
+        "slot": "3",
+        "type": "t_mapping(t_uint64,t_bool)"
+      }
+    ],
+    "types": {
+      "t_address": {
+        "encoding": "inplace",
+        "label": "address",
+        "numberOfBytes": "20"
+      },
+      "t_bool": {
+        "encoding": "inplace",
+        "label": "bool",
+        "numberOfBytes": "1"
+      },
+      "t_mapping(t_uint64,t_bool)": {
+        "encoding": "mapping",
+        "key": "t_uint64",
+        "label": "mapping(uint64 => bool)",
+        "numberOfBytes": "32",
+        "value": "t_bool"
+      },
+      "t_mapping(t_uint64,t_struct(Currency)8399_storage)": {
+        "encoding": "mapping",
+        "key": "t_uint64",
+        "label": "mapping(uint64 => struct Quasar.Currency)",
+        "numberOfBytes": "32",
+        "value": "t_struct(Currency)8399_storage"
+      },
+      "t_mapping(t_uint64,t_uint256)": {
+        "encoding": "mapping",
+        "key": "t_uint64",
+        "label": "mapping(uint64 => uint256)",
+        "numberOfBytes": "32",
+        "value": "t_uint256"
+      },
+      "t_string_storage": {
+        "encoding": "bytes",
+        "label": "string",
+        "numberOfBytes": "32"
+      },
+      "t_struct(Currency)8399_storage": {
+        "encoding": "inplace",
+        "label": "struct Quasar.Currency",
+        "members": [
+          {
+            "astId": 8396,
+            "contract": "contracts/Quasar.sol:Quasar",
+            "label": "name",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_string_storage"
+          },
+          {
+            "astId": 8398,
+            "contract": "contracts/Quasar.sol:Quasar",
+            "label": "symbol",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_string_storage"
+          }
+        ],
+        "numberOfBytes": "64"
+      },
+      "t_uint256": {
+        "encoding": "inplace",
+        "label": "uint256",
+        "numberOfBytes": "32"
+      },
+      "t_uint64": {
+        "encoding": "inplace",
+        "label": "uint64",
+        "numberOfBytes": "8"
+      }
+    }
+  }
+}
