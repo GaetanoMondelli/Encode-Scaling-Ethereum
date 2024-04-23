@@ -26,9 +26,9 @@ export function DepositButton({
     isLoading: isburnLoading,
     writeAsync: burnAsync,
   } = useContractWrite({
-    address: contractsData["ETFLock"].address,
+    address: contractsData["ETFLock"]?.address,
     functionName: "burn",
-    abi: contractsData["ETFLock"].abi,
+    abi: contractsData["ETFLock"]?.abi,
     args: [bundleId],
   });
 
@@ -38,9 +38,9 @@ export function DepositButton({
     isLoading: isdepLoading,
     writeAsync: depositAsync,
   } = useContractWrite({
-    address: contractsData[contractName].address,
+    address: contractsData[contractName]?.address,
     functionName: "deposit",
-    abi: contractsData[contractName].abi,
+    abi: contractsData[contractName]?.abi ? contractsData[contractName].abi : [],
     args: [
       {
         vaultId: bundleId,
@@ -64,9 +64,9 @@ export function DepositButton({
     isLoading: isReplayLoading,
     writeAsync: replayMessageAsync,
   } = useContractWrite({
-    address: contractsData[contractName].address,
+    address: contractsData[contractName]?.address,
     functionName: "deposit",
-    abi: contractsData[contractName].abi,
+    abi: contractsData[contractName]?.abi ? contractsData[contractName].abi : [],
     args: [
       {
         vaultId: bundleId,

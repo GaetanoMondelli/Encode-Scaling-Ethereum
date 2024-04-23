@@ -32,6 +32,8 @@ import { getAllContracts } from "~~/utils/scaffold-eth/contractsData";
 
 // import { DebugContracts } from "./_components/DebugContracts";
 
+// import { DebugContracts } from "./_components/DebugContracts";
+
 const prestoChainId = 686669576;
 const sepoliaChainId = 11155111;
 
@@ -62,7 +64,7 @@ const ETF: NextPage = () => {
   const contractName = "ETFLock";
 
   const { isFetching: isFetToken, refetch: tokensFetch } = useContractRead({
-    address: contractsData[contractName].address,
+    address: contractsData[contractName]?.address,
     functionName: "getRequiredTokens",
     abi: contractsData[contractName].abi,
     args: [],
@@ -90,17 +92,17 @@ const ETF: NextPage = () => {
   }, [chain]);
 
   const { isFetching: isETFTokenAddressFetching, refetch: etfTokenAddressFetch } = useContractRead({
-    address: contractsData[contractName].address,
+    address: contractsData[contractName]?.address,
     functionName: "etfToken",
-    abi: contractsData[contractName].abi,
+    abi: contractsData[contractName]?.abi,
     args: [],
     enabled: false,
   });
 
   const { isFetching: isMainnetLoad, refetch: isMainnetFetch } = useContractRead({
-    address: contractsData[contractName].address,
+    address: contractsData[contractName]?.address,
     functionName: "isMainChain",
-    abi: contractsData[contractName].abi,
+    abi: contractsData[contractName]?.abi,
     args: [],
     enabled: false,
     onError: (error: any) => {
@@ -110,9 +112,9 @@ const ETF: NextPage = () => {
   });
 
   const { isFetching, refetch } = useContractRead({
-    address: contractsData[contractName].address,
+    address: contractsData[contractName]?.address,
     functionName: "getVaultStates",
-    abi: contractsData[contractName].abi,
+    abi: contractsData[contractName]?.abi,
     args: [],
     enabled: false,
     onError: (error: any) => {
@@ -122,9 +124,9 @@ const ETF: NextPage = () => {
   });
 
   const { isFetching: isVaultFet, refetch: vaultSate } = useContractRead({
-    address: contractsData[contractName].address,
+    address: contractsData[contractName]?.address,
     functionName: "getVault",
-    abi: contractsData[contractName].abi,
+    abi: contractsData[contractName]?.abi,
     args: [bundleId],
     enabled: false,
     onError: (error: any) => {
@@ -279,7 +281,7 @@ const ETF: NextPage = () => {
           </div>
         </div>
         <br></br>
-        {/* <p>{displayTxResult(contractsData[contractName].address)}</p> */}
+        {/* <p>{displayTxResult(contractsData[contractName]?.address)}</p> */}
 
         <div
           style={{
@@ -294,13 +296,15 @@ const ETF: NextPage = () => {
         </div>
         {/* {JSON.stringify(isMainChain)} */}
         <br></br>
-        {isMainChain && etfTokenAddress && <TokenBalanceAllowance name={"ETF"} tokenAddress={etfTokenAddress} />}
+        {isMainChain && etfTokenAddress && (
+          <TokenBalanceAllowance chainId={prestoChainId} name={"ETF"} tokenAddress={etfTokenAddress} />
+        )}
         {tokens &&
           tokens.map((token: any, index: number) => {
             return chain?.id === token._chainId ? (
               <TokenBalanceAllowance
                 key={index}
-                chainId={chain?.id || prestoChainId}
+                chainId={token._chainId}
                 name={index.toString()}
                 tokenAddress={token._address}
               />

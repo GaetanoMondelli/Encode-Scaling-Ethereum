@@ -18,6 +18,5 @@ presto:
   domainId: 686669576
   protocol: ethereum
   rpcUrls:
-    - http: "https://sepolia.drpc.org"
+    - http: https://sn2-stavanger-rpc.eu-north-2.gateway.fm
 
-https://sn2-stavanger-rpc.eu-north-2.gateway.fm

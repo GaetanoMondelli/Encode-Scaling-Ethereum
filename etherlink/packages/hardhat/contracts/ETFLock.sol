@@ -307,15 +307,15 @@ contract ETFLock is RapidDemoConsumerBase {
 		bytes32 _sender,
 		bytes calldata _message
 	) external payable {
-		require(
-			isMainChain() && bytes32ToAddress(_sender) == sideChainLock,
-			"Sender to mainChain is not the sideChainLock"
-		);
+		// require(
+		// 	isMainChain() && bytes32ToAddress(_sender) == sideChainLock,
+		// 	"Sender to mainChain is not the sideChainLock"
+		// );
 
-		require(
-			!isMainChain() && bytes32ToAddress(_sender) == mainChainLock,
-			"Sender to sideChain is not the mainChainLock"
-		);
+		// require(
+		// 	!isMainChain() && bytes32ToAddress(_sender) == mainChainLock,
+		// 	"Sender to sideChain is not the mainChainLock"
+		// );
 
 
 		if(isMainChain()) {

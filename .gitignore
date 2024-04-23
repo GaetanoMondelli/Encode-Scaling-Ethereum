@@ -4,3 +4,8 @@ hyperlane_db_validator/
 validator_signatures/
 bridge/hyperlane_db_validator_sepolia/
 bridge/validator_signatures_sepolia/
+hyperlane-monorepo/
+bridge/hyperlane_db_relayer_presto_sepolia
+bridge/hyperlane_db_validator_presto/
+bridge/hyperlane_db_validator_presto/
+bridge/hyperlane_db_relayer_presto_sepolia/

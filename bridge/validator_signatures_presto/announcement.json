@@ -1,0 +1,14 @@
+{
+  "value": {
+    "validator": "0x2a1f5eb3e84e58e6f1e565306298b9de1273f203",
+    "mailbox_address": "0x0000000000000000000000008e0e2037333b01c86c56fb70c5a197ce49bbb44f",
+    "mailbox_domain": 686669576,
+    "storage_location": "file://../../bridge/validator_signatures_presto"
+  },
+  "signature": {
+    "r": "0x3c5c2959406fdc49fd58588b40db32891e0ca49238668f487a67cea37c249c24",
+    "s": "0x21197f492338bf7953b539215beefde1e34025ca006548b1602006d081eae98c",
+    "v": 28
+  },
+  "serialized_signature": "0x3c5c2959406fdc49fd58588b40db32891e0ca49238668f487a67cea37c249c2421197f492338bf7953b539215beefde1e34025ca006548b1602006d081eae98c1c"
+}

@@ -9,7 +9,7 @@ import "@hyperlane-xyz/core/contracts/interfaces/IMailbox.sol";
 import { IInterchainSecurityModule } from "@hyperlane-xyz/core/contracts/interfaces/IInterchainSecurityModule.sol";
 import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
 import "hardhat/console.sol";
-// import "@redstone-finance/evm-connector/contracts/data-services/RapidDemoConsumerBase.sol";
+import "@redstone-finance/evm-connector/contracts/data-services/RapidDemoConsumerBase.sol";
 import {IQuasar} from "./Quasar.sol";
 
 struct TokenQuantity {
@@ -238,13 +238,11 @@ contract ETFLock {
 
 				// uint256 price = prices[0];
 
-				uint256 price = 1;
-
 				//  CHAINLINK INTERFACE
 				// uint256 price = AggregatorV3Interface(_tokens[i]._aggregator).latestRoundData().answer;
 
 				// Quasar Interface
-				// uint256 price = IQuasar(quasarAddress).getPrice(_tokens[i]._tokenId);
+				uint256 price = IQuasar(quasarAddress).getPrice(_tokens[i]._tokenId);
 
 				// (, /* uint80 roundID */ int answer, , , ) = AggregatorV3Interface(
 				// 	_tokens[i]._aggregator

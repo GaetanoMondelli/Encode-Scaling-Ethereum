@@ -20,7 +20,7 @@ export function DepositController({
   tokenAddress: any;
   chainId: any;
 }) {
-  const contractsData = getAllContracts(686669576);
+  const contractsData = getAllContracts(chainId);
   const writeTxn = useTransactor();
   const contractName = "ETFLock";
   // const etherlinkchainId = 128123;
@@ -81,7 +81,7 @@ export function DepositController({
           </div>
           {chainId === chain?.id && (
             <div>
-              <p>Approve token for</p>
+              <p>Approve token for {contractsData[contractName].address}</p>
               <button
                 className="bg-blue-500 hover:bg-blue-700 text-white size font-bold py-2 px-6 rounded-full"
                 style={{ cursor: "pointer", fontSize: "12px" }}
