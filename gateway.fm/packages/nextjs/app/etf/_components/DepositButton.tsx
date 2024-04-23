@@ -2,7 +2,7 @@ import React from "react";
 import { sepolia, useAccount, useContractWrite, useSwitchNetwork } from "wagmi";
 import { getAllContracts } from "~~/utils/scaffold-eth/contractsData";
 
-const etherlinkchainId = 128123;
+const prestoChainId = 686669576;
 const sepoliaChainId = 11155111;
 const zeroAddress = "0x0000000000000000000000000000000000000000";
 
@@ -51,7 +51,8 @@ export function DepositButton({
             _quantity: tokenQuantity._quantity.toString(),
             _chainId: tokenQuantity._chainId,
             _contributor: connectedAddress,
-            _aggregator: contractsData["MockAggregator"]?.address || zeroAddress,
+            _tokenId: 0,
+            // _aggregator: contractsData["MockAggregator"]?.address || zeroAddress,
           })),
       },
     ],
@@ -74,7 +75,8 @@ export function DepositButton({
           _quantity: tokenQuantity._chainId !== chainId ? tokenQuantity._quantity : 0,
           _chainId: tokenQuantity._chainId,
           _contributor: connectedAddress,
-          _aggregator: contractsData["MockAggregator"]?.address || zeroAddress,
+          _tokenId: 0,
+          // _aggregator: contractsData["MockAggregator"]?.address || "0x2a1F5eB3e84e58e6F1e565306298B9dE1273f203",
         })),
       },
     ],
@@ -102,7 +104,8 @@ export function DepositButton({
                     _quantity: tokenQuantity._quantity.toString(),
                     _chainId: tokenQuantity._chainId,
                     _contributor: connectedAddress,
-                    _aggregator: contractsData["MockAggregator"]?.address || zeroAddress,
+                    _tokenId: 0,
+                    // _aggregator: contractsData["MockAggregator"]?.address || "0x2a1F5eB3e84e58e6F1e565306298B9dE1273f203",
                   })),
               );
 
@@ -141,7 +144,7 @@ export function DepositButton({
             </button>
           )} */}
         </>
-      ) : state == 2 && chainId == etherlinkchainId ? (
+      ) : state == 2 && chainId == prestoChainId ? (
         <button
           //   className="bg-green-500 hover:bg-green-700 text-white size font-bold py-2 px-6 rounded-full"
           className="bg-red-500 hover:bg-red-700 text-white size font-bold py-2 px-6 rounded-full"
@@ -174,7 +177,7 @@ export function DepositButton({
           onClick={async () => {
             if (switchNetwork) {
               try {
-                await switchNetwork(etherlinkchainId);
+                await switchNetwork(prestoChainId);
               } catch (e: any) {
                 console.log(e);
               }

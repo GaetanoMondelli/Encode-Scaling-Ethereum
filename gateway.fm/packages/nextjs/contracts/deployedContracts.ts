@@ -7,7 +7,7 @@ import { GenericContractsDeclaration } from "~~/utils/scaffold-eth/contract";
 const deployedContracts = {
   686669576: {
     ETFLock: {
-      address: "0x7494Db5833D2FC9f4E0Eb8B1aDf86eAA566C298f",
+      address: "0x84827596bFd9D4e9f723d448c751D78Fa506F386",
       abi: [
         {
           inputs: [
@@ -44,9 +44,9 @@ const deployedContracts = {
                   type: "address",
                 },
                 {
-                  internalType: "address",
-                  name: "_aggregator",
-                  type: "address",
+                  internalType: "uint64",
+                  name: "_tokenId",
+                  type: "uint64",
                 },
               ],
               internalType: "struct TokenQuantity[]",
@@ -66,120 +66,6 @@ const deployedContracts = {
           ],
           stateMutability: "nonpayable",
           type: "constructor",
-        },
-        {
-          inputs: [],
-          name: "CalldataMustHaveValidPayload",
-          type: "error",
-        },
-        {
-          inputs: [],
-          name: "CalldataOverOrUnderFlow",
-          type: "error",
-        },
-        {
-          inputs: [],
-          name: "CanNotPickMedianOfEmptyArray",
-          type: "error",
-        },
-        {
-          inputs: [],
-          name: "DataPackageTimestampMustNotBeZero",
-          type: "error",
-        },
-        {
-          inputs: [],
-          name: "DataPackageTimestampsMustBeEqual",
-          type: "error",
-        },
-        {
-          inputs: [],
-          name: "EachSignerMustProvideTheSameValue",
-          type: "error",
-        },
-        {
-          inputs: [],
-          name: "EmptyCalldataPointersArr",
-          type: "error",
-        },
-        {
-          inputs: [],
-          name: "GetDataServiceIdNotImplemented",
-          type: "error",
-        },
-        {
-          inputs: [],
-          name: "IncorrectUnsignedMetadataSize",
-          type: "error",
-        },
-        {
-          inputs: [
-            {
-              internalType: "uint256",
-              name: "receivedSignersCount",
-              type: "uint256",
-            },
-            {
-              internalType: "uint256",
-              name: "requiredSignersCount",
-              type: "uint256",
-            },
-          ],
-          name: "InsufficientNumberOfUniqueSigners",
-          type: "error",
-        },
-        {
-          inputs: [],
-          name: "InvalidCalldataPointer",
-          type: "error",
-        },
-        {
-          inputs: [],
-          name: "RedstonePayloadMustHaveAtLeastOneDataPackage",
-          type: "error",
-        },
-        {
-          inputs: [
-            {
-              internalType: "address",
-              name: "receivedSigner",
-              type: "address",
-            },
-          ],
-          name: "SignerNotAuthorised",
-          type: "error",
-        },
-        {
-          inputs: [
-            {
-              internalType: "uint256",
-              name: "receivedTimestampSeconds",
-              type: "uint256",
-            },
-            {
-              internalType: "uint256",
-              name: "blockTimestamp",
-              type: "uint256",
-            },
-          ],
-          name: "TimestampFromTooLongFuture",
-          type: "error",
-        },
-        {
-          inputs: [
-            {
-              internalType: "uint256",
-              name: "receivedTimestampSeconds",
-              type: "uint256",
-            },
-            {
-              internalType: "uint256",
-              name: "blockTimestamp",
-              type: "uint256",
-            },
-          ],
-          name: "TimestampIsTooOld",
-          type: "error",
         },
         {
           anonymous: false,
@@ -273,28 +159,9 @@ const deployedContracts = {
               type: "address",
             },
             {
-              internalType: "address",
-              name: "_aggregator",
-              type: "address",
-            },
-          ],
-          stateMutability: "view",
-          type: "function",
-        },
-        {
-          inputs: [
-            {
-              internalType: "uint256[]",
-              name: "values",
-              type: "uint256[]",
-            },
-          ],
-          name: "aggregateValues",
-          outputs: [
-            {
-              internalType: "uint256",
-              name: "",
-              type: "uint256",
+              internalType: "uint64",
+              name: "_tokenId",
+              type: "uint64",
             },
           ],
           stateMutability: "view",
@@ -358,9 +225,9 @@ const deployedContracts = {
                       type: "address",
                     },
                     {
-                      internalType: "address",
-                      name: "_aggregator",
-                      type: "address",
+                      internalType: "uint64",
+                      name: "_tokenId",
+                      type: "uint64",
                     },
                   ],
                   internalType: "struct TokenQuantity[]",
@@ -405,51 +272,6 @@ const deployedContracts = {
           type: "function",
         },
         {
-          inputs: [],
-          name: "extractTimestampsAndAssertAllAreEqual",
-          outputs: [
-            {
-              internalType: "uint256",
-              name: "extractedTimestamp",
-              type: "uint256",
-            },
-          ],
-          stateMutability: "pure",
-          type: "function",
-        },
-        {
-          inputs: [
-            {
-              internalType: "address",
-              name: "signerAddress",
-              type: "address",
-            },
-          ],
-          name: "getAuthorisedSignerIndex",
-          outputs: [
-            {
-              internalType: "uint8",
-              name: "",
-              type: "uint8",
-            },
-          ],
-          stateMutability: "view",
-          type: "function",
-        },
-        {
-          inputs: [],
-          name: "getDataServiceId",
-          outputs: [
-            {
-              internalType: "string",
-              name: "",
-              type: "string",
-            },
-          ],
-          stateMutability: "view",
-          type: "function",
-        },
-        {
           inputs: [
             {
               components: [
@@ -474,9 +296,9 @@ const deployedContracts = {
                   type: "address",
                 },
                 {
-                  internalType: "address",
-                  name: "_aggregator",
-                  type: "address",
+                  internalType: "uint64",
+                  name: "_tokenId",
+                  type: "uint64",
                 },
               ],
               internalType: "struct TokenQuantity",
@@ -522,27 +344,14 @@ const deployedContracts = {
                   type: "address",
                 },
                 {
-                  internalType: "address",
-                  name: "_aggregator",
-                  type: "address",
+                  internalType: "uint64",
+                  name: "_tokenId",
+                  type: "uint64",
                 },
               ],
               internalType: "struct TokenQuantity[]",
               name: "",
               type: "tuple[]",
-            },
-          ],
-          stateMutability: "view",
-          type: "function",
-        },
-        {
-          inputs: [],
-          name: "getUniqueSignersThreshold",
-          outputs: [
-            {
-              internalType: "uint8",
-              name: "",
-              type: "uint8",
             },
           ],
           stateMutability: "view",
@@ -583,9 +392,9 @@ const deployedContracts = {
                       type: "address",
                     },
                     {
-                      internalType: "address",
-                      name: "_aggregator",
-                      type: "address",
+                      internalType: "uint64",
+                      name: "_tokenId",
+                      type: "uint64",
                     },
                   ],
                   internalType: "struct TokenQuantity[]",
@@ -731,9 +540,9 @@ const deployedContracts = {
               type: "address",
             },
             {
-              internalType: "address",
-              name: "_aggregator",
-              type: "address",
+              internalType: "uint64",
+              name: "_tokenId",
+              type: "uint64",
             },
           ],
           stateMutability: "view",
@@ -759,6 +568,11 @@ const deployedContracts = {
             {
               internalType: "address",
               name: "_securityModule",
+              type: "address",
+            },
+            {
+              internalType: "address",
+              name: "_quasarAddress",
               type: "address",
             },
           ],
@@ -838,19 +652,6 @@ const deployedContracts = {
           inputs: [
             {
               internalType: "uint256",
-              name: "receivedTimestampMilliseconds",
-              type: "uint256",
-            },
-          ],
-          name: "validateTimestamp",
-          outputs: [],
-          stateMutability: "view",
-          type: "function",
-        },
-        {
-          inputs: [
-            {
-              internalType: "uint256",
               name: "",
               type: "uint256",
             },
@@ -867,23 +668,10 @@ const deployedContracts = {
           type: "function",
         },
       ],
-      inheritedFunctions: {
-        aggregateValues:
-          "@redstone-finance/evm-connector/contracts/data-services/RapidDemoConsumerBase.sol",
-        extractTimestampsAndAssertAllAreEqual:
-          "@redstone-finance/evm-connector/contracts/data-services/RapidDemoConsumerBase.sol",
-        getAuthorisedSignerIndex:
-          "@redstone-finance/evm-connector/contracts/data-services/RapidDemoConsumerBase.sol",
-        getDataServiceId:
-          "@redstone-finance/evm-connector/contracts/data-services/RapidDemoConsumerBase.sol",
-        getUniqueSignersThreshold:
-          "@redstone-finance/evm-connector/contracts/data-services/RapidDemoConsumerBase.sol",
-        validateTimestamp:
-          "@redstone-finance/evm-connector/contracts/data-services/RapidDemoConsumerBase.sol",
-      },
+      inheritedFunctions: {},
     },
     Quasar: {
-      address: "0xe6531282A7f4f253Ecc341B5Ef9680e72B3083Aa",
+      address: "0xa7fC563eFa7f2B737E41Bf975e6cF1D46f0E4Ed8",
       abi: [
         {
           inputs: [],
@@ -1251,7 +1039,7 @@ const deployedContracts = {
       },
     },
     SimpleERC20: {
-      address: "0x29d7CCF21E1204360C27ae7FA90CA5D0C364145e",
+      address: "0x73a7d1B252300b2e2e9a1119D1E490C6F9bf9c9B",
       abi: [
         {
           inputs: [

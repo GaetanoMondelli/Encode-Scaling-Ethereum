@@ -3,6 +3,25 @@ pragma solidity ^0.8.13;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
 
+interface IQuasar {
+    function getCurrencyID(string memory symbol) external view returns(uint64, bool);
+    function getSupportedCurrencies() external view returns(Currency[] memory, bool[] memory);
+    function getNextID() external view returns (uint64);
+    function addCurrency(string memory name, string memory symbol) external;
+    function updateCurrency(uint64 id, string memory name, string memory symbol) external;
+    function getCurrencyMetadata(uint64 id) external view returns (Currency memory);
+    function pushPrice(uint64 id, uint256 price) external;
+    function getPrice(uint64 id) external view returns (uint256);
+    function changeCurrencyState(uint64 id, bool state) external;
+    function isCurrencySupported(uint64 id) external view returns (bool);
+
+    struct Currency {
+        string name;
+        string symbol;
+    }
+
+}
+
 contract Quasar is Ownable {
     // Next currency ID
     uint64 private _nextID;

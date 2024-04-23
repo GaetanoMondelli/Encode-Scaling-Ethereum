@@ -74,14 +74,14 @@ const deployYourContract: DeployFunction = async function (hre: HardhatRuntimeEn
         _quantity: BigNumber.from(100).mul(decimalFactor).toString(),
         _chainId: prestoChainId,
         _contributor: deployer,
-        _aggregator: "",
+        _tokenId: 1,
       },
       {
         _address: "",
         _quantity: BigNumber.from(200).mul(decimalFactor).toString(),
         _chainId: prestoChainId,
         _contributor: deployer,
-        _aggregator: "",
+        _tokenId: 2,
       },
     ];
 
@@ -118,7 +118,8 @@ const deployYourContract: DeployFunction = async function (hre: HardhatRuntimeEn
       _quantity: BigNumber.from(100).mul(decimalFactor).toString(),
       _chainId: sepoliaChainId,
       _contributor: deployer,
-      _aggregator: await quasar.getAddress(),
+      _tokenId: 3,
+      // _aggregator: await quasar.getAddress(),
     });
 
     // console.log("Required tokens: ", requiredTokens);

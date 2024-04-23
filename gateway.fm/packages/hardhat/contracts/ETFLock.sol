@@ -9,14 +9,15 @@ import "@hyperlane-xyz/core/contracts/interfaces/IMailbox.sol";
 import { IInterchainSecurityModule } from "@hyperlane-xyz/core/contracts/interfaces/IInterchainSecurityModule.sol";
 import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
 import "hardhat/console.sol";
-import "@redstone-finance/evm-connector/contracts/data-services/RapidDemoConsumerBase.sol";
+// import "@redstone-finance/evm-connector/contracts/data-services/RapidDemoConsumerBase.sol";
+import {IQuasar} from "./Quasar.sol";
 
 struct TokenQuantity {
 	address _address;
 	uint256 _quantity;
 	uint32 _chainId;
 	address _contributor;
-	address _aggregator;
+	uint64 _tokenId;
 }
 
 struct Vault {
@@ -43,13 +44,15 @@ struct DepositInfo {
 	TokenQuantity[] tokens;
 }
 
-contract ETFLock is RapidDemoConsumerBase {
+contract ETFLock {
 	address public sideChainLock;
 	uint32 public sideChainId;
 	TokenQuantity[] public requiredTokens;
 	mapping(address => TokenQuantity) public addressToToken;
 	uint32 public chainId;
 	uint32 public mainChainId;
+
+	address quasarAddress;
 
 	uint32[] public receivedMessages;
 
@@ -111,7 +114,8 @@ contract ETFLock is RapidDemoConsumerBase {
 		address _sideChainLock,
 		uint32 _sideChainId,
 		address _outbox,
-		address _securityModule
+		address _securityModule,
+		address _quasarAddress
 	) public {
 		require(
 			isMainChain(),
@@ -121,6 +125,7 @@ contract ETFLock is RapidDemoConsumerBase {
 		sideChainId = _sideChainId;
 		securityModule = IInterchainSecurityModule(_securityModule);
 		sideChainLock = _sideChainLock;
+		quasarAddress = _quasarAddress;
 	}
 
 	function getVaultStates() public view returns (VaultState[] memory) {
@@ -180,7 +185,7 @@ contract ETFLock is RapidDemoConsumerBase {
 						0,
 						requiredTokens[i]._chainId,
 						address(0),
-						requiredTokens[i]._aggregator
+						requiredTokens[i]._tokenId
 					)
 				);
 			}
@@ -227,15 +232,19 @@ contract ETFLock is RapidDemoConsumerBase {
 					contributorsByVault[_vaultId].push(_tokens[i]._contributor);
 				}
 
-				bytes32[] memory dataFeedIds = new bytes32[](6);
-				dataFeedIds[0] = bytes32("BNB");
-				uint256[] memory prices = getOracleNumericValuesFromTxMsg(dataFeedIds);
+				// bytes32[] memory dataFeedIds = new bytes32[](6);
+				// dataFeedIds[0] = bytes32("BNB");
+				// uint256[] memory prices = 
 
-				uint256 price = prices[0];
+				// uint256 price = prices[0];
 
+				uint256 price = 1;
 
 				//  CHAINLINK INTERFACE
-				// uint256 price = AggregatorV3Interface(_tokens[i]._aggretator).latestRoundData().answer;
+				// uint256 price = AggregatorV3Interface(_tokens[i]._aggregator).latestRoundData().answer;
+
+				// Quasar Interface
+				// uint256 price = IQuasar(quasarAddress).getPrice(_tokens[i]._tokenId);
 
 				// (, /* uint80 roundID */ int answer, , , ) = AggregatorV3Interface(
 				// 	_tokens[i]._aggregator
