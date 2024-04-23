@@ -28,7 +28,9 @@ import { getAllContracts } from "~~/utils/scaffold-eth/contractsData";
 
 // import { DebugContracts } from "./_components/DebugContracts";
 
-const etherlinkChainId = 128123;
+// import { DebugContracts } from "./_components/DebugContracts";
+
+const prestoChainId = 686669576;
 const sepoliaChainId = 11155111;
 
 const ETF: NextPage = () => {
@@ -91,10 +93,6 @@ const ETF: NextPage = () => {
     abi: contractsData[contractName].abi,
     args: [],
     enabled: false,
-    onError: (error: any) => {
-      const parsedErrror = getParsedError(error);
-      console.log(parsedErrror);
-    },
   });
 
   const { isFetching: isMainnetLoad, refetch: isMainnetFetch } = useContractRead({
@@ -146,7 +144,7 @@ const ETF: NextPage = () => {
       }
     }
     fetchData();
-  }, [chain, isFetching, refetch]);
+  }, [bundles]);
 
   useEffect(() => {
     async function fetchData() {
@@ -159,7 +157,7 @@ const ETF: NextPage = () => {
       }
     }
     fetchData();
-  }, []);
+  }, [isMainChain]);
 
   useEffect(() => {
     async function fetchData() {
@@ -172,7 +170,7 @@ const ETF: NextPage = () => {
       }
     }
     fetchData();
-  }, []);
+  }, [etfTokenAddress]);
 
   useEffect(() => {
     async function fetchData() {
@@ -181,12 +179,11 @@ const ETF: NextPage = () => {
       }
       if (vaultSate) {
         const { data } = await vaultSate();
-        console.log("vault", data);
         setVault(data);
       }
     }
     fetchData();
-  }, [bundleId]);
+  }, [vaultSate]);
 
   useEffect(() => {
     async function fetchData() {
@@ -195,12 +192,12 @@ const ETF: NextPage = () => {
       }
       if (tokensFetch) {
         const { data } = await tokensFetch();
-        console.log("tokens", data);
+        // console.log("tokens", data);
         setTokens(data);
       }
     }
     fetchData();
-  }, []);
+  }, [tokens]);
 
   useEffect(() => {
     if (!tokens || tokens.length < 1) {
@@ -233,7 +230,7 @@ const ETF: NextPage = () => {
           minHeight: "100%",
         }
       }
-      content={chain?.id === etherlinkChainId ? ["Etherlink", "Main Chain"] : ["Sepolia", "Side Chain"]}
+      content={chain?.id === prestoChainId ? ["Presto g.fm", "Main Chain"] : ["Sepolia", "Side Chain"]}
       // image="https://w7.pngwing.com/pngs/459/4/png-transparent-xrp-symbol-black-hd-logo.png"
       height={230}
       width={250}
@@ -272,10 +269,11 @@ const ETF: NextPage = () => {
               gap: "12px",
             }}
           >
-            <img 
-            alt="tezos logo"
-            width="200px"
-            src="https://images.squarespace-cdn.com/content/v1/5f9bcc27c14fc6134658484b/1708088493395-KIR6PXL6441SPS048RLB/etherlink.png"></img>
+            <img
+              alt="tezos logo"
+              width="200px"
+              src="https://images.squarespace-cdn.com/content/v1/5f9bcc27c14fc6134658484b/1708088493395-KIR6PXL6441SPS048RLB/etherlink.png"
+            ></img>
           </div>
         </div>
         <br></br>
@@ -298,9 +296,12 @@ const ETF: NextPage = () => {
         {tokens &&
           tokens.map((token: any, index: number) => {
             return chain?.id === token._chainId ? (
-              <TokenBalanceAllowance key={index} 
-              chainId={chain?.id || ""}
-              name={index.toString()} tokenAddress={token._address} />
+              <TokenBalanceAllowance
+                key={index}
+                chainId={chain?.id || prestoChainId}
+                name={index.toString()}
+                tokenAddress={token._address}
+              />
             ) : (
               <b>
                 {index} Token:{" "}
@@ -345,7 +346,7 @@ const ETF: NextPage = () => {
             _quantity: token._quantity,
             _chainId: token._chainId,
           }))}
-          chainId={chain?.id ?? etherlinkChainId}
+          chainId={chain?.id ?? prestoChainId}
         ></DepositButton>
       </div>
     </Watermark>

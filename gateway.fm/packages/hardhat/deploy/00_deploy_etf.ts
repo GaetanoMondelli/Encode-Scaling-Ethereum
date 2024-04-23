@@ -14,7 +14,7 @@ const deployYourContract: DeployFunction = async function (hre: HardhatRuntimeEn
   const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
   const { deployer } = await hre.getNamedAccounts();
   const { deploy } = hre.deployments;
-  const etherlinkChainId = 128123;
+  const prestoChainId = 686669576;
   const sepoliaChainId = 11155111;
   const decimalFactor = BigNumber.from(10).pow(18);
   const tokenPerVault = BigNumber.from(100).mul(decimalFactor).toString();
@@ -44,7 +44,7 @@ const deployYourContract: DeployFunction = async function (hre: HardhatRuntimeEn
     await sleep(delay);
     await deploy("ETFLock", {
       from: deployer,
-      args: [etherlinkChainId, sepoliaChainId, requiredSideTokens, zeroAddress, tokenPerVault],
+      args: [prestoChainId, sepoliaChainId, requiredSideTokens, zeroAddress, tokenPerVault],
       log: true,
     });
     await sleep(delay);
@@ -72,14 +72,14 @@ const deployYourContract: DeployFunction = async function (hre: HardhatRuntimeEn
       {
         _address: "",
         _quantity: BigNumber.from(100).mul(decimalFactor).toString(),
-        _chainId: etherlinkChainId,
+        _chainId: prestoChainId,
         _contributor: deployer,
         _aggregator: "",
       },
       {
         _address: "",
         _quantity: BigNumber.from(200).mul(decimalFactor).toString(),
-        _chainId: etherlinkChainId,
+        _chainId: prestoChainId,
         _contributor: deployer,
         _aggregator: "",
       },
@@ -135,7 +135,7 @@ const deployYourContract: DeployFunction = async function (hre: HardhatRuntimeEn
     await sleep(delay);
     await deploy("ETFLock", {
       from: deployer,
-      args: [etherlinkChainId, etherlinkChainId, requiredTokens, await etfToken.getAddress(), tokenPerVault],
+      args: [prestoChainId, prestoChainId, requiredTokens, await etfToken.getAddress(), tokenPerVault],
       log: true,
     });
     const etf = await hre.ethers.getContract<ETFLock>("ETFLock", deployer);

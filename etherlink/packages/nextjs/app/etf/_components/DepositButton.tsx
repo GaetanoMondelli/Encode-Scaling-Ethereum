@@ -93,18 +93,6 @@ export function DepositButton({
               fontSize: "18px",
             }}
             onClick={async () => {
-              console.log(
-                "ciao",
-                tokenQuantities
-                  ?.filter((tokenQuantity: any) => tokenQuantity._chainId === chainId)
-                  ?.map((tokenQuantity: any) => ({
-                    _address: tokenQuantity._address,
-                    _quantity: tokenQuantity._quantity.toString(),
-                    _chainId: tokenQuantity._chainId,
-                    _contributor: connectedAddress,
-                    _aggregator: contractsData["MockAggregator"]?.address || zeroAddress,
-                  })),
-              );
 
               await depositAsync();
               // // sleep for 2 seconds

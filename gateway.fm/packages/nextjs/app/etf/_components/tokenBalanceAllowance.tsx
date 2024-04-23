@@ -60,7 +60,6 @@ const TokenBalanceAllowance: React.FC<TokenBalanceAllowanceProps> = ({ name, tok
       }
       if (fetchAllowance) {
         const { data } = await fetchAllowance();
-        console.log("allowance", connectedAddress, contractsData["ETFLock"].address, data);
         setAllowance(data);
       }
     }

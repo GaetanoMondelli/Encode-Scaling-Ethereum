@@ -195,7 +195,7 @@ const ETF: NextPage = () => {
       }
       if (tokensFetch) {
         const { data } = await tokensFetch();
-        console.log("tokens", data);
+        // console.log("tokens", data);
         setTokens(data);
       }
     }

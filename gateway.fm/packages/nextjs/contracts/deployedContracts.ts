@@ -7,7 +7,7 @@ import { GenericContractsDeclaration } from "~~/utils/scaffold-eth/contract";
 const deployedContracts = {
   686669576: {
     ETFLock: {
-      address: "0x735770Bd277473058B35b4D9Ad005b0C874cEB31",
+      address: "0x7494Db5833D2FC9f4E0Eb8B1aDf86eAA566C298f",
       abi: [
         {
           inputs: [
@@ -1251,7 +1251,7 @@ const deployedContracts = {
       },
     },
     SimpleERC20: {
-      address: "0x0C20e14603137b43ECa358ebB753821461984F89",
+      address: "0x29d7CCF21E1204360C27ae7FA90CA5D0C364145e",
       abi: [
         {
           inputs: [

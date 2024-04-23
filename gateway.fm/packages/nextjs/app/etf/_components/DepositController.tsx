@@ -20,12 +20,11 @@ export function DepositController({
   tokenAddress: any;
   chainId: any;
 }) {
-  const contractsData = getAllContracts(
-    chainId
-  );
+  const contractsData = getAllContracts(686669576);
   const writeTxn = useTransactor();
   const contractName = "ETFLock";
-  const etherlinkchainId = 128123;
+  // const etherlinkchainId = 128123;
+  const prestoChainId = 686669576
   const sepoliaChainId = 11155111;
   const contractSimpleName = "SimpleERC20";
 
