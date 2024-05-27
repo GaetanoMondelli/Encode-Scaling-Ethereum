@@ -66,7 +66,7 @@ export function DepositButton({
   } = useContractWrite({
     address: contractsData[contractName]?.address,
     functionName: "deposit",
-    abi: contractsData[contractName]?.abi ? contractsData[contractName].abi : [],
+    abi: contractsData[contractName]?.abi,
     args: [
       {
         vaultId: bundleId,

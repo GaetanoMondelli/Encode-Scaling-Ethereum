@@ -66,7 +66,7 @@ const ETF: NextPage = () => {
   const { isFetching: isFetToken, refetch: tokensFetch } = useContractRead({
     address: contractsData[contractName]?.address,
     functionName: "getRequiredTokens",
-    abi: contractsData[contractName].abi,
+    abi: contractsData[contractName]?.abi,
     args: [],
     enabled: false,
     onError: (error: any) => {
